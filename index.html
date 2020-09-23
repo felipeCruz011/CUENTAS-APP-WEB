@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GESTOR DE TRANSFERENCIAS MIJUGADA.CO</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+        integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="container-all">
+
+        <!------------------------------------ MENU ------------------------------------>
+
+        <nav class="menu"> <!-- Bloque -->
+            <div class="menu__container">
+                <h1 class="menu__titulo">Gestor de Transferencias "MIJUGADA.CO"</h1>
+                <div class="menu__links-desktop">
+                    <li class="menu__li-desktop"><a href="#" class="menu__enlaces activo">Inicio</a></li>
+                    <li class="menu__li-desktop"><a href="#" class="menu__enlaces">Lista de Clientes</a></li>
+                    <li class="menu__li-desktop"><a href="#" class="menu__enlaces">Inventario</a></li>
+                </div>
+                <i class="menu__btn-responsive fas fa-bars" onclick="abrirMenu()"></i>
+            </div>
+            <div class="menu__dropdown"> 
+                <li class="menu__li-movil"><a href="#" class="menu__enlaces activo">Inicio</a></li>
+                <li class="menu__li-movil"><a href="#" class="menu__enlaces ">Lista de Clientes</a></li>
+                <li class="menu__li-movil"><a href="#" class="menu__enlaces">Transferencias</a></li>
+            </div>
+        </nav>
+
+        <!------------------------------------ Seccion de Operaciones ------------------------------------>
+        <section class="operations"><!-- Bloque -->
+            <div class="operations__container">
+                <h2 class="operations__titulo">Centro de Operaciones</h2>
+                <div class="operations__item">
+                    <label class="operations__description">Base:</label>
+                    <input type="text" class="operations__input" id="base" readonly="readonly" disabled="disabled" placeholder="Base de Trabajo">
+                </div>
+                <div class="operations__item">
+                    <label class="operations__description">Venta:</label>
+                    <input type="text" class="operations__input" id="venta" readonly="readonly" disabled="disabled" placeholder="Venta total de Pagina">
+                </div>
+                <div class="operations__item">
+                    <label class="operations__description">Productos:</label>
+                    <input type="text" class="operations__input" id="venta-productos" readonly="readonly" disabled="disabled" placeholder="Venta de Productos en el Dia">
+                </div>
+                <div class="operations__item">
+                    <label class="operations__description">Retiros:</label>
+                    <input type="text" class="operations__input" id="retiros" readonly="readonly" disabled="disabled" placeholder="Retiros realizados">
+                </div>
+                <div class="operations__item">
+                    <label class="operations__description">Gastos:</label>
+                    <input type="text" class="operations__input" id="gastos" readonly="readonly" disabled="disabled" placeholder="Gastos operacionales">
+                </div>
+                <div class="operations__item">
+                    <label class="operations__description">Debe Entregar:</label>
+                    <input type="text" class="operations__input" id="efectivo-entregar" readonly="readonly" disabled="disabled" placeholder="Efectivo a entregar">
+                </div>
+                <div class="operations__item">
+                    <label class="operations__description">Descuadre:</label>
+                    <input type="text" class="operations__input" id="descuadre" readonly="readonly" disabled="disabled" placeholder="Dinero a reponer">
+                </div>
+            </div>
+        </section>
+
+        <!------------------------------------ Ultimas Transacciones ------------------------------------>
+        <section class="last-transactions"> <!-- Bloque -->
+            <div class="last-transactions__container">
+                <h2 class="last-transactions__h2">Ultimas Transacciones</h2>
+                <div class="last-transactions__title-container">
+                    <h3 class="last-transactions__fecha">23 de Septiembre de 2020</h3>
+                    <div class="last-transactions__titulo">
+                        <div class="last-transactions__buscar-container">
+                            <div class="last-transactions__buscar">
+                                <input type="text" class="last-transactions__input-buscar" placeholder="Buscar">
+                                <div class="last-transactions__btn-container">
+                                    <i class="last-transactions__btn-lupa fas fa-search-dollar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="last-transactions__type">
+                    <label for="" class="last-transactions__header">Hora</label>                    
+                    <label for="" class="last-transactions__header">Cedula</label>                    
+                    <label for="" class="last-transactions__header">Nombres</label>                    
+                    <label for="" class="last-transactions__header">Recargado</label>                                     
+                </div>
+                <div class="last-transactions__item">
+                    <span for="" class="last-transactions__value">8:00 am </span>
+                    <span for="" class="last-transactions__value">1075275242</span>
+                    <span for="" class="last-transactions__value">Felipe Cruz</span>
+                    <span for="" class="last-transactions__value valor-recarga">10000</span>
+                </div>
+                <div class="last-transactions__item">
+                    <span for="" class="last-transactions__value">8:00 am </span>
+                    <span for="" class="last-transactions__value">1075275242</span>
+                    <span for="" class="last-transactions__value">Felipe Cruz</span>
+                    <span for="" class="last-transactions__value valor-recarga">10000</span>
+                </div>
+            </div>
+        </section> 
+
+         <!------------------------------------ ATAJOS ------------------------------------>
+
+        <section class="atajos">
+            <div class="atajos__container">
+                <i class="atajos__icons fas fa-eye computers"></i>
+                <i class="atajos__icons fas fa-laptop computers"></i>
+                <i class="atajos__icons fas fa-feather-alt gallos"></i>
+                <i class="atajos__icons fas fa-dollar-sign entrada-bases"></i>
+                <i class="atajos__icons fas fa-compress-arrows-alt resize-icon"></i>
+            </div>
+        </section>
+
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
