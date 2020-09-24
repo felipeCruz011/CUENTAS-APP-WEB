@@ -25,6 +25,8 @@ body {
 2 - Seccion de Operaciones
 3 - Ultimas transacciones
 4 - Atajos 
+5 - Ventana Dinamica
+6 - Modificar - Eliminar - Rehacer Transacciones
 
 --------------------------------------------------------------------*/
 
@@ -34,9 +36,7 @@ body {
 
 .container-all {
     display: grid;
-    grid-template-rows: 60px 400px 60px;
-    grid-template-columns: 470px 1fr;
-    grid-gap: 40px;
+    grid-template-rows: 60px 1fr 60px;
     background: var(--azul);
     width: 100vw;
     max-height: 100vh;
@@ -224,60 +224,71 @@ body {
     2 - Seccion de Operaciones
 ------------------------------------*/
 
-    .operations {
-        position: relative;
+    .body-container {
+        width: 100vw;
         display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 500px 1fr;
+        grid-column-gap: 40px;
         grid-row: 2 / span 1;
-        grid-column: 1 / span 1;
-        left: 20px;
-        top: 0;
-        background: var(--azul-claro);
-        border-radius: 20px;
-    }    
+        padding: 20px 0px;
 
-        .operations:hover {
-            border: 2px solid var(--red);
-        }
-    
-        .operations__container {
+    }
+
+        .operations {
+            position: relative;
             display: grid;
-            grid-template-rows: 60px 40px;
-            grid-auto-rows: 40px;
-            padding: 20px;
-        }
+            grid-row: 1 / span 1;
+            grid-column: 1 / span 1;
+            left: 20px;
+            top: 0;
+            background: var(--azul-claro);
+            border-radius: 20px;
+        }    
 
-            .operations__titulo {
-                text-align: center;
-                place-self: center;
+            .operations:hover {
+                border: 2px solid var(--red);
             }
-
-            .operations__item {
+        
+            .operations__container {
                 display: grid;
-                min-width: 400px;
-                grid-row: 60px;
-                grid-column: 150px 150px;
+                grid-template-rows: 60px 40px;
+                grid-auto-rows: 40px;
+                padding: 20px;
             }
 
-                .operations__description {
-                    display: inline-block;
-                    align-self: center;
-                    justify-self: flex-start;
-                    font-weight: 600;
-                    margin: 5px 0;
-                    min-width: 130px;
-                    grid-row: 1 / span 1;
-                    grid-column: 1 / span 1;
+                .operations__titulo {
+                    text-align: center;
+                    place-self: center;
                 }
-                
-                .operations__input {
-                    display: inline-block;
-                    width: 240px;
-                    grid-row: 1 / span 1;
-                    grid-column: 2 / span 1;
-                    margin: 5px 0;
-                    height: 30px;
-                    user-select: none;
+
+                .operations__item {
+                    display: grid;
+                    min-width: 400px;
+                    grid-row: 60px;
+                    grid-column: 150px 150px;
                 }
+
+                    .operations__description {
+                        display: inline-block;
+                        align-self: center;
+                        justify-self: flex-start;
+                        font-weight: 600;
+                        margin: 5px 0;
+                        min-width: 130px;
+                        grid-row: 1 / span 1;
+                        grid-column: 1 / span 1;
+                    }
+                    
+                    .operations__input {
+                        display: inline-block;
+                        width: 240px;
+                        grid-row: 1 / span 1;
+                        grid-column: 2 / span 1;
+                        margin: 5px 0;
+                        height: 30px;
+                        user-select: none;
+                    }
         
 /*-----------------------------------
     3 - Ultimas transacciones
@@ -287,7 +298,7 @@ body {
         position: relative;
         display: flex;
         top: 0px;
-        grid-row: 2 / span 1;
+        grid-row: 1 / span 1;
         grid-column: 2 / span 1;
         margin-right: 20px;
         background: var(--azul-claro);
@@ -333,7 +344,7 @@ body {
 
                     .last-transactions__buscar-container {
                         position: relative;
-                        width: 250px;
+                        width: 320px;
                         height: 60px;
                     }
 
@@ -359,11 +370,11 @@ body {
                             }
 
                                 .last-transactions__buscar:hover input {
-                                    width: 240px;
+                                    width: 300px;
                                 }
 
                                 .last-transactions__input-buscar:focus {
-                                    width: 240px;
+                                    width: 300px;
                                 }
                             
                             .last-transactions__btn-container {
@@ -398,7 +409,7 @@ body {
                 font-weight: 600;
                 place-items: center;
                 grid-template-rows: 40px;
-                grid-template-columns: minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr) minmax(100px, 1fr);
+                grid-template-columns: 50px minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr) minmax(100px, 1fr);
                 justify-items: center;
                 background: var(--azul);
                 border-top-right-radius: 15px;
@@ -414,14 +425,26 @@ body {
 
             .last-transactions__item {
                 display: grid;
+                text-align: center;
                 grid-template-rows: 40px;
-                grid-template-columns: minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr) minmax(100px, 1fr);
+                grid-template-columns: 50px minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr) minmax(100px, 1fr);
                 place-items: center;
+                grid-column-gap: 5px;
                 grid-row: 3 / span 1;
                 border-bottom: 2px solid var(--azul);
                 cursor: pointer;
                 user-select: none;
             }
+
+                .last-transactions__input-value {
+                    text-align: center;
+                    outline: none;
+                }
+
+                    .last-transactions__input-value:nth-child(1) {
+                        display: inline-block;
+                        width: 40px;
+                    }
 
                 .fila-activa {
                     background: var(--verde-claro);
@@ -470,3 +493,133 @@ body {
                     .activo-i {
                         color: var(--red);
                     }
+
+
+/*-----------------------------------
+    5 - Ventana Dinamica
+------------------------------------*/
+
+    .ventana-dinamica {
+        position: absolute;
+        display: grid;
+        opacity: 1;
+        padding: 15px;
+        align-items: flex-start;
+        grid-row: 2 / span 1;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.8);
+        overflow: auto;
+        z-index: 8888;
+    }
+
+        .animacion-ventana-dinamica {
+            animation-name: aparecerVentana;
+            animation-duration: .5s;
+            animation-fill-mode: forwards;
+        }
+
+            @keyframes aparecerVentana {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+        
+        .animacion-cerrar-ventana-dinamica {
+            animation-name: cerrarVentana;
+            animation-duration: .5s;
+            animation-fill-mode: forwards;
+        }
+
+            @keyframes cerrarVentana {
+                from {
+                    opacity: 1;
+                }
+                to {
+                    opacity: 0;
+                }
+            }
+
+/*-----------------------------------
+    6 - Modificar - Eliminar - Rehacer Transacciones
+------------------------------------*/
+    .rehacer__container {
+        position: relative;
+        top: -100px;
+        display: grid;
+        place-items: center;
+        align-self: center;
+    }
+
+        .rehacer__icons-container {
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-auto-flow: column;
+        }
+
+            .rehacer__icons {
+                font-size: 40px;
+                margin: 30px 90px;
+                transition: all .5s ease;
+            }
+
+                .rehacer__icons:hover {
+                    color: var(--red);
+                }
+
+                .rehacer__icons--opacity {
+                    opacity: 0;
+                }
+
+        
+        .div-btn {
+            padding: 20px 0;
+        } 
+
+            .btn-confirmar {
+                width: 150px;
+                height: 40px;
+                font-size: 20px;
+                font-weight: 600;
+                border-radius: 20px;
+                color: #fff;
+                border: 2px solid #fff;
+                background: #0F6232;
+                outline: none;
+                margin-right: 30px;
+                cursor: pointer;
+                transition-property: font-size;
+                user-select: none;
+            }
+
+                .btn-confirmar:hover {
+                    background: #79F701;
+                    color: #000;
+                }
+
+                .btn-cancelar {
+                    width: 150px;
+                    height: 40px;
+                    font-size: 20px;
+                    font-weight: 600;
+                    border-radius: 20px;
+                    color: #fff;
+                    border: 2px solid #fff;
+                    background: var(--red);
+                    outline: none;
+                    cursor: pointer;
+                    transition-property: font-size;
+                    user-select: none;
+                }
+    
+                    .btn-cancelar:hover {
+                        background: violet;
+                        color: #000;
+                    }
+
+            

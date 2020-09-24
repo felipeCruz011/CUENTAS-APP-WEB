@@ -33,78 +33,83 @@
             </div>
         </nav>
 
-        <!------------------------------------ Seccion de Operaciones ------------------------------------>
-        <section class="operations"><!-- Bloque -->
-            <div class="operations__container">
-                <h2 class="operations__titulo">Centro de Operaciones</h2>
-                <div class="operations__item">
-                    <label class="operations__description">Base:</label>
-                    <input type="text" class="operations__input" id="base" readonly="readonly" disabled="disabled" placeholder="Base de Trabajo">
+        <div class="body-container">
+            <!------------------------------------ Seccion de Operaciones ------------------------------------>
+            <section class="operations"><!-- Bloque -->
+                <div class="operations__container">
+                    <h2 class="operations__titulo">Centro de Operaciones</h2>
+                    <div class="operations__item">
+                        <label class="operations__description">Base:</label>
+                        <input type="text" class="operations__input" id="base" readonly="readonly" disabled="disabled" placeholder="Base de Trabajo">
+                    </div>
+                    <div class="operations__item">
+                        <label class="operations__description">Venta:</label>
+                        <input type="text" class="operations__input" id="venta" readonly="readonly" disabled="disabled" placeholder="Venta total de Pagina">
+                    </div>
+                    <div class="operations__item">
+                        <label class="operations__description">Productos:</label>
+                        <input type="text" class="operations__input" id="venta-productos" readonly="readonly" disabled="disabled" placeholder="Venta de Productos en el Dia">
+                    </div>
+                    <div class="operations__item">
+                        <label class="operations__description">Retiros:</label>
+                        <input type="text" class="operations__input" id="retiros" readonly="readonly" disabled="disabled" placeholder="Retiros realizados">
+                    </div>
+                    <div class="operations__item">
+                        <label class="operations__description">Gastos:</label>
+                        <input type="text" class="operations__input" id="gastos" readonly="readonly" disabled="disabled" placeholder="Gastos operacionales">
+                    </div>
+                    <div class="operations__item">
+                        <label class="operations__description">Debe Entregar:</label>
+                        <input type="text" class="operations__input" id="efectivo-entregar" readonly="readonly" disabled="disabled" placeholder="Efectivo a entregar">
+                    </div>
+                    <div class="operations__item">
+                        <label class="operations__description">Descuadre:</label>
+                        <input type="text" class="operations__input" id="descuadre" readonly="readonly" disabled="disabled" placeholder="Dinero a reponer">
+                    </div>
                 </div>
-                <div class="operations__item">
-                    <label class="operations__description">Venta:</label>
-                    <input type="text" class="operations__input" id="venta" readonly="readonly" disabled="disabled" placeholder="Venta total de Pagina">
-                </div>
-                <div class="operations__item">
-                    <label class="operations__description">Productos:</label>
-                    <input type="text" class="operations__input" id="venta-productos" readonly="readonly" disabled="disabled" placeholder="Venta de Productos en el Dia">
-                </div>
-                <div class="operations__item">
-                    <label class="operations__description">Retiros:</label>
-                    <input type="text" class="operations__input" id="retiros" readonly="readonly" disabled="disabled" placeholder="Retiros realizados">
-                </div>
-                <div class="operations__item">
-                    <label class="operations__description">Gastos:</label>
-                    <input type="text" class="operations__input" id="gastos" readonly="readonly" disabled="disabled" placeholder="Gastos operacionales">
-                </div>
-                <div class="operations__item">
-                    <label class="operations__description">Debe Entregar:</label>
-                    <input type="text" class="operations__input" id="efectivo-entregar" readonly="readonly" disabled="disabled" placeholder="Efectivo a entregar">
-                </div>
-                <div class="operations__item">
-                    <label class="operations__description">Descuadre:</label>
-                    <input type="text" class="operations__input" id="descuadre" readonly="readonly" disabled="disabled" placeholder="Dinero a reponer">
-                </div>
-            </div>
-        </section>
-
-        <!------------------------------------ Ultimas Transacciones ------------------------------------>
-        <section class="last-transactions"> <!-- Bloque -->
-            <div class="last-transactions__container">
-                <h2 class="last-transactions__h2">Ultimas Transacciones</h2>
-                <div class="last-transactions__title-container">
-                    <h3 class="last-transactions__fecha">23 de Septiembre de 2020</h3>
-                    <div class="last-transactions__titulo">
-                        <div class="last-transactions__buscar-container">
-                            <div class="last-transactions__buscar">
-                                <input type="text" class="last-transactions__input-buscar" placeholder="Buscar">
-                                <div class="last-transactions__btn-container">
-                                    <i class="last-transactions__btn-lupa fas fa-search-dollar"></i>
+            </section>
+            
+            <!------------------------------------ Ultimas Transacciones ------------------------------------>
+            <section class="last-transactions"> <!-- Bloque -->
+                <div class="last-transactions__container">
+                    <h2 class="last-transactions__h2">Ultimas Transacciones</h2>
+                    <div class="last-transactions__title-container">
+                        <h3 class="last-transactions__fecha">23 de Septiembre de 2020</h3>
+                        <div class="last-transactions__titulo">
+                            <div class="last-transactions__buscar-container">
+                                <div class="last-transactions__buscar">
+                                    <input type="text" class="last-transactions__input-buscar" placeholder="Buscar">
+                                    <div class="last-transactions__btn-container">
+                                        <i class="last-transactions__btn-lupa fas fa-search-dollar"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="last-transactions__type">
+                        <label  class="last-transactions__header">ID</label>                    
+                        <label  class="last-transactions__header">Hora</label>                    
+                        <label  class="last-transactions__header">Cedula</label>                    
+                        <label  class="last-transactions__header">Nombres</label>                    
+                        <label  class="last-transactions__header">Recargado</label>                                     
+                    </div>
+                    <div class="last-transactions__item">
+                        <span  class="last-transactions__value">1</span>
+                        <span  class="last-transactions__value">8:00 am </span>
+                        <span  class="last-transactions__value">1075275242</span>
+                        <span  class="last-transactions__value">Felipe Cruz</span>
+                        <span  class="last-transactions__value valor-recarga">10000</span>
+                    </div>
+                    <div class="last-transactions__item">
+                        <span  class="last-transactions__value">2</span>
+                        <span  class="last-transactions__value">8:00 am </span>
+                        <span  class="last-transactions__value">1075275242</span>
+                        <span  class="last-transactions__value">Felipe Cruz</span>
+                        <span  class="last-transactions__value valor-recarga">10000</span>
+                    </div>
                 </div>
-                <div class="last-transactions__type">
-                    <label for="" class="last-transactions__header">Hora</label>                    
-                    <label for="" class="last-transactions__header">Cedula</label>                    
-                    <label for="" class="last-transactions__header">Nombres</label>                    
-                    <label for="" class="last-transactions__header">Recargado</label>                                     
-                </div>
-                <div class="last-transactions__item">
-                    <span for="" class="last-transactions__value">8:00 am </span>
-                    <span for="" class="last-transactions__value">1075275242</span>
-                    <span for="" class="last-transactions__value">Felipe Cruz</span>
-                    <span for="" class="last-transactions__value valor-recarga">10000</span>
-                </div>
-                <div class="last-transactions__item">
-                    <span for="" class="last-transactions__value">8:00 am </span>
-                    <span for="" class="last-transactions__value">1075275242</span>
-                    <span for="" class="last-transactions__value">Felipe Cruz</span>
-                    <span for="" class="last-transactions__value valor-recarga">10000</span>
-                </div>
-            </div>
-        </section> 
+            </section> 
+        </div>
 
          <!------------------------------------ ATAJOS ------------------------------------>
 
