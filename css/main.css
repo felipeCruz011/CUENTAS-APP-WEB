@@ -27,6 +27,8 @@ body {
 4 - Atajos 
 5 - Ventana Dinamica
 6 - Modificar - Eliminar - Rehacer Transacciones
+7 - Seccion de Entrada de Bases 
+8 - Seccion de Lista de Clientes
 
 --------------------------------------------------------------------*/
 
@@ -113,6 +115,10 @@ body {
                 min-width: 145px;
             }
 
+            .menu__li-desktop--no-width {
+                flex-shrink: 3 
+            }
+
                 .menu__enlaces {
                     width: 100%;
                     padding: 5px;
@@ -183,7 +189,7 @@ body {
  
     
     /*------------Media query | Menu de Desktop *------------*/
-    @media only screen  and (min-width: 930px) {
+    @media only screen  and (min-width: 1081px) {
         .menu__btn-responsive {
             display: none !important;
         }
@@ -249,6 +255,17 @@ body {
             .operations:hover {
                 border: 2px solid var(--red);
             }
+
+            .eye-icon {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                font-size: 35px;
+            }
+
+                .eye-icon:hover {
+                    color: var(--red);
+                }
         
             .operations__container {
                 display: grid;
@@ -409,7 +426,7 @@ body {
                 font-weight: 600;
                 place-items: center;
                 grid-template-rows: 40px;
-                grid-template-columns: 50px minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr) minmax(100px, 1fr);
+                grid-template-columns: 50px 85px minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr) minmax(100px, 1fr);
                 justify-items: center;
                 background: var(--azul);
                 border-top-right-radius: 15px;
@@ -427,7 +444,7 @@ body {
                 display: grid;
                 text-align: center;
                 grid-template-rows: 40px;
-                grid-template-columns: 50px minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr) minmax(100px, 1fr);
+                grid-template-columns: 50px 85px minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr) minmax(100px, 1fr);
                 place-items: center;
                 grid-column-gap: 5px;
                 grid-row: 3 / span 1;
@@ -437,13 +454,20 @@ body {
             }
 
                 .last-transactions__input-value {
+                    display: inline-block;
                     text-align: center;
                     outline: none;
+                    font-weight: 600;
                 }
 
                     .last-transactions__input-value:nth-child(1) {
                         display: inline-block;
                         width: 40px;
+                    }
+
+                    .last-transactions__input-value:nth-child(2) {
+                        display: inline-block;
+                        width: 85px;
                     }
 
                 .fila-activa {
@@ -470,20 +494,23 @@ body {
         grid-column: 1 / span 2;
         width: 100%;
         bottom: 0;
-        font-size: 40px;
+        font-size: 50px;
         max-height: 60px;
     }
 
         .atajos__container {
             display: grid;
-            grid-template-rows: minmax(max-content, 60px);
+            grid-template-rows: minmax(max-content, 70px);
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             align-items: center;
             justify-items: center;
         }
 
             .atajos__icons {
+                text-align: center;
                 align-self: center;
+                width: 200px;
+                height: 60px;
             }
 
                 .atajos__icons:hover {
@@ -493,6 +520,8 @@ body {
                     .activo-i {
                         color: var(--red);
                     }
+
+                
 
 
 /*-----------------------------------
@@ -516,9 +545,9 @@ body {
     }
 
         .animacion-ventana-dinamica {
-            animation-name: aparecerVentana;
-            animation-duration: .5s;
-            animation-fill-mode: forwards;
+            animation-name: aparecerVentana !important;
+            animation-duration: .5s !important;
+            animation-fill-mode: forwards !important;
         }
 
             @keyframes aparecerVentana {
@@ -598,8 +627,7 @@ body {
             }
 
                 .btn-confirmar:hover {
-                    background: #79F701;
-                    color: #000;
+                    background: var(--red);
                 }
 
                 .btn-cancelar {
@@ -622,4 +650,497 @@ body {
                         color: #000;
                     }
 
+/*-----------------------------------
+    7 - Seccion de Entrada de Bases 
+------------------------------------*/
+    .bases {
+        align-self: center;
+        background:rgba(47, 44, 162, 0.4); 
+        border-radius: 20px; 
+    }
+    .bases__titulo {
+        text-align: center;
+    }
+    
+    .bases__container {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: 1fr 150px;
+        grid-template-columns: repeat(3, 1fr);
+        place-items: center;
+    }   
+
+        .bases__primera-columna {
+            grid-row: 1 / span 1;
+            grid-column: 1 / span 1;
+            padding: 5px 10px;
+            margin: 0 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+        }
+
+
+        .bases__segunda-columna {
+            grid-row: 1 / span 1;
+            grid-column: 2 / span 1;
+            padding: 5px 10px;
+            margin: 0 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+        }
+
+        .bases__tercera-columna {
+            grid-row: 1 / span 1;
+            grid-column: 3 / span 1;
+            padding: 5px 10px;
+            margin: 0 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+        }
+
+            .bases__header {
+                display: grid;
+                place-items: center;
+                grid-gap: 10px;
+                text-align: center;
+                grid-template-rows: 1fr;
+                grid-template-columns: 1fr 90px 1fr;
+                font-size: 15px;
+            }
+
+                .bases__header-title {
+                    font-size: 20px;
+                }
             
+            .bases__fila {
+                display: grid;
+                padding: 10px;
+                grid-template-rows: 80px;
+                grid-template-columns: 1fr 90px 1fr;
+                place-items: center;
+            }
+
+                .bases__fila-img {
+                    width: 200px;
+                    object-fit: cover;
+                }
+
+                .bases__fila-input {
+                    text-align: center;
+                    font-weight: 600;
+                    outline: none;
+                    width: 40%;
+                }
+
+                    .bases__fila-input:focus {
+                        background: var(--azul);
+                        border: 1px solid #fff;
+                        color: #fff;
+                    }
+            
+            .bases__monedas-container {
+                grid-column: 1 / span 1;
+                justify-self: flex-start;
+                margin-top: 20px;
+                margin: 0 20px;
+                background:rgba(0, 0, 0, 0.8); 
+                border-radius: 20px;
+            }
+            
+                .bases__header-monedas {
+                    display: grid;
+                    place-items: center;
+                    padding: 10px;
+                    grid-gap: 10px;
+                    text-align: center;
+                    grid-template-rows: 1fr;
+                    grid-template-columns: 132px  100px;
+                    font-size: 15px;
+                }
+
+                .bases__monedas {
+                    display: grid;
+                    grid-template-rows: 80px;
+                    padding: 5px;
+                    grid-template-columns: 132px  100px;
+                    place-items: center;
+                }
+
+                    .bases__fila-monedas-img {
+                        width: 70px;
+                        object-fit: cover;
+                    }
+        
+        .bases__total {
+            position: relative;
+            left: -30px;
+            grid-column: 3 / span 1;
+
+        }
+            .bases__fila-total {
+                font-size: 35px;
+                margin-right: 10px
+            }
+
+            .bases__fila-total-value {
+                display: block;
+                font-size: 35px;
+                min-width: 220px;
+                height: 60px;
+                color: var(--red);
+                font-weight: 600;
+                text-shadow: 0 1px 0px #378ab4, 1px 0 0px #5dabcd, 1px 2px 1px #378ab4, 2px 1px 1px #5dabcd, 2px 3px 2px #378ab4, 3px 2px 2px #5dabcd, 3px 4px 2px #378ab4, 4px 3px 3px #5dabcd, 4px 5px 3px #378ab4, 5px 4px 2px #5dabcd, 5px 6px 2px #378ab4, 6px 5px 2px #5dabcd, 6px 7px 1px #378ab4, 7px 6px 1px #5dabcd, 7px 8px 0px #378ab4, 8px 7px 0px #5dabcd;
+            }
+
+        .bases__guardar {
+            grid-column: 2 / span 1;
+            grid-row: 2 / span 1;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+            .ocultar-guardar {
+                display: none !important;
+            }
+
+            .bases__guardar-text {
+                align-self: flex-start;
+                margin-bottom: 20px;
+            }
+
+            .bases__guardar-icon {
+                align-self: center;
+                width: 80px;
+                font-size: 80px;
+                cursor: pointer;
+            }
+
+                .bases__guardar-icon:hover {
+                    color: var(--red);
+                }
+
+        .bases__btn-container {
+            display: none;
+            text-align: center;
+            opacity: 0;
+        }
+
+            .btn-aparecer {
+                display: initial !important;
+                animation-name: aparecerBtnBases;
+                animation-duration: 1s;
+                animation-fill-mode: forwards;
+            }
+
+            @keyframes aparecerBtnBases {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+            
+
+            .bases__btn-mensaje {
+                font-size: 25px;
+            }
+
+            .bases__btn-aceptar {
+                margin-top: 15px;
+                width: 150px;
+                height: 40px;
+                font-size: 20px;
+                font-weight: 600;
+                border-radius: 20px;
+                color: #fff;
+                border: 2px solid #fff;
+                background: #0F6232;
+                outline: none;
+                margin-right: 30px;
+                cursor: pointer;
+                transition-property: font-size;
+                user-select: none;
+            }
+
+                .bases__btn-aceptar:hover {
+                    background: var(--red);
+                }
+
+            .bases__btn-cancelar {
+                width: 150px;
+                height: 40px;
+                font-size: 20px;
+                font-weight: 600;
+                border-radius: 20px;
+                color: #fff;
+                border: 2px solid #fff;
+                background: var(--red);
+                outline: none;
+                cursor: pointer;
+                transition-property: font-size;
+                user-select: none;
+            }
+    
+                .bases__btn-cancelar:hover {
+                    background: violet;
+                    color: #000;
+                }
+
+/*-----------------------------------
+    8 - Seccion de Lista de Clientes
+------------------------------------*/
+
+    .clientes {
+        display: grid;
+        grid-template-rows: 30px 1fr;
+        height: 100%;
+        place-items: center;
+        text-align: center;
+        color: #fff;
+    }
+
+        .clientes__titulo {
+            font-size: 35px;
+        }
+
+            .stroke-blue {
+                text-shadow: -3px -3px 3px #0000DF, 3px -3px 3px #0000DF, -3px 3px 3px #0000DF, 3px 3px 3px #0000DF !important;
+            }
+            
+            .stroke-black {
+                text-shadow: -3px -3px 3px #000, 3px -3px 3px #000, -3px 3px 3px #000, 3px 3px 3px #000 !important;
+            }
+
+        .clientes__container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 80%;
+            max-height: 400px;
+            padding: 10px 30px;
+            border-radius: 20px;
+            background: rgba(75, 188, 223, 0.6);
+            overflow-y: hidden;
+        }
+
+            .clientes__container::-webkit-scrollbar {
+                background: var(--azul);
+                height: 10px;
+                border-radius: 20px;
+            }
+
+                .clientes__container::-webkit-scrollbar:vertical {
+                    width: 15px;
+                }
+
+                .clientes__container::-webkit-scrollbar-thumb {
+                    background: var(--red);
+                    border-radius: 20px;
+                }
+
+                    .clientes__container::-webkit-scrollbar-thumb:hover {
+                        background: rgb(245, 6, 245);
+                    }
+
+            .clientes__buscar-container {
+                position: relative;
+                align-self: flex-end;
+                width: 420px;
+                min-height: 60px;
+            }
+
+                .clientes__buscar {
+                    position: absolute;
+                    right: 0;
+                    min-width: 60px;
+                    top: 5px;
+                    padding: 5px;
+                    height: 70px;
+                }
+
+                    .clientes__input-buscar {
+                        width: 0;
+                        height: 40px;
+                        padding: 0 20px;
+                        font-size: 18px;
+                        color: #000;
+                        outline: none;
+                        border-radius: 30px;
+                        border: 1px solid var(--azul-claro);
+                        transition: all .6s ease;
+                    }
+
+                        .clientes__buscar:hover input {
+                            width: 400px;
+                        }
+
+                        .clientes__input-buscar:focus {
+                            width: 400px;
+                        }
+                    
+                    .clientes__btn-container {
+                        position: absolute;
+                        display: grid;
+                        top: 0;
+                        right: 0;
+                        color: #fff;
+                        background: var(--red);
+                        width: 55px;
+                        height: 55px;
+                        border-radius: 50%;
+                        line-height: 55px;
+                        text-align: center;
+                        cursor: pointer;
+                    }
+
+                        .clientes__btn-lupa {
+                            font-size: 30px;
+                            height: 30px;
+                            align-self: center;
+                        }
+
+                            .active {
+                                color: var(--red);
+                            }
+
+
+            .clientes__type {
+                display: grid;
+                place-items: center;
+                grid-template-rows: 50px;
+                grid-template-columns: 50px 150px minmax(200px, 1fr) 1fr;
+                border-bottom: 2px solid rgba(255, 255, 255, .5);
+                font-weight: 600;
+                min-height: 40px;
+            }
+            
+            .clientes__item {
+                display: grid;
+                place-items: center;
+                grid-template-rows: 40px;
+                grid-template-columns: 50px 150px minmax(200px, 1fr) 1fr;
+                border-bottom: 2px solid rgba(255, 255, 255, .5);
+                min-height: 40px;
+            }
+
+        .clientes__herramientas {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 105%;
+            left: -20px;
+            top: -10px;
+            height: 105%;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            z-index: 8888;
+            transition: all .5s ease;
+            animation-name: aparecerHerramientas;
+            animation-duration: .5s;
+            animation-fill-mode: forwards;
+        }
+
+            @keyframes aparecerHerramientas {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            .cerrar {
+                animation-name: ocultarHerramientas !important;
+                animation-duration: .5s !important ;
+                animation-fill-mode: forwards !important;
+            }
+
+                @keyframes ocultarHerramientas {
+                    from {
+                        opacity: 1;
+                    }
+                    to {
+                        opacity: 0;
+                    }
+                }
+
+            .clientes__icons-container {
+                user-select: none;
+            }
+
+                .clientes__icons {
+                    font-size: 80px;
+                    margin: 0 40px;
+                }
+
+                    .clientes__icons:hover {
+                        color: var(--red);
+                    }
+
+                        .clientes__icons--atras {
+                            position: absolute;
+                            top: 40px;
+                            right: 60px;
+                            font-size: 40px;
+                        }
+
+                            .clientes__icons--atras:hover {
+                                color: var(--red);
+                            }
+
+            .clientes__type {
+                display: grid;
+                font-weight: 600;  
+                place-items: center;
+                grid-template-rows: 40px;
+                grid-template-columns: 50px 200px minmax(100px, 1fr) minmax(300px, 1fr);
+                justify-items: center;
+                background: var(--azul);
+                border-top-right-radius: 15px;
+                border-top-left-radius: 15px;
+                border-bottom: 2px solid #fff;
+                user-select: none;
+            }
+    
+                .clientes__header {
+                    display: block;
+                    color: #fff;
+                }
+    
+            .clientes__item {
+                display: grid;
+                text-align: center;
+                grid-template-rows: 40px;
+                grid-template-columns: 50px 200px minmax(100px, 1fr) minmax(300px, 1fr);
+                place-items: center;
+                grid-column-gap: 5px;
+                grid-row: 3 / span 1;
+                border-bottom: 2px solid var(--azul);
+                cursor: pointer;
+                user-select: none;
+            }
+    
+                .clientes__input-value {
+                    display: inline-block;
+                    text-align: center;
+                    outline: none;
+                    font-weight: 600;
+                }
+    
+                    .clientes__input-value:nth-child(1) {
+                        display: inline-block;
+                        width: 40px
+                    }
+    
+                    .clientes__input-value:nth-child(2) {
+                        display: inline-block;
+                        width: 150px;
+                    }
+        
+
+
+                
