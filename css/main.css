@@ -29,6 +29,7 @@ body {
 6 - Modificar - Eliminar - Rehacer Transacciones
 7 - Seccion de Entrada de Bases 
 8 - Seccion de Lista de Clientes
+9 - Seccion de Computadores
 
 --------------------------------------------------------------------*/
 
@@ -231,14 +232,14 @@ body {
 ------------------------------------*/
 
     .body-container {
+        position: relative;
         width: 100vw;
         display: grid;
         grid-template-rows: 1fr;
-        grid-template-columns: 500px 1fr;
-        grid-column-gap: 40px;
+        grid-template-columns: 450px 1fr 16 0px;
+        grid-column-gap: 20px;
         grid-row: 2 / span 1;
-        padding: 20px 0px;
-
+        padding: 20px 10px;
     }
 
         .operations {
@@ -246,7 +247,7 @@ body {
             display: grid;
             grid-row: 1 / span 1;
             grid-column: 1 / span 1;
-            left: 20px;
+            
             top: 0;
             background: var(--azul-claro);
             border-radius: 20px;
@@ -317,7 +318,6 @@ body {
         top: 0px;
         grid-row: 1 / span 1;
         grid-column: 2 / span 1;
-        margin-right: 20px;
         background: var(--azul-claro);
         border-radius: 20px;
     }
@@ -501,7 +501,7 @@ body {
         .atajos__container {
             display: grid;
             grid-template-rows: minmax(max-content, 70px);
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             align-items: center;
             justify-items: center;
         }
@@ -1179,6 +1179,192 @@ body {
             }
         }
         
+/*-----------------------------------
+    9 - Seccion de Computadores
+------------------------------------*/
 
+    .computadores {
+        width: 100%;
+        height: 100%;
+        grid-row: 1 / span 1;
+        grid-column: 3 / span 1;
+    }
 
+        .computadores__container {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            grid-auto-rows: 1fr;
+            background: var(--azul-claro);
+            border-radius: 20px;
+        }
+
+            .computadores__icon-container {
+                display: flex;
+                justify-content: center;
+                width: 160px;
+                height: 100px;
+            }
+
+                .computadores__icon {
+                    position: relative;
+                    left: -15px;
+                    font-size: 65px;
+                    height: 65px;
+                    border-radius: 10px;
+                    color: var(--red);
+                    box-shadow: 5px 5px 0px 0px #289FED, 10px 10px 0px 0px #5FB8FF, 15px 15px 0px 0px #A1D8FF, 20px 20px 0px 0px #CAE6FF, 25px 25px 0px 0px #E1EEFF, 5px 5px 15px 5px rgba(0,0,0,0);
+                }     
                 
+                    .computadores__icon-container:hover > .computadores__icon {
+                        color: #fff;
+                        box-shadow: 5px 5px 0px 0px #289FED, 10px 10px 0px 0px #5FB8FF, 15px 15px 0px 0px #A1D8FF, 20px 20px 0px 0px #CAE6FF, 25px 25px 0px 0px var(--red), 5px 5px 15px 5px rgba(0,0,0,0);
+                    }
+
+    .pcs {
+        position: absolute;
+        left: -1000px;
+        align-self: center;
+        display: flex;
+        justify-content: center;
+        height: 92%;
+        background: rgba(0, 0, 0, 0.9);
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-right: 4px solid var(--red);
+        border-bottom: 4px solid var(--red);
+        transition: all 1s ease;
+        z-index: 9999;
+    }
+
+        .pcs__aparecer-ventana {
+            left: 0 !important;
+        }
+
+        .pcs__container {
+            display: grid;
+            grid-template-rows: 70px 1fr;
+            grid-template-columns: 300px 350px;
+            place-items: center;
+        }
+
+                .pcs__pc-container {
+                    display: flex;
+                    padding-top: 40px;
+                    justify-content: center;
+                    grid-row: 1 / span 1;
+                    grid-column: 1 / span 1;
+                    width: 250px;
+                    border-right: 2px solid #fff;
+                    position: relative;
+                    font-size: 70px;
+                }
+                
+                .pcs__numero {
+                    padding-top: 40px;
+                    grid-row: 1 / span 1;
+                    grid-column: 2 / span 1;
+                    position: relative;
+                    color: var(--red);
+                    text-shadow: -1px -1px 1px #fff, 1px 1px 1px #fff, -1px 1px 1px #fff, 1px -1px 1px #fff;
+                    font-size: 70px;
+                }
+
+            .pcs__img-container {
+                position: relative;
+                top: 50px;
+                grid-row: 1 / span 2;
+                grid-column: 1 / span 1;
+            }
+
+                .pcs__img {
+                    width: 250px;
+                    height: 250px;
+                    border-right: 2px solid #fff;
+                }
+            
+            .pcs__info {
+                justify-self: flex-start;
+                width: 350px;
+                grid-row: 2 / span 1;
+                grid-column: 2 / span 1;
+                opacity: 1;
+            }
+
+                .pcs__item {
+                    margin-bottom: 15px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                }
+
+                    .pcs__text {
+                        align-self: center;
+                        width: 85px;
+                        margin-right: 20px;
+                        user-select: none;
+                    }
+                
+                .pcs__input {
+                    outline: none;
+                    padding: 5px;
+                    border-radius: 10px;
+                    border: 2px solid #fff;
+                    font-weight: 600;
+                }
+
+                    .pcs__input:hover {
+                        background: var(--azul);
+                        color: #fff;
+                    }
+
+                    .pcs__item:hover > .pcs__text {
+                        font-weight: 600;
+                        color: var(--red);
+                    }
+
+                    .pcs__item:hover > .pcs__input {
+                        background: var(--azul);
+                        color: #fff;
+                    }
+
+
+            .pcs__btn-container {
+                display: grid;
+                place-items: center;
+            }
+
+                .pcs__btn {
+                    width: 240px;
+                    margin-bottom: 10px;
+                    height: 35px;
+                    border-radius: 20px;
+                    border: 2px solid #fff;
+                    outline: none;
+                    color: #fff;
+                    cursor: pointer;
+                    font-size: 18px;
+                }
+
+                .btn-pagar {
+                    background: #0F6232;
+                    color: #fff;
+                }
+
+                    .btn-pagar:hover {
+                        background: var(--azul-claro);
+                    }
+
+                .btn-transferencias-realizadas {
+                    background: var(--red);
+                    font-weight: 600;
+                }
+    
+                    .btn-transferencias-realizadas:hover {
+                        background: violet;
+                        color: #000;
+                        font-weight: 600;
+                    }
+    
+              

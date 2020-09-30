@@ -4,18 +4,18 @@ const enlaces = document.querySelectorAll('.menu__enlaces'),
       enlaceHome = document.querySelectorAll('.enlace-inicio'),
       enlaceListaClientes = document.querySelectorAll('.enlace-lista-clientes'),
       enlaceEntradaBases = document.querySelectorAll('.enlace-entrada-bases'),
-      enlaceComputadores = document.querySelectorAll('.enlace-computadores'),
       enlaceTransferencias = document.querySelectorAll('.enlace-transferencias'),
       atajosIcons = document.querySelectorAll('.atajos__icons'),
       atajoHomeIcon = document.querySelector('.home-icon'),
       atajoClientes = document.querySelector('.users-icon'),
       atajoEntradaBases = document.querySelector('.entrada-bases-icon'),
-      atajoComputadores = document.querySelector('.computers-icon'), 
       atajoTransferencias = document.querySelector('.transferencias-icon'), 
       transactionContainer = document.querySelector('.last-transactions__container'),
       transferenciasRecargado = document.querySelectorAll('.valor-recarga'),
       transationsItems = document.querySelectorAll('.last-transactions__item'),
-      transationsValues = document.querySelectorAll('.last-transactions__value');
+      transationsValues = document.querySelectorAll('.last-transactions__value'),
+      pcs = document.querySelector('.pcs'),
+      computadores = document.querySelectorAll('.computadores__icon');
 
 //Creacion de la ventana dinamica para cada seccion
 let divDynamic = document.createElement('div');
@@ -34,22 +34,20 @@ enlaceListaClientes.forEach((enlace) => {
 enlaceEntradaBases.forEach((enlace) => {
     enlace.addEventListener('click', irEntradaBases);
 });
-    // Listeners para abrir la seccion de los Computadores 
-enlaceComputadores.forEach((enlace) => {
-    enlace.addEventListener('click', irComputadores);
-});
     // Listeners para ir a la seccion de Transferencias totales
 enlaceTransferencias.forEach((enlace) => {
     enlace.addEventListener('click', irTransferencias);
 });
-
-
+    // Listeners para aparecer y ocultar cada pc con sus respectivas transacciones al ponerse encima del icono y dejarlo
+computadores.forEach((pc) => {
+    pc.addEventListener('mouseover', mostrarPc);
+    pc.addEventListener('mouseout', ocultarPc);
+});
 
 // EventListeners Individuales
 atajoHomeIcon.addEventListener('click', irHomeIcon);
 atajoClientes.addEventListener('click', irListadoClientesIcon);
 atajoEntradaBases.addEventListener('click', irEntradaBasesIcon);
-atajoComputadores.addEventListener('click', irComputadoresIcon);
 atajoTransferencias.addEventListener('click', irTransferenciasIcon);
     //listener para seleccionar la fila a modificar o rehacer 
 transactionContainer.addEventListener('click', seleccionarFilaUltimasTransacciones);
@@ -114,15 +112,117 @@ function irListadoClientes() {
     // Añadimos la clase activa del Listado de Clientes en los enlaces y atajos
     añadirClaseActivoEnlaces(enlaceListaClientes, 'activo');
     añadirClaseActivoEnlaces(atajoClientes, 'activo-i');
-    // Abrir la seccion del Listado de Clientes
-    abrirSeccionListadoClients();
+    // Crear contenido de la Seccion
+    crearContenidoSeccionListadoClientes();
+    // Abrir la seccion 
+    abrirSecciones();
 }
 
+        // Funcion Auxiliar de irListadoClientes
+        function crearContenidoSeccionListadoClientes() {
+                divDynamic.innerHTML = `
+                <section class="clientes">
+                    <h1 class="clientes__titulo stroke-blue">Lista de Clientes</h1>
+                    <div class="clientes__container overflow">
+
+                        <!-- Buscador -->
+                        <div class="clientes__buscar-container">
+                            <div class="clientes__buscar">
+                                <input type="text" class="clientes__input-buscar" placeholder="Buscar">
+                                <div class="clientes__btn-container">
+                                    <i class="clientes__btn-lupa fas fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="clientes__type">
+                            <label  class="clientes__header">ID</label>                    
+                            <label  class="clientes__header">CEDULA</label>                    
+                            <label  class="clientes__header">APODO</label>                    
+                            <label  class="clientes__header">NOMBRES</label>                                                     
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                        <div class="clientes__item">
+                            <span  class="clientes__value">1</span>
+                            <span  class="clientes__value">1075275242</span>
+                            <span  class="clientes__value">Cruz</span>
+                            <span  class="clientes__value">Felipe Cruz</span>
+                        </div>
+                    </div>
+                </section>
+            `;
+            
+        }
+
         //Funcion Auxiliar de irListadoClientes 
-        async function abrirSeccionListadoClients() {
+        async function abrirSecciones() {
             await limipiarClases();
             await transicionAnimacion();
-            await crearContenidoSeccionListadoClientes();
             await animarAperturaSeccion();
             await agregarAlDom();
         }
@@ -153,109 +253,7 @@ function irListadoClientes() {
                     });
                  }
 
-                // Funcion Auxiliar de irListadoClientes
-                function crearContenidoSeccionListadoClientes() {
-                    return new Promise((resolve, reject) => {
-                        divDynamic.innerHTML = `
-                        <section class="clientes">
-                            <h1 class="clientes__titulo stroke-blue">Lista de Clientes</h1>
-                            <div class="clientes__container overflow">
-
-                                <!-- Buscador -->
-                                <div class="clientes__buscar-container">
-                                    <div class="clientes__buscar">
-                                        <input type="text" class="clientes__input-buscar" placeholder="Buscar">
-                                        <div class="clientes__btn-container">
-                                            <i class="clientes__btn-lupa fas fa-search"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="clientes__type">
-                                    <label  class="clientes__header">ID</label>                    
-                                    <label  class="clientes__header">CEDULA</label>                    
-                                    <label  class="clientes__header">APODO</label>                    
-                                    <label  class="clientes__header">NOMBRES</label>                                                     
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                                <div class="clientes__item">
-                                    <span  class="clientes__value">1</span>
-                                    <span  class="clientes__value">1075275242</span>
-                                    <span  class="clientes__value">Cruz</span>
-                                    <span  class="clientes__value">Felipe Cruz</span>
-                                </div>
-                            </div>
-                        </section>
-                    `;
-                    resolve(true);
-                    });
-                    
-                }
+                
 
                 // Funcion Auxiliar de irListadoClientes
                 function animarAperturaSeccion() {
@@ -289,120 +287,114 @@ function irEntradaBases() {
     // Añadimos la clase activa a la Entrada de bases en los enlaces y atajos
     añadirClaseActivoEnlaces(enlaceEntradaBases, 'activo');
     añadirClaseActivoEnlaces(atajoEntradaBases, 'activo-i');
-    // Abrir la seccion del Listado de Clientes
-    abrirSeccionEntradaBases();
+    // Crear contenido de la Seccion
+    crearContenidoSeccionEntradaBases();
+    // Abrir la seccion 
+    abrirSecciones();
 }
 
-        async function abrirSeccionEntradaBases() {
-            await limipiarClases();
-            await transicionAnimacion();
-            await crearContenidoSeccionEntradaBases();
-            await animarAperturaSeccion();
-            await agregarAlDom();
+        // Funcion Auxiliar de irEntradaBases
+        function crearContenidoSeccionEntradaBases() {
+            divDynamic.innerHTML = `
+                <section class="bases">
+                    <div class="bases__titulo-container">
+                        <h1 class="bases__titulo">Entrada de Bases y Conteo de Efectivo</h1>
+                    </div>
+                    <div class="bases__container">
+
+                        <div class="bases__primera-columna">
+                            <div class="bases__header">
+                                <span class="bases__header-title">Billetes</span>
+                                <span class="bases__header-title">Cantidad</span>
+                                <span class="bases__header-title">Valor</span>
+                            </div>
+                            <div class="bases__fila">
+                                <img src="img/mil-pesos.jpg" alt="Billetes" class="bases__fila-img">
+                                <input type="text" class="bases__fila-input" id="milPesos" value="0">
+                                <span class="bases__fila-valor" id="milPesosValor">0</span>
+                            </div>
+                            <div class="bases__fila">
+                                <img src="img/dosmil-pesos.jpg" alt="Billetes" class="bases__fila-img">
+                                <input type="text" class="bases__fila-input" id="dosMilPesos" value="0">
+                                <label class="bases__fila-valor" id="milPesosValor">0</label>
+                            </div>
+                        </div>
+                    
+                        <div class="bases__segunda-columna">
+                            <div class="bases__header">
+                                <label class="bases__header-title">Billetes</label>
+                                <label class="bases__header-title">Cantidad</label>
+                                <label class="bases__header-title">Valor</label>
+                            </div>
+
+                            <div class="bases__fila">
+                                <img src="img/cincomil-pesos.jpg" alt="Billetes" class="bases__fila-img">
+                                <input type="text" class="bases__fila-input" id="cincoMilPesos" value="0">
+                                <label class="bases__fila-valor" id="milPesosValor">0</label>
+                            </div>
+                            
+                            <div class="bases__fila">
+                                <img src="img/diezmil-pesos.jpg" alt="Billetes" class="bases__fila-img">
+                                <input type="text" class="bases__fila-input" id="diezMilPesos" value="0">
+                                <label class="bases__fila-valor" id="milPesosValor">0</label>
+                            </div>
+                        </div>
+
+                        <div class="bases__tercera-columna">
+                            <div class="bases__header">
+                                <label class="bases__header-title">Billetes</label>
+                                <label class="bases__header-title">Cantidad</label>
+                                <label class="bases__header-title">Valor</label>
+                            </div>
+
+                            <div class="bases__fila">
+                                <img src="img/veintemil-pesos.jpg" alt="Billetes" class="bases__fila-img">
+                                <input type="text" class="bases__fila-input" id="veinteMilPesos" value="0">
+                                <label class="bases__fila-valor" id="milPesosValor">0</label>
+                            </div>
+
+                            <div class="bases__fila">
+                                <img src="img/cincuentamil-pesos.jpg" alt="Billetes" class="bases__fila-img">
+                                <input type="text" class="bases__fila-input" id="cincuentaMilPesos" value="0">
+                                <label class="bases__fila-valor" id="milPesosValor">0</label>
+                            </div>    
+                        </div>
+
+                        <div class="bases__monedas-container">
+                            <div class="bases__header-monedas">
+                                <label class="bases__header-title">Monedas</label>
+                                <label class="bases__header-title">Cantidad</label>
+                            </div>
+            
+                            <div class="bases__monedas">
+                                <img src="img/monedas.png" alt="Billetes" class="bases__fila-monedas-img">
+                                <input type="text" class="bases__fila-input" id="monedas" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="bases__btn-container">
+                            <h3 class="bases__btn-mensaje">Estas seguro de</h3>
+                            <h3 class="bases__btn-mensaje">Añadir esta Base?</h3>
+                            <button class="bases__btn-aceptar">Aceptar</button>
+                            <button class="bases__btn-cancelar">Cancelar</button>
+                        </div>
+
+                        <div class="bases__guardar">
+                            <h2 class="bases__guardar-text">Desea añadirlo a la Base?</h2>
+                            <i class="bases__guardar-icon fas fa-save"></i>
+                        </div>
+
+
+                        <div class="bases__total">
+                            <label class="bases__fila-total">Total:</label>
+                            <span class="bases__fila-total-value">$ 1.000.000</span>
+                        </div>
+                    </div>
+                </section>
+            `;
         }
 
-                function crearContenidoSeccionEntradaBases() {
-                    return new Promise((resolve, reject) => {
-                        divDynamic.innerHTML = `
-                            <section class="bases">
-                                <div class="bases__titulo-container">
-                                    <h1 class="bases__titulo">Entrada de Bases y Conteo de Efectivo</h1>
-                                </div>
-                                <div class="bases__container">
-    
-                                    <div class="bases__primera-columna">
-                                        <div class="bases__header">
-                                            <span class="bases__header-title">Billetes</span>
-                                            <span class="bases__header-title">Cantidad</span>
-                                            <span class="bases__header-title">Valor</span>
-                                        </div>
-                                        <div class="bases__fila">
-                                            <img src="img/mil-pesos.jpg" alt="Billetes" class="bases__fila-img">
-                                            <input type="text" class="bases__fila-input" id="milPesos" value="0">
-                                            <span class="bases__fila-valor" id="milPesosValor">0</span>
-                                        </div>
-                                        <div class="bases__fila">
-                                            <img src="img/dosmil-pesos.jpg" alt="Billetes" class="bases__fila-img">
-                                            <input type="text" class="bases__fila-input" id="dosMilPesos" value="0">
-                                            <label class="bases__fila-valor" id="milPesosValor">0</label>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="bases__segunda-columna">
-                                        <div class="bases__header">
-                                            <label class="bases__header-title">Billetes</label>
-                                            <label class="bases__header-title">Cantidad</label>
-                                            <label class="bases__header-title">Valor</label>
-                                        </div>
-    
-                                        <div class="bases__fila">
-                                            <img src="img/cincomil-pesos.jpg" alt="Billetes" class="bases__fila-img">
-                                            <input type="text" class="bases__fila-input" id="cincoMilPesos" value="0">
-                                            <label class="bases__fila-valor" id="milPesosValor">0</label>
-                                        </div>
-                                        
-                                        <div class="bases__fila">
-                                            <img src="img/diezmil-pesos.jpg" alt="Billetes" class="bases__fila-img">
-                                            <input type="text" class="bases__fila-input" id="diezMilPesos" value="0">
-                                            <label class="bases__fila-valor" id="milPesosValor">0</label>
-                                        </div>
-                                    </div>
-    
-                                    <div class="bases__tercera-columna">
-                                        <div class="bases__header">
-                                            <label class="bases__header-title">Billetes</label>
-                                            <label class="bases__header-title">Cantidad</label>
-                                            <label class="bases__header-title">Valor</label>
-                                        </div>
-    
-                                        <div class="bases__fila">
-                                            <img src="img/veintemil-pesos.jpg" alt="Billetes" class="bases__fila-img">
-                                            <input type="text" class="bases__fila-input" id="veinteMilPesos" value="0">
-                                            <label class="bases__fila-valor" id="milPesosValor">0</label>
-                                        </div>
-    
-                                        <div class="bases__fila">
-                                            <img src="img/cincuentamil-pesos.jpg" alt="Billetes" class="bases__fila-img">
-                                            <input type="text" class="bases__fila-input" id="cincuentaMilPesos" value="0">
-                                            <label class="bases__fila-valor" id="milPesosValor">0</label>
-                                        </div>    
-                                    </div>
-    
-                                    <div class="bases__monedas-container">
-                                        <div class="bases__header-monedas">
-                                            <label class="bases__header-title">Monedas</label>
-                                            <label class="bases__header-title">Cantidad</label>
-                                        </div>
-                        
-                                        <div class="bases__monedas">
-                                            <img src="img/monedas.png" alt="Billetes" class="bases__fila-monedas-img">
-                                            <input type="text" class="bases__fila-input" id="monedas" value="0">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bases__btn-container">
-                                        <h3 class="bases__btn-mensaje">Estas seguro de</h3>
-                                        <h3 class="bases__btn-mensaje">Añadir esta Base?</h3>
-                                        <button class="bases__btn-aceptar">Aceptar</button>
-                                        <button class="bases__btn-cancelar">Cancelar</button>
-                                    </div>
-    
-                                    <div class="bases__guardar">
-                                        <h2 class="bases__guardar-text">Desea añadirlo a la Base?</h2>
-                                        <i class="bases__guardar-icon fas fa-save"></i>
-                                    </div>
-    
-    
-                                    <div class="bases__total">
-                                        <label class="bases__fila-total">Total:</label>
-                                        <span class="bases__fila-total-value">$ 1.000.000</span>
-                                    </div>
-                                </div>
-                            </section>
-                        `;
-                        resolve(true);
-                    });
-                }
+                
 
     // Funcion para ir a la seccion de Computadores
 function irComputadores() {
@@ -412,7 +404,18 @@ function irComputadores() {
     // Añadimos la clase activa de la seccion de Coputadores en los enlaces y atajos
     añadirClaseActivoEnlaces(enlaceComputadores, 'activo');
     añadirClaseActivoEnlaces(atajoComputadores, 'activo-i');
+    // Crear contenido de la Seccion
+    crearContenidoSeccionComputadores();
+    // Abrir la seccion 
+    abrirSecciones();
 }
+
+        // Funcion Auxiliar de irEntradaBases
+        function crearContenidoSeccionComputadores() {
+            divDynamic.innerHTML = `
+            
+            `;            
+        }
 
     // Funcion para ir a la seccion de las transferencias generales
 function irTransferencias() {
@@ -422,11 +425,22 @@ function irTransferencias() {
     // Añadimos la clase activa de la seccion de transferencias generales en los enlaces y atajos
     añadirClaseActivoEnlaces(enlaceTransferencias, 'activo');
     añadirClaseActivoEnlaces(atajoTransferencias, 'activo-i');
+    // Crear contenido de la Seccion
+    crearContenidoSeccionTransferencias();
+    // Abrir la seccion 
+    abrirSecciones();
 }
+
+        // Funcion Auxiliar de irEntradaBases
+        function crearContenidoSeccionTransferencias() {
+            divDynamic.innerHTML = `
+            
+            `;               
+        }
 
 // ************************************************** Atajos **************************************************//
 
-    // Funcion para ir a Home desde los atajos
+// Funcion para ir a Home desde los atajos
 function irHomeIcon() {
     // Eliminar la clase Activa de los enlaces y atajos
     eliminarClaseActivaEnlances(enlaces, 'activo');
@@ -439,18 +453,20 @@ function irHomeIcon() {
 }
 
     // Funcion para ir al Listado de Cientes desde los atajos
-function irListadoClientesIcon() {
-    // Eliminar la clase Activa de los enlaces y atajos
-    eliminarClaseActivaEnlances(enlaces, 'activo');
+    function irListadoClientesIcon() {
+        // Eliminar la clase Activa de los enlaces y atajos
+        eliminarClaseActivaEnlances(enlaces, 'activo');
     eliminarClaseActivaEnlances(atajosIcons, 'activo-i');
     // Añadimos la clase activa del Listado de Clientes en los enlaces y atajos
     añadirClaseActivoEnlaces(enlaceListaClientes, 'activo');
     añadirClaseActivoEnlaces(atajoClientes, 'activo-i');
-    // Abrir la seccion de listado de Clientes
-    abrirSeccionListadoClients();
+    // Crear contenido de la Seccion
+    crearContenidoSeccionListadoClientes();
+    // Abrir la seccion 
+    abrirSecciones();
 }
 
-    // Funcion para ir a la Entrada de Bases desde los atajos
+// Funcion para ir a la Entrada de Bases desde los atajos
 function irEntradaBasesIcon() {
     // Eliminar la clase Activa de los enlaces y atajos
     eliminarClaseActivaEnlances(enlaces, 'activo');
@@ -458,11 +474,13 @@ function irEntradaBasesIcon() {
     // Añadimos la clase activa a la Entrada de bases en los enlaces y atajos
     añadirClaseActivoEnlaces(enlaceEntradaBases, 'activo');
     añadirClaseActivoEnlaces(atajoEntradaBases, 'activo-i');
-    // Abrir la seccion de Entrada de Bases
-    abrirSeccionEntradaBases();
+    // Crear contenido de la Seccion
+    crearContenidoSeccionEntradaBases();
+    // Abrir la seccion 
+    abrirSecciones();
 }
 
-    // Funcion para ir a la seccion de Computadores desde los atajos
+// Funcion para ir a la seccion de Computadores desde los atajos
 function irComputadoresIcon() {
     // Eliminar la clase Activa de los enlaces y atajos
     eliminarClaseActivaEnlances(enlaces, 'activo');
@@ -470,9 +488,13 @@ function irComputadoresIcon() {
     // Añadimos la clase activa de la seccion de Coputadores en los enlaces y atajos
     añadirClaseActivoEnlaces(enlaceComputadores, 'activo');
     añadirClaseActivoEnlaces(atajoComputadores, 'activo-i');
+    // Crear contenido de la Seccion
+    crearContenidoSeccionComputadores();
+    // Abrir la seccion 
+    abrirSecciones();
 }
 
-    // Funcion para ir a las transferencias generales desde los atajos
+// Funcion para ir a las transferencias generales desde los atajos
 function irTransferenciasIcon() {
     // Eliminar la clase Activa de los enlaces y atajos
     eliminarClaseActivaEnlances(enlaces, 'activo');
@@ -480,11 +502,35 @@ function irTransferenciasIcon() {
     // Añadimos la clase activa de la seccion de transferencias generales en los enlaces y atajos
     añadirClaseActivoEnlaces(enlaceTransferencias, 'activo');
     añadirClaseActivoEnlaces(atajoTransferencias, 'activo-i');
+    // Crear contenido de la Seccion
+    crearContenidoSeccionTransferencias();
+    // Abrir la seccion 
+    abrirSecciones();
 }
 
-    // Funcion para seleccionar filas de las ultimas transferencias
+// Funcion para seleccionar filas de las ultimas transferencias
 function seleccionarFilaUltimasTransacciones() {
+    
+}
 
+// ************************************************** PCS **************************************************//
+
+function mostrarPc(e) {
+    // Aparecer la secccion de pc
+    pcs.style.left = '0';
+    // mostrar la informacion de ese pc
+    colocarDatosPc(e.target);
+}
+
+        // Funcion Auxiliar de mostrarPC
+        function colocarDatosPc(pc) {
+            let numeroPc;
+            numeroPc = pc.getAttribute('data-id');
+            document.querySelector('.pcs__numero').textContent = numeroPc;
+        }
+
+function ocultarPc() {
+    pcs.removeAttribute('style');
 }
 
 
