@@ -257,11 +257,110 @@ body {
                 border: 2px solid var(--red);
             }
 
+            .operations__background {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                z-index: 5000;
+            }
+
+                .operations__img-background {
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 20px;
+                    object-fit: cover;
+                }
+
+                    .img-background-ocultar-animacion {
+                        animation-name: ocultarImgBackground !important;
+                        animation-duration: 5s !important;
+                        animation-fill-mode: forwards !important;
+                    }
+
+                        @keyframes ocultarImgBackground {
+                            from {
+                                opacity: 1;
+                                top: 0;
+                                left: 0;
+                            }
+                            to {
+                                opacity: 0;
+                                top: -465px;
+                                left: -440px;
+                                transform: rotateY(500deg);  
+                                transform: rotateX(500deg);   
+                            }
+                        }
+
+                    .img-background-aparecer-animacion {
+                        animation-name: aparecerImgBackground !important;
+                        animation-duration: 2s !important;
+                        animation-fill-mode: forwards !important;
+                    }
+    
+                        @keyframes aparecerImgBackground {
+                            from {
+                                opacity: 0;
+                                top: -465px;
+                                left: -440px;
+                                transform: rotateY(500deg);  
+                                transform: rotateX(500deg);  
+                                transform: rotateZ(500deg);  
+                            }
+                            to {
+                                opacity: 1;
+                                top: 0;
+                                left: 0;
+                            }
+                        }
+
+                .operations__img-logo {
+                    position: absolute;
+                    object-fit: cover;
+                    left: 0px;
+                    bottom: 0px;
+                    z-index: 5050;
+                }
+
+                    .img-logo-desaparecer {
+                        animation-name: desaparecer-img !important;
+                        animation-duration: 1s !important;
+                        animation-fill-mode: forwards !important;
+                    }
+
+                        @keyframes desaparecer-img {
+                            from {
+                                opacity: 1;
+                            }
+                            to {
+                                opacity: 0;
+                            }
+                        }
+
+                    .img-logo-aparecer {
+                        animation-name: aparecer-img !important;
+                        animation-duration: 1s !important;
+                        animation-fill-mode: forwards !important;
+                    }
+
+                        @keyframes aparecer-img {
+                            from {
+                                opacity: 0;
+                            }
+                            to {
+                                opacity: 1;
+                            }
+                        }
+
+                    
+
             .eye-icon {
                 position: absolute;
                 right: 10px;
                 top: 10px;
                 font-size: 35px;
+                z-index: 5100;
             }
 
                 .eye-icon:hover {

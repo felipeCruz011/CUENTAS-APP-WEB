@@ -15,7 +15,11 @@ const enlaces = document.querySelectorAll('.menu__enlaces'),
       transationsItems = document.querySelectorAll('.last-transactions__item'),
       transationsValues = document.querySelectorAll('.last-transactions__value'),
       pcs = document.querySelector('.pcs'),
-      computadores = document.querySelectorAll('.computadores__icon');
+      computadores = document.querySelectorAll('.computadores__icon'),
+      eyeIcon = document.querySelector('.eye-icon'),
+      divBackgroundOperations = document.querySelector('.operations__background'),
+      logo = document.querySelector('.operations__img-logo'),
+      imgBackground = document.querySelector('.operations__img-background');
 
 //Creacion de la ventana dinamica para cada seccion
 let divDynamic = document.createElement('div');
@@ -50,8 +54,12 @@ atajoClientes.addEventListener('click', irListadoClientesIcon);
 atajoEntradaBases.addEventListener('click', irEntradaBasesIcon);
 atajoTransferencias.addEventListener('click', irTransferenciasIcon);
     //listener para seleccionar la fila a modificar o rehacer 
-transactionContainer.addEventListener('click', seleccionarFilaUltimasTransacciones);
-
+    transactionContainer.addEventListener('click', seleccionarFilaUltimasTransacciones);
+    //listener para mostrar la informacion general de las operaciones
+eyeIcon.addEventListener('mouseenter', ocultarLogoBackground);
+eyeIcon.addEventListener('mouseleave', aparecerBackground);
+divBackgroundOperations.addEventListener('mouseenter', ocultarLogo);
+divBackgroundOperations.addEventListener('mouseleave', aparecerLogo);
 
 // Funciones
 
@@ -522,19 +530,76 @@ function mostrarPc(e) {
     colocarDatosPc(e.target);
 }
 
-        // Funcion Auxiliar de mostrarPC
-        function colocarDatosPc(pc) {
-            let numeroPc;
-            numeroPc = pc.getAttribute('data-id');
-            document.querySelector('.pcs__numero').textContent = numeroPc;
-        }
+// Funcion Auxiliar de mostrarPC
+function colocarDatosPc(pc) {
+    let numeroPc;
+    numeroPc = pc.getAttribute('data-id');
+    document.querySelector('.pcs__numero').textContent = numeroPc;
+}
 
 function ocultarPc() {
     pcs.removeAttribute('style');
 }
 
+// ***************************************** OPERATIONS BACKGROUND*********************************//
 
 
+async function ocultarLogoBackground() {
+    let claseDesaparecerLogo = 'img-logo-desaparecer';
+    let claseOcultarBackground = 'img-background-ocultar-animacion';
+    await removerClaseAnimacionLogo();
+    await agregarClaseAnimacionLogo(claseDesaparecerLogo);
+    // Ocultar la imagen de fondo 
+    await removerClaseBackground();
+    await agregarClaseBackground(claseOcultarBackground);
+}
+
+        function removerClaseBackground() {
+            return new Promise((resolve, reject) => {
+                imgBackground.className = 'operations__img-background';
+                resolve(true);
+            });
+        }
+
+        function agregarClaseBackground(clase) {
+            return new Promise((resolve, reject) => {
+                imgBackground.classList.add(clase);
+                resolve(true);
+            });
+        }
+
+async function aparecerBackground() {
+    let claseAparecerBackground = 'img-background-aparecer-animacion';
+    await removerClaseBackground();
+    await agregarClaseBackground(claseAparecerBackground);
+}
+
+async function ocultarLogo() {
+    let claseDesaparecerLogo = 'img-logo-desaparecer';
+    await removerClaseAnimacionLogo();
+    await agregarClaseAnimacionLogo(claseDesaparecerLogo);
+}
+
+
+async function aparecerLogo() {
+    let claseAparecer = 'img-logo-aparecer';
+    await removerClaseAnimacionLogo();
+    await agregarClaseAnimacionLogo(claseAparecer);
+}
+
+        function removerClaseAnimacionLogo() {
+            return new Promise((resolve, reject) => {
+                logo.className = 'operations__img-logo';
+                resolve(true);
+            });
+        }
+
+        function agregarClaseAnimacionLogo(clase) {
+            return new Promise((resolve, reject) => {
+                logo.classList.add(clase);
+                resolve(true);
+            });
+        }
 
 
 
