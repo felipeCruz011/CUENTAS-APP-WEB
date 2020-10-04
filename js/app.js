@@ -9,7 +9,8 @@ const enlaces = document.querySelectorAll('.menu__enlaces'),
       atajoHomeIcon = document.querySelector('.home-icon'),
       atajoClientes = document.querySelector('.users-icon'),
       atajoEntradaBases = document.querySelector('.entrada-bases-icon'),
-      atajoTransferencias = document.querySelector('.transferencias-icon'), 
+      atajoTransferencias = document.querySelector('.transferencias-icon'),
+      hacerTransaccionContainer = document.querySelector('.hacer-transaccion__container'), 
       transactionContainer = document.querySelector('.last-transactions__container'),
       transferenciasRecargado = document.querySelectorAll('.valor-recarga'),
       transationsItems = document.querySelectorAll('.last-transactions__item'),
@@ -53,8 +54,10 @@ atajoHomeIcon.addEventListener('click', irHomeIcon);
 atajoClientes.addEventListener('click', irListadoClientesIcon);
 atajoEntradaBases.addEventListener('click', irEntradaBasesIcon);
 atajoTransferencias.addEventListener('click', irTransferenciasIcon);
+    // Listener para abrir la interfaz para hacer las recargas 
+hacerTransaccionContainer.addEventListener('click', desplegarHacerTransaccion);
     //listener para seleccionar la fila a modificar o rehacer 
-    transactionContainer.addEventListener('click', seleccionarFilaUltimasTransacciones);
+transactionContainer.addEventListener('click', seleccionarFilaUltimasTransacciones);
     //listener para mostrar la informacion general de las operaciones
 eyeIcon.addEventListener('mouseenter', ocultarLogoBackground);
 eyeIcon.addEventListener('mouseleave', aparecerBackground);
@@ -132,13 +135,18 @@ function irListadoClientes() {
                 <section class="clientes">
                     <h1 class="clientes__titulo stroke-blue">Lista de Clientes</h1>
                     <div class="clientes__container overflow">
-
-                        <!-- Buscador -->
-                        <div class="clientes__buscar-container">
-                            <div class="clientes__buscar">
-                                <input type="text" class="clientes__input-buscar" placeholder="Buscar">
-                                <div class="clientes__btn-container">
-                                    <i class="clientes__btn-lupa fas fa-search"></i>
+                        <div class="clientes__opciones">
+                            <div class="clientes__opciones-container">
+                                <i class="fas fa-user-plus clientes__icon-opciones agregar-clientes-icon"></i>
+                                <i class="fas fa-users-cog clientes__icon-opciones user-settings"></i>
+                            </div>
+                            <!-- Buscador -->
+                            <div class="clientes__buscar-container">
+                                <div class="clientes__buscar">
+                                    <input type="text" class="clientes__input-buscar" placeholder="Buscar">
+                                    <div class="clientes__btn-container">
+                                        <i class="clientes__btn-lupa fas fa-search"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -442,7 +450,161 @@ function irTransferencias() {
         // Funcion Auxiliar de irEntradaBases
         function crearContenidoSeccionTransferencias() {
             divDynamic.innerHTML = `
-            
+                
+            <section class="listado-transferencias">
+                <h1 class="listado-transferencias__titulo stroke-blue">Listado de Transferencias</h1>
+                <div class="listado-transferencias__container overflow">
+
+                    <div class="listado-transferencias__opciones">
+                        <div class="listado-transferencias__opciones-container">
+                            <div class="listado-transferencias__fecha-container">
+                                <span class="listado-transferencias__fecha-text">Fecha de Inicio:</span>
+                                <div class="listado-transferencias__input-container">
+                                    <input type="text" class="listado-transferencias__input-fecha" placeholder="dd-mm-yyyy">
+                                    <i class="far fa-calendar-alt listado-transferencias__fecha-icon"></i>
+                                </div>
+                            </div>
+                            <div class="listado-transferencias__fecha-container">
+                                <span class="listado-transferencias__fecha-text">Fecha Final</span>
+                                <div class="listado-transferencias__input-container">
+                                    <input type="text" class="listado-transferencias__input-fecha" placeholder="dd-mm-yyyy">
+                                    <i class="far fa-calendar-alt listado-transferencias__fecha-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="listado-transferencias__total-container">
+                            <span class="listado-transferencias__total-text">Transacciones en Pantalla</span>
+                            <input type="text" class="listado-transferencias__input-total" placeholder="100" value="10">
+                        </div>
+
+                        <div class="listado-transferencias__filtrar-container">
+                            <button class="listado-transferencias__filtrar-btn">
+                                <span class="listado-transferencias__filtar-text">Filtrar</span>
+                                <i class="fas fa-filter listado-transferencias__filtrar-icon"></i>
+                            </button>
+                        </div>
+
+                        <!-- Buscador -->
+                        <div class="listado-transferencias__buscar-container">
+                            <div class="listado-transferencias__buscar">
+                                <input type="text" class="listado-transferencias__input-buscar" placeholder="Buscar">
+                                <div class="listado-transferencias__btn-container">
+                                    <i class="listado-transferencias__btn-lupa fas fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="listado-transferencias__type">
+                        <label  class="listado-transferencias__header">ID</label>                    
+                        <label  class="listado-transferencias__header">Fecha</label>                    
+                        <label  class="listado-transferencias__header">Hora</label>                    
+                        <label  class="listado-transferencias__header">Cedula</label>                    
+                        <label  class="listado-transferencias__header">Nombres</label>                    
+                        <label  class="listado-transferencias__header">Recargado</label>                                                           
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    <div class="listado-transferencias__item">
+                        <span  class="listado-transferencias__value">1</span>
+                        <span  class="listado-transferencias__value">30-09-2020</span>
+                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
+                        <span  class="listado-transferencias__value">Felipe Cruz</span>
+                        <span  class="listado-transferencias__value">$ 10.000</span>
+                    </div>
+                    
+                </div>
+            </section> 
+
             `;               
         }
 
@@ -515,6 +677,109 @@ function irTransferenciasIcon() {
     // Abrir la seccion 
     abrirSecciones();
 }
+
+
+// Funcion para hacer recargas
+function desplegarHacerTransaccion(e) {
+    let elemento = e.target;
+    if (elemento.classList.contains('hacer-transaccion__container')) {
+        abrirHacerTransaccion();
+    }
+    if (elemento.parentElement.classList.contains('hacer-transaccion__container')) {
+        abrirHacerTransaccion();
+    }   
+    if (elemento.parentElement.parentElement.classList.contains('hacer-transaccion__container')) {
+        abrirHacerTransaccion();
+    }
+}
+
+        async function abrirHacerTransaccion() {
+            await cambiarIconoMasMenos();
+            await animacionOcultarContenidoAnterior();
+            await crearContenidoHacerTranccion();
+            await agregarContenidoHacerTransaccion();
+            await animacionAparecerBuscarClienteHacerTransaccion();
+        }
+
+                function cambiarIconoMasMenos() {
+                    return new Promise((resolve, reject) => {
+                        let iconoHacerRecarga = document.querySelector('.hacer-transaccion__btn-icon');
+                        let iconoMenos = document.createElement('i');
+                        iconoMenos.className = 'hacer-transaccion__btn-icon fas fa-minus activo-i';
+                        if(iconoHacerRecarga.classList.contains('fa-plus')) {
+                            document.querySelector('.hacer-transaccion__titulo-container').replaceChild(iconoMenos, iconoHacerRecarga);
+                            resolve(true)
+                        } else {
+                            regresarLastTransactions();
+                            reject(false)
+                            setTimeout(() => {
+                                console.clear();
+                            }, 1000);
+                        }
+                    });
+                }
+
+                        function regresarLastTransactions() {
+                            transactionContainer.removeAttribute('style');
+                        }
+
+                function animacionOcultarContenidoAnterior() {
+                    return new Promise((resolve, reject) => {
+                        transactionContainer.classList.add('ocultar-contenido');
+                        setTimeout(() => {
+                            transactionContainer.style.display = 'none'; 
+                            transactionContainer.classList.remove('ocultar-contenido');
+                        }, 1000);
+                        resolve(true);
+                    });
+                }
+
+                function crearContenidoHacerTranccion() {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            let containerBusquedaClientePrimerPaso = document.querySelector('.last-transactions__primer-paso-container');
+                            containerBusquedaClientePrimerPaso.innerHTML = `
+                                <div class="last-transactions__buscar-cliente">
+                                    <div class="last-transactions__buscar-cliente-primer-paso">
+                                        <span class="last-transactions__buscar-cliente-text">Busqueda de Cliente:</span>
+                                        <!-- Buscador -->
+                                        <div class="last-transactions__buscar-cliente-container">
+                                            <div class="last-transactions__buscar-cliente">
+                                                <input type="text" class="last-transactions__input-buscar-cliente" placeholder="Busqueda de Cliente">
+                                                <div class="last-transactions__btn-container-cliente">
+                                                    <i class="last-transactions__btn-lupa-cliente fas fa-search-dollar"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                    <div class="last-transactions__resultado-busqueda-clientes">
+                                        <span class="last-transactions__sin-resutaldos">No hay resultados para esta Busqueda..</span>
+                                    </div>
+                                </div>                                   
+                            `;
+                            containerBusquedaClientePrimerPaso.classList.add('aparecer-primer-paso');
+                            resolve(true);
+                        }, 1000);
+                        
+                        resolve(true);
+                    });
+                }   
+
+                function agregarContenidoHacerTransaccion() {
+                    return new Promise((resolve, reject) => {
+                       
+                        resolve(true);
+                    });
+                }
+
+                function animacionAparecerBuscarClienteHacerTransaccion() {
+                    return new Promise((resolve, reject) => {
+                       
+                        resolve(true);
+                    });
+                }
+
 
 // Funcion para seleccionar filas de las ultimas transferencias
 function seleccionarFilaUltimasTransacciones() {
