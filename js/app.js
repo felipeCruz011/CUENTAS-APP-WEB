@@ -22,9 +22,13 @@ const enlaces = document.querySelectorAll('.menu__enlaces'),
       logo = document.querySelector('.operations__img-logo'),
       imgBackground = document.querySelector('.operations__img-background');
 
-//Creacion de la ventana dinamica para cada seccion
+// Creacion de la ventana dinamica para cada seccion
 let divDynamic = document.createElement('div');
 divDynamic.className = 'ventana-dinamica';
+// Creacion de Ventana de Opciones de las ultimas transacciones
+let opcionesUltimasTransacciones = document.createElement('div');
+
+
 
 // EventListeners Multiples
     // Listeners para ir a Home 
@@ -706,21 +710,44 @@ function desplegarHacerTransaccion(e) {
                         let iconoHacerRecarga = document.querySelector('.hacer-transaccion__btn-icon');
                         let iconoMenos = document.createElement('i');
                         iconoMenos.className = 'hacer-transaccion__btn-icon fas fa-minus activo-i';
+                        let iconoMas = document.createElement('i');
+                        iconoMas.className = 'hacer-transaccion__btn-icon fas fa-plus activo-i';
                         if(iconoHacerRecarga.classList.contains('fa-plus')) {
                             document.querySelector('.hacer-transaccion__titulo-container').replaceChild(iconoMenos, iconoHacerRecarga);
                             resolve(true)
                         } else {
+                            document.querySelector('.hacer-transaccion__titulo-container').replaceChild(iconoMas, iconoHacerRecarga);
                             regresarLastTransactions();
                             reject(false)
                             setTimeout(() => {
-                                console.clear();
+                          
                             }, 1000);
                         }
                     });
                 }
 
                         function regresarLastTransactions() {
-                            transactionContainer.removeAttribute('style');
+                            let containerBusquedaClientePrimerPaso = document.querySelector('.last-transactions__primer-paso-container');
+                            if (containerBusquedaClientePrimerPaso !== null) {
+                                containerBusquedaClientePrimerPaso.setAttribute('style', 'opacity: 0; left: 0;');
+                            }
+                            setTimeout(() => {
+                                for (let i = 0; i < 1000; i++) {
+                                    let contenedor = document.querySelector('.last-transactions__primer-paso-container')
+                                    if (contenedor !== null){
+                                        contenedor.remove();
+                                    } else {
+                                        i = 1001;
+                                       
+                                    }
+                                }
+                            }, 1000);
+                            setTimeout(() => {
+                                transactionContainer.setAttribute('style', 'position: aboslute; transform: translate(100px); opacity: 0;');
+                            }, 1000);
+                            setTimeout(() => {
+                                transactionContainer.setAttribute('style', 'position:relative; left: 0; transform: translate(0px); opacity: 1');
+                            }, 1100);
                         }
 
                 function animacionOcultarContenidoAnterior() {
@@ -737,7 +764,8 @@ function desplegarHacerTransaccion(e) {
                 function crearContenidoHacerTranccion() {
                     return new Promise((resolve, reject) => {
                         setTimeout(() => {
-                            let containerBusquedaClientePrimerPaso = document.querySelector('.last-transactions__primer-paso-container');
+                            let containerBusquedaClientePrimerPaso = document.createElement('div');
+                            containerBusquedaClientePrimerPaso.classList.add('last-transactions__primer-paso-container');
                             containerBusquedaClientePrimerPaso.innerHTML = `
                                 <div class="last-transactions__buscar-cliente">
                                     <div class="last-transactions__buscar-cliente-primer-paso">
@@ -758,7 +786,11 @@ function desplegarHacerTransaccion(e) {
                                     </div>
                                 </div>                                   
                             `;
-                            containerBusquedaClientePrimerPaso.classList.add('aparecer-primer-paso');
+                            document.querySelector('.last-transactions').appendChild(containerBusquedaClientePrimerPaso);
+                            setTimeout(() => {
+                                containerBusquedaClientePrimerPaso.setAttribute('style', 'position: relative; opacity: 1; transform: translate(0px); left: 0;');
+                            }, 100);
+
                             resolve(true);
                         }, 1000);
                         
@@ -782,9 +814,62 @@ function desplegarHacerTransaccion(e) {
 
 
 // Funcion para seleccionar filas de las ultimas transferencias
-function seleccionarFilaUltimasTransacciones() {
-    
+function seleccionarFilaUltimasTransacciones(e) {
+    eliminarClaseFilaActiva(transationsItems, transationsValues);
+    let transaccion = e.target;
+    if (transaccion.classList.contains('last-transactions__item')) {
+        seleccionarFila(transaccion);
+        ultimasTransacciones();
+    }
+    if (transaccion.parentElement.classList.contains('last-transactions__item')) {
+        seleccionarFila(transaccion.parentElement);
+        ultimasTransacciones();
+    }
 }
+
+        function eliminarClaseFilaActiva(items, values) {
+            items.forEach((element) => {
+                element.classList.remove('fila-activa');
+            });
+            values.forEach((value) => {
+                value.classList.remove('fila-activa-color');
+            });
+        }
+
+        function seleccionarFila(fila) {
+            fila.classList.add('fila-activa');
+            document.querySelectorAll('.fila-activa span').forEach((item) => {
+                item.classList.add('fila-activa-color');
+            });
+        }
+
+        // Funcion para ejecutar la ventana dinamica y poder modificar eliminar o re hacer una transaccion al mismo usuario
+        function ultimasTransacciones() {
+            document.querySelector('.last-transactions__container').appendChild(opcionesUltimasTransacciones);
+            abrirSecciones();
+            contenidoRehacerTransaccion();
+        }
+
+                function contenidoRehacerTransaccion() {
+                    opcionesUltimasTransacciones.innerHTML = `
+                                
+                        <h1 class="rehacer__titulo">
+                            <span class="span-modificar">Modificar |</span>
+                            <span class="span-Rehacer"> Rehacer |</span>
+                            <span class="span-eliminar"> Eliminar Transaccion</span>
+                        </h1>
+                        <div class="rehacer__icons-container">
+                            <i class="rehacer__icons fas fa-edit edit-rehacer"></i>
+                            <i class="rehacer__icons fas fa-reply-all rehacer"></i>
+                            <i class="rehacer__icons fas fa-trash-alt eliminar-rehacer"></i>
+                        </div>
+                  
+                    `;
+                }
+
+        
+
+
 
 // ************************************************** PCS **************************************************//
 
@@ -865,36 +950,6 @@ async function aparecerLogo() {
                 resolve(true);
             });
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

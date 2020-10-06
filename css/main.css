@@ -484,8 +484,8 @@ body {
 
 
                 .ocultar-contenido {
-                    opacity: 0;
-                    transform: translate(100px);         
+                    opacity: 0 !important;
+                    transform: translate(100px) !important         
                 }
 
             .last-transactions__title-container {
@@ -627,7 +627,7 @@ body {
                         }
 
             .last-transactions__primer-paso-container {
-                position: absolute;
+                position: relative;
                 opacity: 0;
                 height: 100%;
                 right: -500px;
@@ -640,12 +640,6 @@ body {
                 transform: translate(100px);
             }
 
-                .aparecer-primer-paso {
-                    position: relative !important;
-                    opacity: 1 !important;
-                    left: 0;
-                    transform: translate(0px);
-                }
             
             .last-transactions__buscar-cliente-primer-paso {
                 position: relative;
