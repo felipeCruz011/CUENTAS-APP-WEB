@@ -27,7 +27,7 @@ let divDynamic = document.createElement('div');
 divDynamic.className = 'ventana-dinamica';
 // Creacion de Ventana de Opciones de las ultimas transacciones
 let opcionesUltimasTransacciones = document.createElement('div');
-
+opcionesUltimasTransacciones.classList.add('rehacer__container');
 
 
 // EventListeners Multiples
@@ -142,7 +142,6 @@ function irListadoClientes() {
                         <div class="clientes__opciones">
                             <div class="clientes__opciones-container">
                                 <i class="fas fa-user-plus clientes__icon-opciones agregar-clientes-icon"></i>
-                                <i class="fas fa-users-cog clientes__icon-opciones user-settings"></i>
                             </div>
                             <!-- Buscador -->
                             <div class="clientes__buscar-container">
@@ -291,10 +290,91 @@ function irListadoClientes() {
                         if (document.querySelector('.ventana-dinamica') == null) {
                             document.querySelector('.container-all').appendChild(divDynamic);
                         }
-                        resolve(true);
+                        setTimeout(() => {
+                            if (document.querySelector('.clientes__container') !== null) {
+                                document.querySelector('.clientes__container').addEventListener('click', seleccionarFilasListadoClientes);
+                            }
+                            resolve(true);
+                        }, 200);
                     });
                 }
 
+                        function seleccionarFilasListadoClientes(e) {
+                            let filaItem = document.querySelectorAll('.clientes__item');
+                            let filaLetra = document.querySelectorAll('.clientes__value');
+                            let contenedorDatosClientes = document.querySelector('.clientes__herramientas');
+                            let cliente = e.target;
+                            eliminarClaseFilaActiva(filaItem, filaLetra, contenedorDatosClientes);
+                            if (cliente.classList.contains('clientes__item')) {
+                                console.log('entro directo')
+                                seleccionarFila(cliente);
+                                abrirOpcionesClientes();
+                            }
+
+                            if (cliente.parentElement.classList.contains('clientes__item')) {
+                                console.log('entro hijo')
+                                seleccionarFila(cliente.parentElement);
+                                abrirOpcionesClientes();
+                            }
+
+                        }
+
+                                async function abrirOpcionesClientes() {
+                                    await crearContenidoOpcionesListaClientes();
+                                    await eventListenersOpcionesListaClientes();
+                                }
+
+                                        function crearContenidoOpcionesListaClientes() {
+                                            return new Promise((resolve, reject) => {
+                                                let herramientasListaClientes = document.createElement('div');
+                                                herramientasListaClientes.classList.add('clientes__herramientas');
+                                                herramientasListaClientes.innerHTML = `
+                                                    <i class="clientes__icons--atras fas fa-times-circle" id="ir-clientes"></i>
+                                                    <div class="clientes__icons-container">
+                                                        <i class="clientes__icons fas fa-user-edit" id="editar-cliente"></i>
+                                                        <i class="clientes__icons fas fa-user-plus" id="nuevo-cliente"></i>
+                                                        <i class="clientes__icons fas fa-trash-alt" id="eliminar-cliente"></i>
+                                                    </div>
+                                                `;
+                                                document.querySelector('.clientes__container').classList.remove('overflow');
+                                                document.querySelector('.clientes__container').appendChild(herramientasListaClientes);
+                                                setTimeout(() => {
+                                                    resolve(true);
+                                                }, 100);
+                                            });
+                                        }
+
+                                        function eventListenersOpcionesListaClientes() {
+                                            return new Promise((resolve, reject) => {
+                                                document.getElementById('ir-clientes').addEventListener('click', cerrarHerramientas)
+                                                document.getElementById('editar-cliente').addEventListener('click', editarCliente);
+                                                document.getElementById('nuevo-cliente').addEventListener('click', crearNuevoCliente);
+                                                document.getElementById('eliminar-cliente').addEventListener('click', eliminarCliente);
+                                                setTimeout(() => {
+                                                    resolve(true);
+                                                }, 100);
+                                            });
+                                        }
+
+                                                function cerrarHerramientas() {
+                                                    document.querySelector('.clientes__herramientas').classList.add('cerrar'); 
+                                                    setTimeout(() => {
+                                                        document.querySelector('.clientes__herramientas').remove();
+                                                        document.querySelector('.clientes__container').classList.add('overflow');
+                                                    }, 500);      
+                                                }
+
+                                                function editarCliente() {
+
+                                                }
+
+                                                function crearNuevoCliente() {
+
+                                                }
+
+                                                function eliminarCliente() {
+
+                                                }
                
 
                 
@@ -630,14 +710,14 @@ function irHomeIcon() {
     function irListadoClientesIcon() {
         // Eliminar la clase Activa de los enlaces y atajos
         eliminarClaseActivaEnlances(enlaces, 'activo');
-    eliminarClaseActivaEnlances(atajosIcons, 'activo-i');
-    // Añadimos la clase activa del Listado de Clientes en los enlaces y atajos
-    añadirClaseActivoEnlaces(enlaceListaClientes, 'activo');
-    añadirClaseActivoEnlaces(atajoClientes, 'activo-i');
-    // Crear contenido de la Seccion
-    crearContenidoSeccionListadoClientes();
-    // Abrir la seccion 
-    abrirSecciones();
+        eliminarClaseActivaEnlances(atajosIcons, 'activo-i');
+        // Añadimos la clase activa del Listado de Clientes en los enlaces y atajos
+        añadirClaseActivoEnlaces(enlaceListaClientes, 'activo');
+        añadirClaseActivoEnlaces(atajoClientes, 'activo-i');
+        // Crear contenido de la Seccion
+        crearContenidoSeccionListadoClientes();
+        // Abrir la seccion 
+        abrirSecciones();
 }
 
 // Funcion para ir a la Entrada de Bases desde los atajos
@@ -815,25 +895,28 @@ function desplegarHacerTransaccion(e) {
 
 // Funcion para seleccionar filas de las ultimas transferencias
 function seleccionarFilaUltimasTransacciones(e) {
-    eliminarClaseFilaActiva(transationsItems, transationsValues);
+    let contenedorDatos = document.querySelector('.last-transactions__container')
+    eliminarClaseFilaActiva(transationsItems, transationsValues, contenedorDatos);
     let transaccion = e.target;
     if (transaccion.classList.contains('last-transactions__item')) {
         seleccionarFila(transaccion);
-        ultimasTransacciones();
+        abrirUltimasTransacciones();
     }
     if (transaccion.parentElement.classList.contains('last-transactions__item')) {
         seleccionarFila(transaccion.parentElement);
-        ultimasTransacciones();
+        abrirUltimasTransacciones();
     }
 }
 
-        function eliminarClaseFilaActiva(items, values) {
-            items.forEach((element) => {
-                element.classList.remove('fila-activa');
-            });
-            values.forEach((value) => {
-                value.classList.remove('fila-activa-color');
-            });
+        function eliminarClaseFilaActiva(items, values, contenedorDinamico) {
+            if (contenedorDinamico == null) {
+                items.forEach((element) => {
+                    element.classList.remove('fila-activa');
+                });
+                values.forEach((value) => {
+                    value.classList.remove('fila-activa-color');
+                });
+            }
         }
 
         function seleccionarFila(fila) {
@@ -844,10 +927,13 @@ function seleccionarFilaUltimasTransacciones(e) {
         }
 
         // Funcion para ejecutar la ventana dinamica y poder modificar eliminar o re hacer una transaccion al mismo usuario
-        function ultimasTransacciones() {
-            document.querySelector('.last-transactions__container').appendChild(opcionesUltimasTransacciones);
-            abrirSecciones();
+        function abrirUltimasTransacciones() {
             contenidoRehacerTransaccion();
+            animarVentanaOpcionesUltimasTransacciones();
+            document.querySelector('.last-transactions__container').appendChild(opcionesUltimasTransacciones);
+            setTimeout(() => {
+                opcionesAgregarEventListeners();
+            }, 200);
         }
 
                 function contenidoRehacerTransaccion() {
@@ -863,9 +949,136 @@ function seleccionarFilaUltimasTransacciones(e) {
                             <i class="rehacer__icons fas fa-reply-all rehacer"></i>
                             <i class="rehacer__icons fas fa-trash-alt eliminar-rehacer"></i>
                         </div>
-                  
+                
                     `;
                 }
+
+                function animarVentanaOpcionesUltimasTransacciones() {
+                    if (document.querySelector('.rehacer__container') == null) {
+                        opcionesUltimasTransacciones.classList.add('abrir-ventana-animacion');
+                        setTimeout(() => {
+                            opcionesUltimasTransacciones.classList.remove('abrir-ventana-animacion');
+                        }, 500);
+                    }
+                }
+
+
+                function opcionesAgregarEventListeners() {
+                    document.querySelector('.edit-rehacer').addEventListener('click', editarUltimaTransaccion);
+                    document.querySelector('.rehacer').addEventListener('click', rehacerTransaccion);
+                    document.querySelector('.eliminar-rehacer').addEventListener('click', eliminarUltimaTransaccion);
+                }
+
+                        async function editarUltimaTransaccion() {
+                            await ocultarIconosOpcionesUltimasTransacciones();
+                            await crearContenidoEdit();
+                            await agregarAnimarEdit();
+                            await funcionalidadBotonesEdit();
+                        }
+
+                                function ocultarIconosOpcionesUltimasTransacciones() {
+                                    return new Promise((resolve, reject) => {
+                                        // Titulo Modificar 
+                                        document.querySelector('.rehacer__titulo').style.opacity = '0';
+                                        //ocultar Iconos Transacciones
+                                        document.querySelectorAll('.rehacer__icons').forEach((icon) => {
+                                            icon.classList.add('rehacer__icons--opacity');
+                                        });
+                                        setTimeout(() => {
+                                            document.querySelector('.rehacer__icons-container').style.display = 'none';
+                                            resolve(true);
+                                        }, 500);
+                                    });
+                                }
+
+                                function crearContenidoEdit() {
+                                    return new Promise((resolve, reject) => {
+                                        let divEdit = document.createElement('div');       
+                                        divEdit.classList.add('div-edit');
+                                        divEdit.innerHTML = `
+                                                <div class="rehacer__type">
+                                                    <label  class="rehacer__header">ID</label>                    
+                                                    <label  class="rehacer__header">Fecha</label>                    
+                                                    <label  class="rehacer__header">Hora</label>                    
+                                                    <label  class="rehacer__header">Cedula</label>                    
+                                                    <label  class="rehacer__header">Nombres</label>                    
+                                                    <label  class="rehacer__header">Recargado</label>                                     
+                                                </div>
+                                                <div class="rehacer__item">
+                                                    <input type="text" class="rehacer__input-value" value="1">
+                                                    <input type="text" class="rehacer__input-value" value="25/09/2020">
+                                                    <input type="text" class="rehacer__input-value" value="8:00 am">
+                                                    <input type="text" class="rehacer__input-value" value="1075275242">
+                                                    <input type="text" class="rehacer__input-value" value="Felipe Cruz">
+                                                    <input type="text" class="rehacer__input-value valor-recarga-edit" value="10000">
+                                                </div>
+                                                <div class="div-btn"> 
+                                                    <input type="submit" class="btn-confirmar-edit" value="Confirmar">
+                                                    <input type="submit" class="btn-cancelar-edit" value="Cancelar">
+                                                </div>
+                                                       
+                                        `;
+                                        setTimeout(() => {
+                                            document.querySelector('.rehacer__container').appendChild(divEdit);
+                                            resolve(true);
+                                        }, 100);
+                                    });
+                                }
+
+                                function agregarAnimarEdit() {
+                                    return new Promise((resolve, reject) => {
+                                        // Titulo Modificar 
+                                        document.querySelector('.rehacer__titulo').removeAttribute('style');
+                                        // Contenido Edit
+                                        document.querySelector('.div-edit').classList.add('abrir-ventana-animacion');
+                                        setTimeout(() => {
+                                            document.querySelector('.div-edit').classList.remove('abrir-ventana-animacion');
+                                            document.querySelector('.div-edit').style.opacity = '1';
+                                            resolve(true);
+                                        }, 500);
+                                    });
+                                }
+
+                                function funcionalidadBotonesEdit() {
+                                    document.querySelector('.btn-confirmar-edit').addEventListener('click', confirmarCambiosEdit);
+                                    document.querySelector('.btn-cancelar-edit').addEventListener('click', cerrarOpcionesUltimasTransacciones);
+                                }
+
+                                        async function confirmarCambiosEdit() {
+                                            
+                                            await cerrarOpcionesUltimasTransacciones();
+                                        }
+
+                                        function cerrarOpcionesUltimasTransacciones() {
+                                            return new Promise((resolve, reject) => {
+                                                let ventanaOpcionesUltimasTransacciones = document.querySelector('.rehacer__container');
+                                                ventanaOpcionesUltimasTransacciones.classList.add('cerrar-ventana-animacion');
+                                                setTimeout(() => {
+                                                    ventanaOpcionesUltimasTransacciones.classList.remove('cerrar-ventana-animacion');
+                                                    ventanaOpcionesUltimasTransacciones.remove();
+                                                    resolve(true);
+                                                }, 500);
+                                            }); 
+                                        }
+
+                        async function rehacerTransaccion() {
+                            await aparecerGifCargando();
+                            await cerrarOpcionesUltimasTransacciones();
+                        }
+
+                                function aparecerGifCargando() {
+                                    new Promise((resolve, reject) => {
+                                        resolve(true);
+                                    });
+                                }
+
+                                
+
+                        async function eliminarUltimaTransaccion() {
+                            await cerrarOpcionesUltimasTransacciones();
+                        }
+
+
 
         
 
@@ -950,6 +1163,63 @@ async function aparecerLogo() {
                 resolve(true);
             });
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
