@@ -32,6 +32,7 @@ body {
 9 - Seccion de Computadores
 10 - Listado de Transferencias
 11 - Chat
+12 - Listado de Clientes - Opciones 
 
 --------------------------------------------------------------------*/
 
@@ -1276,7 +1277,7 @@ body {
             display: flex;
             flex-direction: column;
             min-width: 80%;
-            max-height: 400px;
+            min-height: 400px;
             padding: 10px 30px;
             border-radius: 20px;
             background: rgba(75, 188, 223, 0.6);
@@ -2145,3 +2146,103 @@ body {
         .chat__text {
             font-weight: 600;
         }
+
+/*-----------------------------------
+    12 - Listado de Clientes - Opciones 
+------------------------------------*/
+
+    .clientes__type-edit {
+        display: grid;
+        font-weight: 600;  
+        place-items: center;
+        grid-template-rows: 40px;
+        grid-template-columns: 50px 200px minmax(100px, 1fr) minmax(300px, 1fr);
+        justify-items: center;
+        background: var(--azul);
+         border-top-right-radius: 15px;
+        border-top-left-radius: 15px;
+        border-bottom: 2px solid #fff;
+        user-select: none;
+    }
+
+        .clientes__header-edit {
+            display: block;
+            color: #fff;
+        }
+
+    .clientes__item-edit {
+        display: grid;
+        text-align: center;
+        grid-template-rows: 40px;
+        grid-template-columns: 50px 200px minmax(100px, 1fr) minmax(300px, 1fr);
+        place-items: center;
+        grid-column-gap: 5px;
+        grid-row: 3 / span 1;
+        border-bottom: 2px solid var(--azul);
+        cursor: pointer;
+        user-select: none;
+    }
+
+        .clientes__input-value-edit {
+            display: inline-block;
+            text-align: center;
+            outline: none;
+            font-weight: 600;
+        }
+
+            .clientes__input-value-edit:nth-child(1) {
+                display: inline-block;
+                width: 40px
+            }
+
+            .clientes__input-value-edit:nth-child(2) {
+                display: inline-block;
+                width: 150px;
+            }
+
+    .div-btn {
+        display: flex;
+        padding: 20px 0;
+        justify-content: center;
+    } 
+    
+        .btn-confirmar-edit-cliente {
+            width: 150px;
+            height: 40px;
+            font-size: 20px;
+            font-weight: 600;
+            border-radius: 20px;
+            color: #fff;
+            border: 2px solid #fff;
+            background: #0F6232;
+            outline: none;
+            margin-right: 30px;
+            cursor: pointer;
+            transition-property: font-size;
+            user-select: none;
+        }
+    
+            .btn-confirmar-edit-cliente:hover {
+                background: var(--azul-claro);
+            }
+    
+            .btn-cancelar-edit-cliente {
+                width: 150px;
+                height: 40px;
+                font-size: 20px;
+                font-weight: 600;
+                border-radius: 20px;
+                color: #fff;
+                border: 2px solid #fff;
+                background: var(--red);
+                outline: none;
+                cursor: pointer;
+                transition-property: font-size;
+                user-select: none;
+            }
+        
+                .btn-cancelar-edit-cliente:hover {
+                    background: violet;
+                    color: #000;
+                }
+    

@@ -166,74 +166,7 @@ function irListadoClientes() {
                             <span  class="clientes__value">Cruz</span>
                             <span  class="clientes__value">Felipe Cruz</span>
                         </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                    </div>
-                </section>
+                        
             `;
             
         }
@@ -346,7 +279,7 @@ function irListadoClientes() {
 
                                         function eventListenersOpcionesListaClientes() {
                                             return new Promise((resolve, reject) => {
-                                                document.getElementById('ir-clientes').addEventListener('click', cerrarHerramientas)
+                                                document.getElementById('ir-clientes').addEventListener('click', cerrarHerramientasListadoClientes)
                                                 document.getElementById('editar-cliente').addEventListener('click', editarCliente);
                                                 document.getElementById('nuevo-cliente').addEventListener('click', crearNuevoCliente);
                                                 document.getElementById('eliminar-cliente').addEventListener('click', eliminarCliente);
@@ -356,7 +289,7 @@ function irListadoClientes() {
                                             });
                                         }
 
-                                                function cerrarHerramientas() {
+                                                function cerrarHerramientasListadoClientes() {
                                                     document.querySelector('.clientes__herramientas').classList.add('cerrar'); 
                                                     setTimeout(() => {
                                                         document.querySelector('.clientes__herramientas').remove();
@@ -364,16 +297,97 @@ function irListadoClientes() {
                                                     }, 500);      
                                                 }
 
-                                                function editarCliente() {
-
+                                                async function editarCliente() {
+                                                    await crearContenidoEditListadoClientes();
+                                                    await eventListenersEditListadoClientes(); 
                                                 }
+
+                                                        function crearContenidoEditListadoClientes() {
+                                                            return new Promise((resolve, reject) => {
+                                                                let iconos = document.querySelector('.clientes__icons-container');
+                                                                iconos.classList.add('cerrar');
+                                                                setTimeout(() => {
+                                                                    iconos.classList.remove('cerrar');
+                                                                    iconos.innerHTML = `
+                                                                        <div class="clientes__edit-container">
+                                                                            <h1 class="clientes__edit-titulo stroke-black">Editar Datos</h1>
+                                                                            <div class="clientes__type-edit">
+                                                                                <label  class="clientes__header-edit">ID</label>                    
+                                                                                <label  class="clientes__header-edit">Cedula</label>                    
+                                                                                <label  class="clientes__header-edit">Apodo</label>                    
+                                                                                <label  class="clientes__header-edit">Nombre</label>                                                       
+                                                                            </div>
+                                                                            <div class="clientes__item-edit">
+                                                                                <input type="text" class="clientes__input-value-edit" value="1">
+                                                                                <input type="text" class="clientes__input-value-edit" value="1075275242">
+                                                                                <input type="text" class="clientes__input-value-edit" value="Cruz">
+                                                                                <input type="text" class="clientes__input-value-edit" value="Felipe Cruz">
+                                                                            </div>
+                                                                            <div class="div-btn">
+                                                                                <input type="submit" class="btn-confirmar-edit-cliente" value="Confirmar" id="confirmar-edit-cliente">
+                                                                                <input type="submit" class="btn-cancelar-edit-cliente" value="Cancelar" id="cancelar-edit-cliente">
+                                                                            </div>
+                                                                        </div>
+                                                                    `;
+                                                                    document.querySelector('.clientes__edit-container').classList.add(('animacion-ventana-dinamica'));
+                                                                    resolve(true);
+                                                                }, 500);
+                                                            });
+                                                        }
+
+                                                        function eventListenersEditListadoClientes() {
+                                                            return new Promise((resolve, reject) => {
+                                                                document.getElementById('confirmar-edit-cliente').addEventListener('click', confirmarCambioCliente);
+                                                                document.getElementById('cancelar-edit-cliente').addEventListener('click', cerrarHerramientasListadoClientes);
+                                                                resolve(true);
+                                                            });
+                                                        }
+
+                                                                function confirmarCambioCliente() {
+                                                                    cerrarHerramientasListadoClientes();
+                                                                }
+
+                                                                
 
                                                 function crearNuevoCliente() {
-
+                                                    let iconos = document.querySelector('.clientes__icons-container');
+                                                    iconos.classList.add('cerrar');
+                                                    setTimeout(() => {
+                                                        iconos.classList.remove('cerrar');
+                                                        iconos.innerHTML = `
+                                                            <form action="save_task.php" method="POST" class="clientes__edit-container">
+                                                                <h1 class="clientes__edit-titulo stroke-black">Nuevo Cliente</h1>
+                                                                <div class="clientes__type-edit">
+                                                                    <label  class="clientes__header-edit">ID</label>                    
+                                                                    <label  class="clientes__header-edit">Cedula</label>                    
+                                                                    <label  class="clientes__header-edit">Apodo</label>                    
+                                                                    <label  class="clientes__header-edit">Nombre</label>                                                       
+                                                                </div>
+                                                                <div class="clientes__item-edit">
+                                                                    <input type="text" class="clientes__input-value-edit" value="2">
+                                                                    <input type="text" class="clientes__input-value-edit" placeholder="Cedula" name="cedula">
+                                                                    <input type="text" class="clientes__input-value-edit" placeholder="Apodo" name="apodos">
+                                                                    <input type="text" class="clientes__input-value-edit" placeholder="Nombres" name="nombres">
+                                                                </div>
+                                                                <div class="div-btn">
+                                                                    <input type="submit" class="btn-confirmar-edit" value="Confirmar" id="confirmar-crear-cliente" name="save_task">
+                                                                    <input type="submit" class="btn-cancelar-edit" value="Cancelar" id="cancelar-crear-cliente">
+                                                                </div>
+                                                            </form>
+                                                        `;
+                                                        document.querySelector('.clientes__edit-container').classList.add(('animacion-ventana-dinamica'));
+                                                        document.getElementById('confirmar-crear-cliente').addEventListener('click', confirmarCrearNuevoCliente);
+                                                        document.getElementById('cancelar-crear-cliente').addEventListener('click', cerrarHerramientasListadoClientes);
+                                                    }, 500);
+                                    
                                                 }
 
-                                                function eliminarCliente() {
+                                                        function confirmarCrearNuevoCliente() {
+                                                            cerrarHerramientasListadoClientes();
+                                                        }
 
+                                                function eliminarCliente() {
+                                                    cerrarHerramientasListadoClientes();
                                                 }
                
 
@@ -391,6 +405,8 @@ function irEntradaBases() {
     crearContenidoSeccionEntradaBases();
     // Abrir la seccion 
     abrirSecciones();
+    eventListenerConfirmarGuardarBase();
+    
 }
 
         // Funcion Auxiliar de irEntradaBases
@@ -493,6 +509,32 @@ function irEntradaBases() {
                 </section>
             `;
         }
+
+        function eventListenerConfirmarGuardarBase() {
+            setTimeout(() => {
+                document.querySelector('.bases__guardar-icon').addEventListener('click', aparecerConfirmarGuardar);
+            }, 100);
+        }
+
+                // Funcion para mostrar mensaje de confirmacion antes de guardar
+                function aparecerConfirmarGuardar() {
+                    document.querySelector('.bases__guardar').classList.add('ocultar-guardar');
+                    document.querySelector('.bases__btn-container').classList.add('btn-aparecer');
+                    setTimeout(() => {
+                        document.querySelector('.bases__btn-aceptar').addEventListener('click', guardarBase); 
+                        document.querySelector('.bases__btn-cancelar').addEventListener('click', cerrarBases); 
+                    }, 100);
+                }
+
+                         // Funcion para guardar la base
+                         function guardarBase() {
+                            animarCerradoSeccion();
+                        }
+                        
+                        // Funcion para cerrar Bases
+                        function cerrarBases() {
+                            animarCerradoSeccion();
+                        }
 
                 
 
@@ -732,6 +774,8 @@ function irEntradaBasesIcon() {
     crearContenidoSeccionEntradaBases();
     // Abrir la seccion 
     abrirSecciones();
+    // Aparecer letrero de guardar la base
+    eventListenerConfirmarGuardarBase();
 }
 
 // Funcion para ir a la seccion de Computadores desde los atajos
@@ -1040,8 +1084,11 @@ function seleccionarFilaUltimasTransacciones(e) {
                                 }
 
                                 function funcionalidadBotonesEdit() {
-                                    document.querySelector('.btn-confirmar-edit').addEventListener('click', confirmarCambiosEdit);
-                                    document.querySelector('.btn-cancelar-edit').addEventListener('click', cerrarOpcionesUltimasTransacciones);
+                                    return new Promise((reject, resolve) => {
+                                        document.querySelector('.btn-confirmar-edit').addEventListener('click', confirmarCambiosEdit);
+                                        document.querySelector('.btn-cancelar-edit').addEventListener('click', cerrarOpcionesUltimasTransacciones);
+                                    });
+                                    
                                 }
 
                                         async function confirmarCambiosEdit() {
@@ -1163,20 +1210,6 @@ async function aparecerLogo() {
                 resolve(true);
             });
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
