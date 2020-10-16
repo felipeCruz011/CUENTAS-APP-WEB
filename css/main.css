@@ -33,6 +33,7 @@ body {
 10 - Listado de Transferencias
 11 - Chat
 12 - Listado de Clientes - Opciones 
+13 - Mensajes o Alertas en el guardado actualizacion o eliminacion de datos
 
 --------------------------------------------------------------------*/
 
@@ -2246,3 +2247,16 @@ body {
                     color: #000;
                 }
     
+/*-----------------------------------
+    13 - Mensajes o Alertas en el guardado actualizacion o eliminacion de datos
+------------------------------------*/
+
+    .mensaje__cliente-nuevo-container {
+        display: flex;
+        padding: 5px;
+        background: #D4EDDA;
+        border-radius: 10px;
+        border: 1px solid #06d637bd;
+        color: #588C64;
+        align-items: center;
+    }

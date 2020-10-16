@@ -67,6 +67,7 @@ eyeIcon.addEventListener('mouseenter', ocultarLogoBackground);
 eyeIcon.addEventListener('mouseleave', aparecerBackground);
 divBackgroundOperations.addEventListener('mouseenter', ocultarLogo);
 divBackgroundOperations.addEventListener('mouseleave', aparecerLogo);
+document.addEventListener('DOMContentLoaded', verificarAgregadoNuevoCliente);
 
 // Funciones
 
@@ -131,44 +132,15 @@ function irListadoClientes() {
     crearContenidoSeccionListadoClientes();
     // Abrir la seccion 
     abrirSecciones();
-}
+}   
 
         // Funcion Auxiliar de irListadoClientes
         function crearContenidoSeccionListadoClientes() {
-                divDynamic.innerHTML = `
-                <section class="clientes">
-                    <h1 class="clientes__titulo stroke-blue">Lista de Clientes</h1>
-                    <div class="clientes__container overflow">
-                        <div class="clientes__opciones">
-                            <div class="clientes__opciones-container">
-                                <i class="fas fa-user-plus clientes__icon-opciones agregar-clientes-icon"></i>
-                            </div>
-                            <!-- Buscador -->
-                            <div class="clientes__buscar-container">
-                                <div class="clientes__buscar">
-                                    <input type="text" class="clientes__input-buscar" placeholder="Buscar">
-                                    <div class="clientes__btn-container">
-                                        <i class="clientes__btn-lupa fas fa-search"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="clientes__type">
-                            <label  class="clientes__header">ID</label>                    
-                            <label  class="clientes__header">CEDULA</label>                    
-                            <label  class="clientes__header">APODO</label>                    
-                            <label  class="clientes__header">NOMBRES</label>                                                     
-                        </div>
-                        <div class="clientes__item">
-                            <span  class="clientes__value">1</span>
-                            <span  class="clientes__value">1075275242</span>
-                            <span  class="clientes__value">Cruz</span>
-                            <span  class="clientes__value">Felipe Cruz</span>
-                        </div>
-                        
+            divDynamic.innerHTML = `
+            <script>
+                document.write('<?php include("includes/lista_de_clientes.php"; ?>)');
+            </script>
             `;
-            
         }
 
         //Funcion Auxiliar de irListadoClientes 
@@ -371,7 +343,7 @@ function irListadoClientes() {
                                                                 </div>
                                                                 <div class="div-btn">
                                                                     <input type="submit" class="btn-confirmar-edit" value="Confirmar" id="confirmar-crear-cliente" name="save_task">
-                                                                    <input type="submit" class="btn-cancelar-edit" value="Cancelar" id="cancelar-crear-cliente">
+                                                                    <button class="btn-cancelar-edit" id="cancelar-crear-cliente">Cancelar</button>
                                                                 </div>
                                                             </form>
                                                         `;
@@ -1212,8 +1184,36 @@ async function aparecerLogo() {
         }
 
 
+function verificarAgregadoNuevoCliente() {
+    if (document.getElementById('seAgregoCliente') !== null) {
+        irListadoClientes();
+        setTimeout(() => {
+            crearContenidoMensajeClienteNuevo()
+        }, 200);
+    }
+}
 
+        function crearContenidoMensajeClienteNuevo() {
+            let mensaje = document.createElement('div');
+            mensaje.classList.add('mensaje__cliente-nuevo-container');
+            mensaje.innerHTML = `
 
+                <h3>Ha ingresado un Cliente Nuevo correctamente</h3>
+
+            `;
+            document.querySelector('.clientes__opciones-container').appendChild(mensaje);
+            setTimeout(() => {
+                let divmensajeClienteNuevo = document.querySelector('.mensaje__cliente-nuevo-container');
+                divmensajeClienteNuevo.setAttribute('style', 'transition: all 4s ease; opacity: 1')
+            }, 100);
+            setTimeout(() => {
+                let divmensajeClienteNuevo = document.querySelector('.mensaje__cliente-nuevo-container');
+                divmensajeClienteNuevo.setAttribute('style', 'transition: all 4s ease; opacity: 0')
+                setTimeout(() => {
+                    divmensajeClienteNuevo.remove
+                }, 4100);
+            }, 1000);
+        }
 
 
 
