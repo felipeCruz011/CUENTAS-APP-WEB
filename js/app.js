@@ -409,8 +409,49 @@ function irListadoClientes() {
                                                                 }
 
                                                 function eliminarCliente() {
+                                                    eliminarClienteMysql();
                                                     cerrarHerramientasListadoClientes();
                                                 }
+
+                                                        function eliminarClienteMysql() {
+                                                            posicionarMensajeEliminar();
+                                                            Swal.fire({
+                                                                title: 'Esta seguro de eliminar este Cliente?',
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#3085d6',
+                                                                cancelButtonColor: '#d33',
+                                                                confirmButtonText: 'Si!',
+                                                                cancelButtonText: 'NO'
+                                                            }).then((result) => {
+                                                                let id_cliente = document.querySelector('.fila-activa').children[0].textContent; 
+                                                                if (result.isConfirmed) {
+                                                                    fetch("eliminar_cliente.php", {
+                                                                        method: "POST",
+                                                                        body: id_cliente
+                                                                    }).then(response => response.text()).then(response => {
+                                                                        console.log(response)
+                                                                        if (response == "ok") {
+                                                                            console.log(response)
+                                                                            Swal.fire({
+                                                                                icon: 'success',
+                                                                                title: 'Cliente Eliminado',
+                                                                                showConfirmButton: false,
+                                                                                timer: 1500
+                                                                            })
+                                                                            posicionarMensajeEliminar();
+                                                                            irListadoClientes();
+                                                                        } 
+                                                                    })
+                                                                }
+                                                            })
+                                                        }
+
+                                                                function posicionarMensajeEliminar() {
+                                                                    setTimeout(() => {
+                                                                        document.querySelector('.swal2-container').setAttribute('style', 'overflow-y: auto; position: absolute; z-index: 9999');
+                                                                    }, 200);
+                                                                }
                
 
                 
