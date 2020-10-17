@@ -5,7 +5,7 @@
         </div>
         <span class="pcs__numero">1</span>
         <div class="pcs__img-container">
-            <img src="/img/computador.png" alt="" class="pcs__img">
+            <img src="./img/computador.png" alt="" class="pcs__img">
         </div>
         <div class="pcs__info">
             <div class="pcs__item">

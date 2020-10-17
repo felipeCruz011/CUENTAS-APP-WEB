@@ -1,7 +1,7 @@
 <section class="operations"><!-- Bloque -->
     <div class="operations__background">
-        <img class="operations__img-background"src="/img/modelo-futboll.jpg" alt="modelo-futboll">
-        <img class="operations__img-logo"src="/img/logo-mijugada.png" alt="logo">
+        <img class="operations__img-background"src="./img/modelo-futboll.jpg" alt="modelo-futboll">
+        <img class="operations__img-logo"src="./img/logo-mijugada.png" alt="logo">
     </div>
     <i class="fas fa-eye eye-icon"></i>
     <div class="operations__container">

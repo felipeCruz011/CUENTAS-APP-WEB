@@ -1,24 +1,26 @@
 <?php
 
-include("db.php");
-
 if  (isset($_POST['save_task'])) {
     $cedula = $_POST['cedula'];  
     $apodos = $_POST['apodos'];  
     $nombres = $_POST['nombres'];  
+    require("db.php");
+    if($cedula != "") {
+        $query = $pdo->prepare("INSERT INTO clientes (cedula, apodos, nombres) VALUES (:ced, :apo, :nom)");
+        $query->bindParam(":ced", $cedula); 
+        $query->bindParam(":apo", $apodos); 
+        $query->bindParam(":nom", $nombres); 
+        $query->execute();
+        $pdo = null;
+        echo "ok";
     
-    $query = "INSERT INTO clientes(cedula, apodos, nombres) VALUES ('$cedula', '$apodos', '$nombres')";
-
-    $result = mysqli_query($conexion, $query);
-
-    if (!$result) {
-        die("Query Failed");
+        $_SESSION['message'] = 'Cliente guardado con Exito';
+        $_SESSION['message_type'] = 'success';
+    
+        header("location: index.php");
+    } else {
+        header("location: index.php");
     }
-
-    $_SESSION['message'] = 'Cliente guardado con Exito';
-    $_SESSION['message_type'] = 'success';
-
-    header("location: index.php");
 }
 
 ?>

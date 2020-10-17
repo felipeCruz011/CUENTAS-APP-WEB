@@ -1278,7 +1278,8 @@ body {
             display: flex;
             flex-direction: column;
             min-width: 80%;
-            min-height: 400px;
+            max-height: 400px;
+            height: 400px;
             padding: 10px 30px;
             border-radius: 20px;
             background: rgba(75, 188, 223, 0.6);
@@ -1321,6 +1322,7 @@ body {
                     .clientes__icon-opciones {
                         font-size: 45px;
                         margin-right: 40px;
+                        cursor: pointer;
                     }
 
                     .clientes__icon-opciones:hover {

@@ -137,9 +137,32 @@ function irListadoClientes() {
         // Funcion Auxiliar de irListadoClientes
         function crearContenidoSeccionListadoClientes() {
             divDynamic.innerHTML = `
-            <script>
-                document.write('<?php include("includes/lista_de_clientes.php"; ?>)');
-            </script>
+            <section class="clientes">
+                <h1 class="clientes__titulo stroke-blue">Lista de Clientes</h1>
+                <div class="clientes__container overflow">
+                    <div class="clientes__opciones">
+                        <div class="clientes__opciones-container">
+                            <i class="fas fa-user-plus clientes__icon-opciones agregar-clientes-icon"></i>
+                        </div>
+                        <!-- Buscador -->
+                        <div class="clientes__buscar-container">
+                            <div class="clientes__buscar">
+                                <input type="text" class="clientes__input-buscar" placeholder="Buscar">
+                                <div class="clientes__btn-container">
+                                    <i class="clientes__btn-lupa fas fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clientes__type">
+                        <label  class="clientes__header">ID</label>                    
+                        <label  class="clientes__header">CEDULA</label>                    
+                        <label  class="clientes__header">APODO</label>                    
+                        <label  class="clientes__header">NOMBRES</label>                                                     
+                    </div>
+    
+            </section>
             `;
         }
 
@@ -196,6 +219,7 @@ function irListadoClientes() {
                             document.querySelector('.container-all').appendChild(divDynamic);
                         }
                         setTimeout(() => {
+                            listarClientesBaseDatos();
                             if (document.querySelector('.clientes__container') !== null) {
                                 document.querySelector('.clientes__container').addEventListener('click', seleccionarFilasListadoClientes);
                             }
@@ -204,7 +228,16 @@ function irListadoClientes() {
                     });
                 }
 
+                        function listarClientesBaseDatos() {
+                            fetch("includes/lista_de_clientes.php", {
+                                method: "POST"
+                            }).then(response => response.text()).then(response => {
+                                document.querySelector('.clientes__container').innerHTML += response;
+                            })
+                        }
+
                         function seleccionarFilasListadoClientes(e) {
+                            document.querySelector('.clientes__opciones-container').addEventListener('click', crearNuevoCliente);
                             let filaItem = document.querySelectorAll('.clientes__item');
                             let filaLetra = document.querySelectorAll('.clientes__value');
                             let contenedorDatosClientes = document.querySelector('.clientes__herramientas');
@@ -215,7 +248,6 @@ function irListadoClientes() {
                                 seleccionarFila(cliente);
                                 abrirOpcionesClientes();
                             }
-
                             if (cliente.parentElement.classList.contains('clientes__item')) {
                                 console.log('entro hijo')
                                 seleccionarFila(cliente.parentElement);
@@ -223,6 +255,65 @@ function irListadoClientes() {
                             }
 
                         }
+
+                                function crearNuevoCliente() {
+                                    let crearNuevoCliente = document.createElement('div');
+                                    crearNuevoCliente.classList.add('clientes__herramientas');
+                                    setTimeout(() => {
+                                        crearNuevoCliente.innerHTML = `
+                                            <form action="save_task.php" method="POST" class="clientes__edit-container">
+                                                <h1 class="clientes__edit-titulo stroke-black">Nuevo Cliente</h1>
+                                                <div class="clientes__type-edit">
+                                                    <label  class="clientes__header-edit">ID</label>                    
+                                                    <label  class="clientes__header-edit">Cedula</label>                    
+                                                    <label  class="clientes__header-edit">Apodo</label>                    
+                                                    <label  class="clientes__header-edit">Nombre</label>                                                       
+                                                </div>
+                                                <div class="clientes__item-edit">
+                                                    <input type="text" class="clientes__input-value-edit" value="2">
+                                                    <input type="text" class="clientes__input-value-edit" id="cedulaCrearClienteInput" placeholder="Cedula" name="cedula">
+                                                    <input type="text" class="clientes__input-value-edit" id="apodosCrearClienteInput" placeholder="Apodo" name="apodos">
+                                                    <input type="text" class="clientes__input-value-edit" id="nombresCrearClienteInput" placeholder="Nombres" name="nombres">
+                                                </div>
+                                                <div class="div-btn">
+                                                    <input type="submit" class="btn-confirmar-edit" value="Confirmar" id="confirmar-crear-cliente" name="save_task">
+                                                    <input type="button" class="btn-cancelar-edit" value="Cancelar" id="cancelar-crear-cliente" name="cancelar">
+                                                </div>
+                                            </form>
+                                        `;
+                                        document.querySelector('.clientes__container').appendChild(crearNuevoCliente);
+                                        setTimeout(() => {
+                                            document.querySelector('.clientes__edit-container').classList.add(('animacion-ventana-dinamica'));
+                                            document.getElementById('confirmar-crear-cliente').addEventListener('click', confirmarCrearNuevoCliente);
+                                            document.getElementById('cancelar-crear-cliente').addEventListener('click', cerrarHerramientasListadoClientes);
+                                        }, 10);
+                                    }, 10);
+                    
+                                }
+
+                                        function confirmarCrearNuevoCliente() {
+                                            registrarNuevoCliente();
+                                            cerrarHerramientasListadoClientes();
+                                        }
+
+                                                function registrarNuevoCliente(e) {
+                                                    let cedula = document.getElementById('cedulaCrearClienteInput');
+                                                    let apodos = document.getElementById('apodosCrearClienteInput');
+                                                    let nombres = document.getElementById('nombresCrearClienteInput');
+                                                    if (cedula.value !== "" && apodos.value !== "" && nombres.value !== "") {
+                                                        fetch('save_task.php', {
+                                                            method: "POST",
+                                                            body: new formData(frm)
+                                                        }).then(response => response.text()).then(response => {
+                                                            if (response == "ok") {
+                                                                console.log('Cliente agregado');
+                                                            }
+                                                        })
+                                                    } else {
+                                                        alert('Llene todos los datos');
+                                                        e.preventDefalut();
+                                                    }
+                                                }
 
                                 async function abrirOpcionesClientes() {
                                     await crearContenidoOpcionesListaClientes();
@@ -237,7 +328,6 @@ function irListadoClientes() {
                                                     <i class="clientes__icons--atras fas fa-times-circle" id="ir-clientes"></i>
                                                     <div class="clientes__icons-container">
                                                         <i class="clientes__icons fas fa-user-edit" id="editar-cliente"></i>
-                                                        <i class="clientes__icons fas fa-user-plus" id="nuevo-cliente"></i>
                                                         <i class="clientes__icons fas fa-trash-alt" id="eliminar-cliente"></i>
                                                     </div>
                                                 `;
@@ -253,7 +343,6 @@ function irListadoClientes() {
                                             return new Promise((resolve, reject) => {
                                                 document.getElementById('ir-clientes').addEventListener('click', cerrarHerramientasListadoClientes)
                                                 document.getElementById('editar-cliente').addEventListener('click', editarCliente);
-                                                document.getElementById('nuevo-cliente').addEventListener('click', crearNuevoCliente);
                                                 document.getElementById('eliminar-cliente').addEventListener('click', eliminarCliente);
                                                 setTimeout(() => {
                                                     resolve(true);
@@ -318,45 +407,6 @@ function irListadoClientes() {
                                                                 function confirmarCambioCliente() {
                                                                     cerrarHerramientasListadoClientes();
                                                                 }
-
-                                                                
-
-                                                function crearNuevoCliente() {
-                                                    let iconos = document.querySelector('.clientes__icons-container');
-                                                    iconos.classList.add('cerrar');
-                                                    setTimeout(() => {
-                                                        iconos.classList.remove('cerrar');
-                                                        iconos.innerHTML = `
-                                                            <form action="save_task.php" method="POST" class="clientes__edit-container">
-                                                                <h1 class="clientes__edit-titulo stroke-black">Nuevo Cliente</h1>
-                                                                <div class="clientes__type-edit">
-                                                                    <label  class="clientes__header-edit">ID</label>                    
-                                                                    <label  class="clientes__header-edit">Cedula</label>                    
-                                                                    <label  class="clientes__header-edit">Apodo</label>                    
-                                                                    <label  class="clientes__header-edit">Nombre</label>                                                       
-                                                                </div>
-                                                                <div class="clientes__item-edit">
-                                                                    <input type="text" class="clientes__input-value-edit" value="2">
-                                                                    <input type="text" class="clientes__input-value-edit" placeholder="Cedula" name="cedula">
-                                                                    <input type="text" class="clientes__input-value-edit" placeholder="Apodo" name="apodos">
-                                                                    <input type="text" class="clientes__input-value-edit" placeholder="Nombres" name="nombres">
-                                                                </div>
-                                                                <div class="div-btn">
-                                                                    <input type="submit" class="btn-confirmar-edit" value="Confirmar" id="confirmar-crear-cliente" name="save_task">
-                                                                    <button class="btn-cancelar-edit" id="cancelar-crear-cliente">Cancelar</button>
-                                                                </div>
-                                                            </form>
-                                                        `;
-                                                        document.querySelector('.clientes__edit-container').classList.add(('animacion-ventana-dinamica'));
-                                                        document.getElementById('confirmar-crear-cliente').addEventListener('click', confirmarCrearNuevoCliente);
-                                                        document.getElementById('cancelar-crear-cliente').addEventListener('click', cerrarHerramientasListadoClientes);
-                                                    }, 500);
-                                    
-                                                }
-
-                                                        function confirmarCrearNuevoCliente() {
-                                                            cerrarHerramientasListadoClientes();
-                                                        }
 
                                                 function eliminarCliente() {
                                                     cerrarHerramientasListadoClientes();
