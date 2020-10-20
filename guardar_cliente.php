@@ -1,6 +1,6 @@
 <?php
 
-if  (isset($_POST['save_task'])) {
+if  (isset($_POST['guardar_cliente'])) {
     $cedula = $_POST['cedula'];  
     $apodos = $_POST['apodos'];  
     $nombres = $_POST['nombres'];  

@@ -3,6 +3,10 @@
     <?php if (isset($_SESSION['message'])) { ?>
         <div id="seAgregoCliente"></div>
     <?php session_unset(); } ?>
+    
+    <?php if (isset($_SESSION['messageEdit'])) { ?>
+        <div id="seEditoUnCliente"></div>
+    <?php session_unset(); } ?>
 
     <div class="hacer-transaccion__container">
         <div class="hacer-transaccion__titulo-container">
@@ -12,7 +16,7 @@
         </div>
     </div>
 
-    <div class="last-transactions__container">
+    <div class="last-transactions__container" id="contenedorUltimasTransacciones">
         <div class="last-transactions__title-container">
             <h2 class="last-transactions__h2">Ultimas Transacciones</h2>
                 <!-- Buscador -->

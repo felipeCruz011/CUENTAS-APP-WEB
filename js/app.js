@@ -28,7 +28,7 @@ divDynamic.className = 'ventana-dinamica';
 // Creacion de Ventana de Opciones de las ultimas transacciones
 let opcionesUltimasTransacciones = document.createElement('div');
 opcionesUltimasTransacciones.classList.add('rehacer__container');
-
+var cedulaRecarga = "";
 
 // EventListeners Multiples
     // Listeners para ir a Home 
@@ -68,6 +68,9 @@ eyeIcon.addEventListener('mouseleave', aparecerBackground);
 divBackgroundOperations.addEventListener('mouseenter', ocultarLogo);
 divBackgroundOperations.addEventListener('mouseleave', aparecerLogo);
 document.addEventListener('DOMContentLoaded', verificarAgregadoNuevoCliente);
+// Listener para la busqueda de Clientes para hacer la recarga
+
+
 
 // Funciones
 
@@ -139,19 +142,19 @@ function irListadoClientes() {
             divDynamic.innerHTML = `
             <section class="clientes">
                 <h1 class="clientes__titulo stroke-blue">Lista de Clientes</h1>
-                <div class="clientes__container overflow">
+                <div class="clientes__container">
                     <div class="clientes__opciones">
                         <div class="clientes__opciones-container">
                             <i class="fas fa-user-plus clientes__icon-opciones agregar-clientes-icon"></i>
                         </div>
                         <!-- Buscador -->
                         <div class="clientes__buscar-container">
-                            <div class="clientes__buscar">
-                                <input type="text" class="clientes__input-buscar" placeholder="Buscar">
+                            <form action="" method="post" class="clientes__buscar">
+                                <input type="text" class="clientes__input-buscar" id="inputBuscarListaClientes" name="buscar_lista_clientes" placeholder="Buscar">
                                 <div class="clientes__btn-container">
                                     <i class="clientes__btn-lupa fas fa-search"></i>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
@@ -172,6 +175,7 @@ function irListadoClientes() {
             await transicionAnimacion();
             await animarAperturaSeccion();
             await agregarAlDom();
+            eventListenerBusquedaListaClientes();
         }
 
                 function limipiarClases() {
@@ -228,11 +232,40 @@ function irListadoClientes() {
                     });
                 }
 
+                        function eventListenerBusquedaListaClientes() {
+                            setTimeout(() => {
+                                console.log(inputBuscarListaClientes)
+                                inputBuscarListaClientes.addEventListener('keyup', verificarPalabraBusquedaListaClientes);
+                            }, 200);
+                        }
+
+                                function verificarPalabraBusquedaListaClientes() {
+                                    let valorBusqueda = this.value;
+                                    console.log(valorBusqueda)
+                                    if (valorBusqueda !== "") {
+                                        busquedaPalabraBaseDatosListaClientes(valorBusqueda);
+                                    } else {
+                                        busquedaPalabraBaseDatosListaClientes();
+                                    }
+                                }
+
+                                function busquedaPalabraBaseDatosListaClientes(valorBusqueda) {
+                                    fetch("buscar_lista_clientes.php", {
+                                        method: "POST",
+                                        body: valorBusqueda
+                                    }).then(response => response.text()).then(response => {
+                                        document.querySelector('.clientes__container-base-datos').innerHTML = response;
+                                    })
+                                }
+
                         function listarClientesBaseDatos() {
                             fetch("includes/lista_de_clientes.php", {
                                 method: "POST"
                             }).then(response => response.text()).then(response => {
-                                document.querySelector('.clientes__container').innerHTML += response;
+                                let divContenedorResponse = document.createElement('div');
+                                divContenedorResponse.className = 'clientes__container-base-datos';
+                                divContenedorResponse.innerHTML = response;
+                                document.querySelector('.clientes__container').appendChild(divContenedorResponse);
                             })
                         }
 
@@ -261,7 +294,7 @@ function irListadoClientes() {
                                     crearNuevoCliente.classList.add('clientes__herramientas');
                                     setTimeout(() => {
                                         crearNuevoCliente.innerHTML = `
-                                            <form action="save_task.php" method="POST" class="clientes__edit-container">
+                                            <form action="guardar_cliente.php" method="POST" class="clientes__edit-container">
                                                 <h1 class="clientes__edit-titulo stroke-black">Nuevo Cliente</h1>
                                                 <div class="clientes__type-edit">
                                                     <label  class="clientes__header-edit">ID</label>                    
@@ -276,7 +309,7 @@ function irListadoClientes() {
                                                     <input type="text" class="clientes__input-value-edit" id="nombresCrearClienteInput" placeholder="Nombres" name="nombres">
                                                 </div>
                                                 <div class="div-btn">
-                                                    <input type="submit" class="btn-confirmar-edit" value="Confirmar" id="confirmar-crear-cliente" name="save_task">
+                                                    <input type="submit" class="btn-confirmar-edit" value="Confirmar" id="confirmar-crear-cliente" name="guardar_cliente">
                                                     <input type="button" class="btn-cancelar-edit" value="Cancelar" id="cancelar-crear-cliente" name="cancelar">
                                                 </div>
                                             </form>
@@ -301,7 +334,7 @@ function irListadoClientes() {
                                                     let apodos = document.getElementById('apodosCrearClienteInput');
                                                     let nombres = document.getElementById('nombresCrearClienteInput');
                                                     if (cedula.value !== "" && apodos.value !== "" && nombres.value !== "") {
-                                                        fetch('save_task.php', {
+                                                        fetch('guardar_cliente.php', {
                                                             method: "POST",
                                                             body: new formData(frm)
                                                         }).then(response => response.text()).then(response => {
@@ -331,8 +364,9 @@ function irListadoClientes() {
                                                         <i class="clientes__icons fas fa-trash-alt" id="eliminar-cliente"></i>
                                                     </div>
                                                 `;
-                                                document.querySelector('.clientes__container').classList.remove('overflow');
+                                                
                                                 document.querySelector('.clientes__container').appendChild(herramientasListaClientes);
+                                                
                                                 setTimeout(() => {
                                                     resolve(true);
                                                 }, 100);
@@ -354,7 +388,6 @@ function irListadoClientes() {
                                                     document.querySelector('.clientes__herramientas').classList.add('cerrar'); 
                                                     setTimeout(() => {
                                                         document.querySelector('.clientes__herramientas').remove();
-                                                        document.querySelector('.clientes__container').classList.add('overflow');
                                                     }, 500);      
                                                 }
 
@@ -370,7 +403,7 @@ function irListadoClientes() {
                                                                 setTimeout(() => {
                                                                     iconos.classList.remove('cerrar');
                                                                     iconos.innerHTML = `
-                                                                        <div class="clientes__edit-container">
+                                                                        <form action="editar_cliente.php" method="post" id="frm" class="clientes__edit-container">
                                                                             <h1 class="clientes__edit-titulo stroke-black">Editar Datos</h1>
                                                                             <div class="clientes__type-edit">
                                                                                 <label  class="clientes__header-edit">ID</label>                    
@@ -379,22 +412,32 @@ function irListadoClientes() {
                                                                                 <label  class="clientes__header-edit">Nombre</label>                                                       
                                                                             </div>
                                                                             <div class="clientes__item-edit">
-                                                                                <input type="text" class="clientes__input-value-edit" value="1">
-                                                                                <input type="text" class="clientes__input-value-edit" value="1075275242">
-                                                                                <input type="text" class="clientes__input-value-edit" value="Cruz">
-                                                                                <input type="text" class="clientes__input-value-edit" value="Felipe Cruz">
+                                                                                <input type="text" class="clientes__input-value-edit" id="idClienteEdit" name="id" value="">
+                                                                                <input type="text" class="clientes__input-value-edit" id="cedulaClienteEdit" name="cedula" value="">
+                                                                                <input type="text" class="clientes__input-value-edit" id="apodosClienteEdit" name="apodos" value="">
+                                                                                <input type="text" class="clientes__input-value-edit" id="nombresClienteEdit" name="nombres" value="">
                                                                             </div>
                                                                             <div class="div-btn">
-                                                                                <input type="submit" class="btn-confirmar-edit-cliente" value="Confirmar" id="confirmar-edit-cliente">
-                                                                                <input type="submit" class="btn-cancelar-edit-cliente" value="Cancelar" id="cancelar-edit-cliente">
+                                                                                <input type="submit" class="btn-confirmar-edit-cliente" value="Editar" name="editar_cliente" id="confirmar-edit-cliente">
+                                                                                <input type="button" class="btn-cancelar-edit-cliente" value="Cancelar" id="cancelar-edit-cliente">
                                                                             </div>
-                                                                        </div>
+                                                                        </form>
                                                                     `;
                                                                     document.querySelector('.clientes__edit-container').classList.add(('animacion-ventana-dinamica'));
+                                                                    setTimeout(() => {
+                                                                        listarClienteEditar();
+                                                                    }, 100);
                                                                     resolve(true);
                                                                 }, 500);
                                                             });
                                                         }
+
+                                                                function listarClienteEditar() {
+                                                                    idClienteEdit.value = document.querySelector('.fila-activa').children[0].textContent;
+                                                                    cedulaClienteEdit.value = document.querySelector('.fila-activa').children[1].textContent;
+                                                                    apodosClienteEdit.value = document.querySelector('.fila-activa').children[2].textContent;
+                                                                    nombresClienteEdit.value = document.querySelector('.fila-activa').children[3].textContent;
+                                                                }
 
                                                         function eventListenersEditListadoClientes() {
                                                             return new Promise((resolve, reject) => {
@@ -405,8 +448,28 @@ function irListadoClientes() {
                                                         }
 
                                                                 function confirmarCambioCliente() {
+                                                                    registrarCambiosEditCliente();
                                                                     cerrarHerramientasListadoClientes();
                                                                 }
+
+                                                                        function registrarCambiosEditCliente() {
+                                                                            let cedula = document.getElementById('cedulaClienteEdit');
+                                                                            let apodos = document.getElementById('apodosClienteEdit');
+                                                                            let nombres = document.getElementById('nombresClienteEdit');
+                                                                            if (cedula.value !== "" && apodos.value !== "" && nombres.value !== "") {
+                                                                                fetch('editar_cliente.php', {
+                                                                                    method: "POST",
+                                                                                    body: new formData(frm)
+                                                                                }).then(response => response.text()).then(response => {
+                                                                                    if (response == "ok") {
+                                                                                        console.log('Cliente editado');
+                                                                                    }
+                                                                                })
+                                                                            } else {
+                                                                                alert('Llene todos los datos');
+                                                                                e.preventDefalut();
+                                                                            }
+                                                                        }
 
                                                 function eliminarCliente() {
                                                     eliminarClienteMysql();
@@ -414,7 +477,7 @@ function irListadoClientes() {
                                                 }
 
                                                         function eliminarClienteMysql() {
-                                                            posicionarMensajeEliminar();
+                                                            posicionarMensaje();
                                                             Swal.fire({
                                                                 title: 'Esta seguro de eliminar este Cliente?',
                                                                 icon: 'warning',
@@ -447,7 +510,7 @@ function irListadoClientes() {
                                                             })
                                                         }
 
-                                                                function posicionarMensajeEliminar() {
+                                                                function posicionarMensaje() {
                                                                     setTimeout(() => {
                                                                         document.querySelector('.swal2-container').setAttribute('style', 'overflow-y: auto; position: absolute; z-index: 9999');
                                                                     }, 200);
@@ -888,8 +951,7 @@ function desplegarHacerTransaccion(e) {
             await cambiarIconoMasMenos();
             await animacionOcultarContenidoAnterior();
             await crearContenidoHacerTranccion();
-            await agregarContenidoHacerTransaccion();
-            await animacionAparecerBuscarClienteHacerTransaccion();
+            eventListenerParaBuscarClienteRecargas();
         }
 
                 function cambiarIconoMasMenos() {
@@ -956,20 +1018,31 @@ function desplegarHacerTransaccion(e) {
                             containerBusquedaClientePrimerPaso.innerHTML = `
                                 <div class="last-transactions__buscar-cliente">
                                     <div class="last-transactions__buscar-cliente-primer-paso">
-                                        <span class="last-transactions__buscar-cliente-text">Busqueda de Cliente:</span>
+                                        <form action="" method="post" class="last-transactions__form-valor-recarga">
+                                            <input type="text" class="last-transactions__input-valor-recarga" name="valor_recarga" id="inputValorRecarga" placeholder="$ Valor de la Recarga">  
+                                        </form>
                                         <!-- Buscador -->
                                         <div class="last-transactions__buscar-cliente-container">
-                                            <div class="last-transactions__buscar-cliente">
-                                                <input type="text" class="last-transactions__input-buscar-cliente" placeholder="Busqueda de Cliente">
+                                            <form action="" method="post" class="last-transactions__buscar-cliente">
+                                                <input type="text" class="last-transactions__input-buscar-cliente" id="buscarClienteRecargas" placeholder="Busqueda de Cliente" name="buscar_cliente">
                                                 <div class="last-transactions__btn-container-cliente">
                                                     <i class="last-transactions__btn-lupa-cliente fas fa-search-dollar"></i>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    
             
-                                    <div class="last-transactions__resultado-busqueda-clientes">
-                                        <span class="last-transactions__sin-resutaldos">No hay resultados para esta Busqueda..</span>
+                                        <div class="last-transactions__resultado-busqueda-clientes" id="contenedorClientesResultados">
+                                            <div class="last-transactions__resultado-busqueda-clientes-header">
+                                                <label  class="clientes__header-edit">ID</label>                    
+                                                <label  class="clientes__header-edit">Cedula</label>                                     
+                                                <label  class="clientes__header-edit">Nombre</label>                                                       
+                                            </div>
+
+                                            <div class="last-transactions__resultado-busqueda-clientes-item-container" id="recargasResultadoBusquedaClientes">
+                                                
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>                                   
                             `;
@@ -977,27 +1050,110 @@ function desplegarHacerTransaccion(e) {
                             setTimeout(() => {
                                 containerBusquedaClientePrimerPaso.setAttribute('style', 'position: relative; opacity: 1; transform: translate(0px); left: 0;');
                             }, 100);
-
-                            resolve(true);
                         }, 1000);
-                        
                         resolve(true);
                     });
                 }   
 
-                function agregarContenidoHacerTransaccion() {
-                    return new Promise((resolve, reject) => {
-                       
-                        resolve(true);
-                    });
+                function eventListenerParaBuscarClienteRecargas() {
+                        setTimeout(() => {
+                            listarClientesRecargas();
+                            buscarClienteRecargas.addEventListener('keyup', verificarPalabraBusquedaRecargas);
+                            buscarClienteRecargas.addEventListener('blur', borrarContenidoBusqueda);
+                            recargasResultadoBusquedaClientes.addEventListener('click', seleccionarFilasClientesRecargas);
+                        }, 1000);
                 }
 
-                function animacionAparecerBuscarClienteHacerTransaccion() {
-                    return new Promise((resolve, reject) => {
-                       
-                        resolve(true);
-                    });
-                }
+                        function listarClientesRecargas() {
+                            fetch("includes/listar_clientes_recargas.php", {
+                                method: "POST"
+                            }).then(response => response.text()).then(response => {
+                                document.querySelector('.last-transactions__resultado-busqueda-clientes-item-container').innerHTML = response;
+                            })
+                        }
+
+                        function verificarPalabraBusquedaRecargas() {
+                            let valorBusqueda = this.value;
+                          
+                            if (valorBusqueda !== "") {
+                                busquedaPalabraBaseDatosClientesRecargas(valorBusqueda);
+                            } else {
+                                busquedaPalabraBaseDatosClientesRecargas();
+                            }
+                            
+                        }
+
+                                function busquedaPalabraBaseDatosClientesRecargas(valorBusqueda) {
+                                    fetch("buscar_cliente.php", {
+                                        method: "POST",
+                                        body: valorBusqueda
+                                    }).then(response => response.text()).then(response => {
+                                        document.querySelector('.last-transactions__resultado-busqueda-clientes-item-container').innerHTML = response; 
+                                    })
+                                }
+
+                        function borrarContenidoBusqueda() {
+                            this.value = '';
+                        }
+
+                        function seleccionarFilasClientesRecargas(e) {
+                            let filaItem = clientesItem;
+                            let filaLetra = document.querySelectorAll('.clientes__value');
+                            let contenedorDatosClientes = contenedorClientesResultados;
+                            let cliente = e.target;
+                            eliminarClaseFilaActiva(filaItem, filaLetra, contenedorDatosClientes);
+                            if (cliente.classList.contains('last-transactions__resultado-busqueda-clientes-item')) {
+                                seleccionarFila(cliente);
+                                cedulaRecarga = cliente.children[1].textContent;
+                                setTimeout(() => {
+                                    copiarCedulaPortapapeles();
+                                    if (inputValorRecarga.value !== ''){
+                                        abrirPaginaHacerRecarga();
+                                        setTimeout(() => {
+                                            regresarLastTransactions();
+                                        }, 200);
+                                    }
+                                    
+                                }, 500);
+                            }
+                            if (cliente.parentElement.classList.contains('last-transactions__resultado-busqueda-clientes-item')) {
+                                seleccionarFila(cliente.parentElement);
+                                cedulaRecarga = cliente.parentElement.children[1].textContent;
+                                setTimeout(() => {
+                                    copiarCedulaPortapapeles();
+                                    abrirPaginaHacerRecarga();
+                                    setTimeout(() => {
+                                        regresarLastTransactions();
+                                    }, 200);
+                                    
+                                }, 500);
+                            }
+
+                        }
+
+                                function copiarCedulaPortapapeles() {
+                                    valorCpiar = document.querySelector('.fila-activa').children[1].textContent;
+                                    let inputCopiar = document.createElement('input');
+                                    inputCopiar.setAttribute('value', valorCpiar);
+                                    inputCopiar.setAttribute('style', 'opacity: 0');
+                                    document.body.appendChild(inputCopiar);                                  
+                                    inputCopiar.select(); 
+                                    document.execCommand("copy");
+                                    document.body.removeChild(inputCopiar);
+                                }
+
+                                function abrirPaginaHacerRecarga() {
+                                    setTimeout(() => {
+                                        console.log(cedulaRecarga)
+                                        inputValorRecargaValue = inputValorRecarga.value;
+                                        window.location.href = `https://aliados.wplay.co/actions/deposits#${cedulaRecarga}#${inputValorRecargaValue}`;
+                                    }, 200);
+                                }
+                        
+
+          
+
+                
 
 
 // Funcion para seleccionar filas de las ultimas transferencias
@@ -1282,72 +1438,35 @@ function verificarAgregadoNuevoCliente() {
             crearContenidoMensajeClienteNuevo()
         }, 200);
     }
+
+    if (document.getElementById('seEditoUnCliente') !== null) {
+        irListadoClientes();
+        setTimeout(() => {
+            crearContenidoMensajeClienteEditado()
+        }, 200);
+    }
 }
 
         function crearContenidoMensajeClienteNuevo() {
-            let mensaje = document.createElement('div');
-            mensaje.classList.add('mensaje__cliente-nuevo-container');
-            mensaje.innerHTML = `
-
-                <h3>Ha ingresado un Cliente Nuevo correctamente</h3>
-
-            `;
-            document.querySelector('.clientes__opciones-container').appendChild(mensaje);
-            setTimeout(() => {
-                let divmensajeClienteNuevo = document.querySelector('.mensaje__cliente-nuevo-container');
-                divmensajeClienteNuevo.setAttribute('style', 'transition: all 4s ease; opacity: 1')
-            }, 100);
-            setTimeout(() => {
-                let divmensajeClienteNuevo = document.querySelector('.mensaje__cliente-nuevo-container');
-                divmensajeClienteNuevo.setAttribute('style', 'transition: all 4s ease; opacity: 0')
-                setTimeout(() => {
-                    divmensajeClienteNuevo.remove
-                }, 4100);
-            }, 1000);
+            Swal.fire({
+                icon: 'success',
+                title: 'Cliente Añadido con Exito',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            posicionarMensaje();
         }
 
+        function crearContenidoMensajeClienteEditado() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Cliente Editado Con Exito',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            posicionarMensaje();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
 
 
 
