@@ -31,27 +31,13 @@
         </div>
         <div class="last-transactions__type">
             <label  class="last-transactions__header">ID</label>                    
-            <label  class="last-transactions__header">Fecha</label>                    
-            <label  class="last-transactions__header">Hora</label>                    
+            <label  class="last-transactions__header">Fecha y Hora</label>                                   
             <label  class="last-transactions__header">Cedula</label>                    
             <label  class="last-transactions__header">Nombres</label>                    
             <label  class="last-transactions__header">Recargado</label>                                     
         </div>
-        <div class="last-transactions__item">
-            <span  class="last-transactions__value">1</span>
-            <span  class="last-transactions__value">25-09-2020</span>
-            <span  class="last-transactions__value">8:00 am </span>
-            <span  class="last-transactions__value">1075275242</span>
-            <span  class="last-transactions__value">Felipe Cruz</span>
-            <span  class="last-transactions__value valor-recarga">10000</span>
-        </div>
-        <div class="last-transactions__item">
-            <span  class="last-transactions__value">2</span>
-            <span  class="last-transactions__value">25-09-2020</span>
-            <span  class="last-transactions__value">8:00 am </span>
-            <span  class="last-transactions__value">1075275242</span>
-            <span  class="last-transactions__value">Felipe Cruz</span>
-            <span  class="last-transactions__value valor-recarga">10000</span>
+
+        <div class="last-transactions__base-datos-items-container">
         </div>
     </div>
 </section>          

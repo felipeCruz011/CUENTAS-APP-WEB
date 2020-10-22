@@ -13,8 +13,6 @@ const enlaces = document.querySelectorAll('.menu__enlaces'),
       hacerTransaccionContainer = document.querySelector('.hacer-transaccion__container'), 
       transactionContainer = document.querySelector('.last-transactions__container'),
       transferenciasRecargado = document.querySelectorAll('.valor-recarga'),
-      transationsItems = document.querySelectorAll('.last-transactions__item'),
-      transationsValues = document.querySelectorAll('.last-transactions__value'),
       pcs = document.querySelector('.pcs'),
       computadores = document.querySelectorAll('.computadores__icon'),
       eyeIcon = document.querySelector('.eye-icon'),
@@ -259,7 +257,7 @@ function irListadoClientes() {
                                 }
 
                         function listarClientesBaseDatos() {
-                            fetch("includes/lista_de_clientes.php", {
+                            fetch("includes/listar_lista_de_clientes.php", {
                                 method: "POST"
                             }).then(response => response.text()).then(response => {
                                 let divContenedorResponse = document.createElement('div');
@@ -502,7 +500,7 @@ function irListadoClientes() {
                                                                                 showConfirmButton: false,
                                                                                 timer: 1500
                                                                             })
-                                                                            posicionarMensajeEliminar();
+                                                                            posicionarMensaje();
                                                                             irListadoClientes();
                                                                         } 
                                                                     })
@@ -968,9 +966,6 @@ function desplegarHacerTransaccion(e) {
                             document.querySelector('.hacer-transaccion__titulo-container').replaceChild(iconoMas, iconoHacerRecarga);
                             regresarLastTransactions();
                             reject(false)
-                            setTimeout(() => {
-                          
-                            }, 1000);
                         }
                     });
                 }
@@ -1109,9 +1104,10 @@ function desplegarHacerTransaccion(e) {
                                     copiarCedulaPortapapeles();
                                     if (inputValorRecarga.value !== ''){
                                         abrirPaginaHacerRecarga();
+                                        guardarTransaccionBaseDatos();
                                         setTimeout(() => {
                                             regresarLastTransactions();
-                                        }, 200);
+                                        }, 500);
                                     }
                                     
                                 }, 500);
@@ -1121,10 +1117,11 @@ function desplegarHacerTransaccion(e) {
                                 cedulaRecarga = cliente.parentElement.children[1].textContent;
                                 setTimeout(() => {
                                     copiarCedulaPortapapeles();
+                                    guardarTransaccionBaseDatos();
                                     abrirPaginaHacerRecarga();
                                     setTimeout(() => {
                                         regresarLastTransactions();
-                                    }, 200);
+                                    }, 500);
                                     
                                 }, 500);
                             }
@@ -1142,13 +1139,35 @@ function desplegarHacerTransaccion(e) {
                                     document.body.removeChild(inputCopiar);
                                 }
 
+                                function guardarTransaccionBaseDatos() {
+                                    let cedulaMysql = document.querySelector('.fila-activa').children[1].textContent;
+                                    let nombresMysql = document.querySelector('.fila-activa').children[2].textContent;
+                                    let recargaMysql = inputValorRecarga.value;
+                                    let dataTransaccion = new FormData();
+                                    dataTransaccion.append('cedula', cedulaMysql);
+                                    dataTransaccion.append('nombres', nombresMysql);
+                                    dataTransaccion.append('recargado', recargaMysql);
+                                    
+                                    fetch('guadar_transacciones.php', {
+                                        method: "POST",
+                                        body: dataTransaccion
+                                    }).then(response => response.text()).then(response => {
+                                        if (response == "ok") {
+                                            console.log(response);
+                                            console.log('transaccion Agregada');
+                                        }
+                                    }) 
+                                }
+
                                 function abrirPaginaHacerRecarga() {
                                     setTimeout(() => {
                                         console.log(cedulaRecarga)
                                         inputValorRecargaValue = inputValorRecarga.value;
                                         window.location.href = `https://aliados.wplay.co/actions/deposits#${cedulaRecarga}#${inputValorRecargaValue}`;
-                                    }, 200);
+                                    }, 500);
                                 }
+
+
                         
 
           
@@ -1158,7 +1177,9 @@ function desplegarHacerTransaccion(e) {
 
 // Funcion para seleccionar filas de las ultimas transferencias
 function seleccionarFilaUltimasTransacciones(e) {
-    let contenedorDatos = document.querySelector('.last-transactions__container')
+    let transationsItems = document.querySelectorAll('.last-transactions__item');
+    let transationsValues = document.querySelectorAll('.last-transactions__value');
+    let contenedorDatos = document.querySelector('.rehacer__container');
     eliminarClaseFilaActiva(transationsItems, transationsValues, contenedorDatos);
     let transaccion = e.target;
     if (transaccion.classList.contains('last-transactions__item')) {
@@ -1201,7 +1222,7 @@ function seleccionarFilaUltimasTransacciones(e) {
 
                 function contenidoRehacerTransaccion() {
                     opcionesUltimasTransacciones.innerHTML = `
-                                
+                        <i class="rehacer__icons--atras fas fa-times-circle" id="idIrUltimasTransacciones"></i>    
                         <h1 class="rehacer__titulo">
                             <span class="span-modificar">Modificar |</span>
                             <span class="span-Rehacer"> Rehacer |</span>
@@ -1230,6 +1251,7 @@ function seleccionarFilaUltimasTransacciones(e) {
                     document.querySelector('.edit-rehacer').addEventListener('click', editarUltimaTransaccion);
                     document.querySelector('.rehacer').addEventListener('click', rehacerTransaccion);
                     document.querySelector('.eliminar-rehacer').addEventListener('click', eliminarUltimaTransaccion);
+                    idIrUltimasTransacciones.addEventListener('click', cerrarOpcionesUltimasTransacciones);
                 }
 
                         async function editarUltimaTransaccion() {
@@ -1261,19 +1283,17 @@ function seleccionarFilaUltimasTransacciones(e) {
                                         divEdit.innerHTML = `
                                                 <div class="rehacer__type">
                                                     <label  class="rehacer__header">ID</label>                    
-                                                    <label  class="rehacer__header">Fecha</label>                    
-                                                    <label  class="rehacer__header">Hora</label>                    
+                                                    <label  class="rehacer__header">Fecha</label>                  
                                                     <label  class="rehacer__header">Cedula</label>                    
                                                     <label  class="rehacer__header">Nombres</label>                    
                                                     <label  class="rehacer__header">Recargado</label>                                     
                                                 </div>
                                                 <div class="rehacer__item">
-                                                    <input type="text" class="rehacer__input-value" value="1">
-                                                    <input type="text" class="rehacer__input-value" value="25/09/2020">
-                                                    <input type="text" class="rehacer__input-value" value="8:00 am">
-                                                    <input type="text" class="rehacer__input-value" value="1075275242">
-                                                    <input type="text" class="rehacer__input-value" value="Felipe Cruz">
-                                                    <input type="text" class="rehacer__input-value valor-recarga-edit" value="10000">
+                                                    <input type="text" class="rehacer__input-value" id="idUltimasTransacciones" value="">
+                                                    <input type="text" class="rehacer__input-value" id="idFechaUltimasTransacciones" value="">
+                                                    <input type="text" class="rehacer__input-value" id="idCedulaUltimasTransacciones" value="">
+                                                    <input type="text" class="rehacer__input-value" id="idNombresUltimasTransacciones" value="">
+                                                    <input type="text" class="rehacer__input-value valor-recarga-edit" id="idRecargadoUltimasTransacciones" value="">
                                                 </div>
                                                 <div class="div-btn"> 
                                                     <input type="submit" class="btn-confirmar-edit" value="Confirmar">
@@ -1290,6 +1310,8 @@ function seleccionarFilaUltimasTransacciones(e) {
 
                                 function agregarAnimarEdit() {
                                     return new Promise((resolve, reject) => {
+                                        // Colocando Datos en los campos a editar
+                                        colocarDatosEditarSeleccionado();
                                         // Titulo Modificar 
                                         document.querySelector('.rehacer__titulo').removeAttribute('style');
                                         // Contenido Edit
@@ -1297,10 +1319,20 @@ function seleccionarFilaUltimasTransacciones(e) {
                                         setTimeout(() => {
                                             document.querySelector('.div-edit').classList.remove('abrir-ventana-animacion');
                                             document.querySelector('.div-edit').style.opacity = '1';
+                                            
                                             resolve(true);
                                         }, 500);
                                     });
                                 }
+
+                                        function colocarDatosEditarSeleccionado() {
+                                            filaActiva = document.querySelector('.fila-activa');
+                                            idUltimasTransacciones.value = filaActiva.children[0].textContent;
+                                            idFechaUltimasTransacciones.value = filaActiva.children[1].textContent;
+                                            idCedulaUltimasTransacciones.value = filaActiva.children[2].textContent;
+                                            idNombresUltimasTransacciones.value = filaActiva.children[3].textContent;
+                                            idRecargadoUltimasTransacciones.value = filaActiva.children[4].textContent;
+                                        }
 
                                 function funcionalidadBotonesEdit() {
                                     return new Promise((reject, resolve) => {
@@ -1310,9 +1342,42 @@ function seleccionarFilaUltimasTransacciones(e) {
                                     
                                 }
 
-                                        async function confirmarCambiosEdit() {
-                                            
-                                            await cerrarOpcionesUltimasTransacciones();
+                                        function confirmarCambiosEdit() {
+                                            let fechaEditMysql = idFechaUltimasTransacciones.value;
+                                            let cedulaEditMysql = idCedulaUltimasTransacciones.value;
+                                            let nombresEditMysql = idNombresUltimasTransacciones.value;
+                                            let recargadoEditMysql = idRecargadoUltimasTransacciones.value;
+                                            console.log(idUltimasTransacciones.value)
+                                            let dataLastTransaccion = new FormData();
+                                            dataLastTransaccion.append('id', idUltimasTransacciones.value);
+                                            dataLastTransaccion.append('fecha', fechaEditMysql);
+                                            dataLastTransaccion.append('cedula', cedulaEditMysql);
+                                            dataLastTransaccion.append('nombres', nombresEditMysql);
+                                            dataLastTransaccion.append('recargado', recargadoEditMysql);
+                                            if (fechaEditMysql !== "" && cedulaEditMysql !== "" && nombresEditMysql !== "" && recargadoEditMysql !== "") {
+                                                fetch('editar_transacciones.php', {
+                                                    method: "POST",
+                                                    body: dataLastTransaccion
+                                                }).then(response => response.text()).then(response => {
+                                                    console.log(response)
+                                                    if (response == "ok") {
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            title: 'Transaccion Editada Con Exito',
+                                                            showConfirmButton: false,
+                                                            timer: 1900
+                                                        })
+                                                        posicionarMensaje();
+                                                        cerrarOpcionesUltimasTransacciones();
+                                                    }
+                                                })
+                                            } else {
+                                                alert('Llene todos los datos');
+                                                e.preventDefalut();
+                                            }
+                                            setTimeout(() => {
+                                                window.location.reload();
+                                            }, 2000);
                                         }
 
                                         function cerrarOpcionesUltimasTransacciones() {
@@ -1445,6 +1510,24 @@ function verificarAgregadoNuevoCliente() {
             crearContenidoMensajeClienteEditado()
         }, 200);
     }
+
+    let urlActual = window.location.href;
+    let urlRecargaExitosa = 'https://localhost/CUENTAS%20APP%20WEB/#recargado';
+    if(urlRecargaExitosa == urlActual) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Recarga Exitosa',
+            showConfirmButton: false,
+            timer: 3000
+        })
+        posicionarMensaje();
+        setTimeout(() => {
+            window.location.href = 'https://localhost/CUENTAS%20APP%20WEB/';
+        }, 2100);
+    }
+
+    listarTransferenciasRecargadas();
+
 }
 
         function crearContenidoMensajeClienteNuevo() {
@@ -1469,14 +1552,22 @@ function verificarAgregadoNuevoCliente() {
         }
 
 
+        function listarTransferenciasRecargadas() {
+               // Fecha Actual
+            let currentDate = new Date();
+            let currentDay = currentDate.getDate();
+            let monthNumber = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
 
+            let fecha = `${currentYear}-${monthNumber + 1}-${currentDay}`;
 
-
-
-
-
-
-
+            fetch("includes/listar_transacciones.php", {
+                method: "POST",
+                body: fecha
+            }).then(response => response.text()).then(response => {
+                document.querySelector('.last-transactions__base-datos-items-container').innerHTML = response;
+            })
+        }
 
 
 

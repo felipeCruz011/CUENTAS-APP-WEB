@@ -1,7 +1,5 @@
 <?php  
 require "../db.php"; 
-$clientes__value = '"clientes__value"';
-$clientes__item = '"clientes__item"';
 
 $consulta_lista_clientes = $pdo->prepare("SELECT * FROM clientes ORDER BY id DESC");
 $consulta_lista_clientes->execute();

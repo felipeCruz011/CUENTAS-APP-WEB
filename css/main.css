@@ -240,7 +240,7 @@ body {
         width: 100vw;
         display: grid;
         grid-template-rows: 1fr;
-        grid-template-columns: 450px 1fr 16 0px;
+        grid-template-columns: 450px 1fr 160px;
         grid-column-gap: 20px;
         grid-row: 2 / span 1;
         padding: 20px 10px;
@@ -571,7 +571,7 @@ body {
                 font-weight: 600;
                 place-items: center;
                 grid-template-rows: 40px;
-                grid-template-columns: 50px 85px minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr)minmax(100px, 1fr);
+                grid-template-columns: 50px  minmax(185px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr)minmax(100px, 1fr);
                 justify-items: center;
                 background: var(--azul);
                 border-top-right-radius: 15px;
@@ -584,12 +584,37 @@ body {
                     display: block;
                     color: #fff;
                 }
+            
+            .last-transactions__base-datos-items-container {
+                height: 180px;
+                overflow-y: auto;
+            }
+
+                .last-transactions__base-datos-items-container::-webkit-scrollbar {
+                    background: var(--azul);
+                    height: 10px;
+                    border-radius: 20px;
+                }
+
+                    .last-transactions__base-datos-items-container::-webkit-scrollbar:vertical {
+                        width: 15px;
+                    }
+
+                    .last-transactions__base-datos-items-container::-webkit-scrollbar-thumb {
+                        background: var(--red);
+                        border-radius: 20px;
+                    }
+
+                        .last-transactions__base-datos-items-container::-webkit-scrollbar-thumb:hover {
+                            background: rgb(245, 6, 245);
+                        }
+
 
             .last-transactions__item {
                 display: grid;
                 text-align: center;
                 grid-template-rows: 40px;
-                grid-template-columns: 50px 85px minmax(100px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr)minmax(100px, 1fr);
+                grid-template-columns: 50px  minmax(185px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr)minmax(100px, 1fr);
                 place-items: center;
                 grid-column-gap: 5px;
                 grid-row: 3 / span 1;
@@ -816,7 +841,7 @@ body {
 ------------------------------------*/
 
     .atajos {
-        position: relative;
+        position: absolute;
         grid-row: 3 / span 1;
         grid-column: 1 / span 2;
         width: 100%;
@@ -921,6 +946,18 @@ body {
         z-index: 8888;
     }
 
+        .rehacer__icons--atras {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+            .rehacer__icons--atras:hover {
+                color: var(--red);
+            }
+
         .rehacer__titulo {
             position: relative;
             margin-bottom: 70px;
@@ -964,7 +1001,7 @@ body {
                 font-weight: 600;
                 place-items: center;
                 grid-template-rows: 40px;
-                grid-template-columns: 50px 90px 90px 100px 150px 150px;
+                grid-template-columns: 50px 120px 100px 150px 100px;
                 grid-column-gap: 5px;
                 justify-items: center;
                 background: var(--azul);
@@ -984,7 +1021,7 @@ body {
                 font-size: 13px;
                 text-align: center;
                 grid-template-rows: 40px;
-                grid-template-columns: 50px 90px 90px 100px 150px 150px;
+                grid-template-columns: 50px 120px 100px 1fr 100px;
                 place-items: center;
                 grid-column-gap: 5px;
                 grid-row: 3 / span 1;
@@ -1007,7 +1044,7 @@ body {
 
                     .rehacer__input-value:nth-child(2) {
                         display: inline-block;
-                        width: 85px;
+                        width: 130px;
                     }
 
                     .rehacer__input-value:nth-child(3) {
@@ -1017,12 +1054,12 @@ body {
 
                     .rehacer__input-value:nth-child(4) {
                         display: inline-block;
-                        width: 90px;
+                        width: 90%;
                     }
 
                     .rehacer__input-value:last-of-type{
                         display: inline-block;
-                        width: 150px;
+                        width: 90px;
                     }
 
         
@@ -1643,7 +1680,7 @@ body {
 
                 .computadores__icon {
                     position: relative;
-                    left: -15px;
+                    left: -25px;
                     font-size: 45px;
                     height: 45px;
                     border-radius: 10px;
