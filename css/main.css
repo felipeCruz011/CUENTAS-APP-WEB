@@ -992,6 +992,7 @@ body {
             position: relative;
             top: -20px;
             opacity: 0;
+            transform: scale(1.2);
             transition: all .5s ease;
         }
 
@@ -1105,7 +1106,7 @@ body {
                     user-select: none;
                 }
     
-                    .btn-cancelar:hover {
+                    .btn-cancelar-edit:hover {
                         background: violet;
                         color: #000;
                     }
@@ -1872,7 +1873,7 @@ body {
         display: flex;
         flex-direction: column;
         min-width: 80%;
-        max-height: 400px;
+        height: 400px;
         padding: 10px 30px;
         border-radius: 20px;
         background: rgba(75, 188, 223, 0.6);
@@ -2069,7 +2070,7 @@ body {
             display: grid;
             place-items: center;
             grid-template-rows: 50px;
-            grid-template-columns: 50px 150px minmax(200px, 1fr) 1fr;
+            grid-template-columns: 50px 350px 350px 1fr 300px;
             border-bottom: 2px solid rgba(255, 255, 255, .5);
             font-weight: 600;
             min-height: 40px;
@@ -2079,7 +2080,7 @@ body {
             display: grid;
             place-items: center;
             grid-template-rows: 40px;
-            grid-template-columns: 50px 150px minmax(200px, 1fr) 1fr;
+            grid-template-columns: 50px 350px 350px 1fr 300px;
             border-bottom: 2px solid rgba(255, 255, 255, .5);
             min-height: 40px;
         }

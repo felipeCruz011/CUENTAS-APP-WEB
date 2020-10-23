@@ -22,7 +22,7 @@
                 <!-- Buscador -->
             <div class="last-transactions__buscar-container">
                 <div class="last-transactions__buscar">
-                    <input type="text" class="last-transactions__input-buscar" placeholder="Buscar">
+                    <input type="text" class="last-transactions__input-buscar" id="idBuscarLastTransaccion" placeholder="Buscar">
                     <div class="last-transactions__btn-container">
                         <i class="last-transactions__btn-lupa fas fa-search-dollar"></i>
                     </div>
@@ -41,3 +41,5 @@
         </div>
     </div>
 </section>          
+
+

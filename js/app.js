@@ -60,14 +60,16 @@ atajoTransferencias.addEventListener('click', irTransferenciasIcon);
 hacerTransaccionContainer.addEventListener('click', desplegarHacerTransaccion);
     //listener para seleccionar la fila a modificar o rehacer 
 transactionContainer.addEventListener('click', seleccionarFilaUltimasTransacciones);
-    //listener para mostrar la informacion general de las operaciones
+    //listener para mostrar la informacion general de las operaciones logo y background
 eyeIcon.addEventListener('mouseenter', ocultarLogoBackground);
 eyeIcon.addEventListener('mouseleave', aparecerBackground);
 divBackgroundOperations.addEventListener('mouseenter', ocultarLogo);
 divBackgroundOperations.addEventListener('mouseleave', aparecerLogo);
 document.addEventListener('DOMContentLoaded', verificarAgregadoNuevoCliente);
-// Listener para la busqueda de Clientes para hacer la recarga
-
+    //listener para buscar entre las ultimas transacciones 
+idBuscarLastTransaccion.addEventListener('keyup', verificarPalabraBusquedaLastTransaccion);
+    // Listener para verificar si la pagina tiene foco
+window.addEventListener('focus', verificarRecargaExitosa);
 
 
 // Funciones
@@ -173,7 +175,10 @@ function irListadoClientes() {
             await transicionAnimacion();
             await animarAperturaSeccion();
             await agregarAlDom();
-            eventListenerBusquedaListaClientes();
+            // Verificar si se esta abriendo la seccion del Listado de Clientes
+            if (document.querySelector('.clientes__container') !== null) {
+                eventListenerBusquedaListaClientes();
+            }
         }
 
                 function limipiarClases() {
@@ -221,7 +226,10 @@ function irListadoClientes() {
                             document.querySelector('.container-all').appendChild(divDynamic);
                         }
                         setTimeout(() => {
-                            listarClientesBaseDatos();
+                            // Verificar si estoy en la seccion del Listado de Clientes
+                            if (document.querySelector('.clientes__container') !== null) {
+                                listarClientesBaseDatos();
+                            }
                             if (document.querySelector('.clientes__container') !== null) {
                                 document.querySelector('.clientes__container').addEventListener('click', seleccionarFilasListadoClientes);
                             }
@@ -749,109 +757,19 @@ function irTransferencias() {
 
                     <div class="listado-transferencias__type">
                         <label  class="listado-transferencias__header">ID</label>                    
-                        <label  class="listado-transferencias__header">Fecha</label>                    
-                        <label  class="listado-transferencias__header">Hora</label>                    
+                        <label  class="listado-transferencias__header">Fecha</label>     
                         <label  class="listado-transferencias__header">Cedula</label>                    
                         <label  class="listado-transferencias__header">Nombres</label>                    
                         <label  class="listado-transferencias__header">Recargado</label>                                                           
                     </div>
                     <div class="listado-transferencias__item">
                         <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
+                        <span  class="listado-transferencias__value">30-09-2020 4:49 pm</span>
                         <span  class="listado-transferencias__value">1075275242 Cruz</span>
                         <span  class="listado-transferencias__value">Felipe Cruz</span>
                         <span  class="listado-transferencias__value">$ 10.000</span>
                     </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    <div class="listado-transferencias__item">
-                        <span  class="listado-transferencias__value">1</span>
-                        <span  class="listado-transferencias__value">30-09-2020</span>
-                        <span  class="listado-transferencias__value">4:49 pm</span>
-                        <span  class="listado-transferencias__value">1075275242 Cruz</span>
-                        <span  class="listado-transferencias__value">Felipe Cruz</span>
-                        <span  class="listado-transferencias__value">$ 10.000</span>
-                    </div>
-                    
+                                        
                 </div>
             </section> 
 
@@ -1171,7 +1089,27 @@ function desplegarHacerTransaccion(e) {
                         
 
           
+// Funcion para buscar las ultimas transacciones
+function verificarPalabraBusquedaLastTransaccion() {
+    setTimeout(() => {
+        let valorBusqueda = this.value;
+        console.log(valorBusqueda)
+        if (valorBusqueda !== "") {
+            busquedaPalabraBaseDatosLastTransaccion(valorBusqueda);
+        } else {
+            busquedaPalabraBaseDatosLastTransaccion();
+        }
+    }, 100);
+}
 
+        function busquedaPalabraBaseDatosLastTransaccion(valorBusqueda) {
+            fetch("buscar_transacciones.php", {
+                method: "POST",
+                body: valorBusqueda
+            }).then(response => response.text()).then(response => {
+                document.querySelector('.last-transactions__base-datos-items-container').innerHTML = response;
+            })
+        }
                 
 
 
@@ -1250,7 +1188,7 @@ function seleccionarFilaUltimasTransacciones(e) {
                 function opcionesAgregarEventListeners() {
                     document.querySelector('.edit-rehacer').addEventListener('click', editarUltimaTransaccion);
                     document.querySelector('.rehacer').addEventListener('click', rehacerTransaccion);
-                    document.querySelector('.eliminar-rehacer').addEventListener('click', eliminarUltimaTransaccion);
+                    document.querySelector('.eliminar-rehacer').addEventListener('click', eliminarLastTransaccion);
                     idIrUltimasTransacciones.addEventListener('click', cerrarOpcionesUltimasTransacciones);
                 }
 
@@ -1405,8 +1343,41 @@ function seleccionarFilaUltimasTransacciones(e) {
 
                                 
 
-                        async function eliminarUltimaTransaccion() {
-                            await cerrarOpcionesUltimasTransacciones();
+                        function eliminarLastTransaccion() {
+                            posicionarMensaje();
+                            Swal.fire({
+                                title: 'Esta seguro de Eliminar esta Transaccion?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Si!',
+                                cancelButtonText: 'NO'
+                            }).then((result) => {
+                                let id_transaccion = document.querySelector('.fila-activa').children[0].textContent; 
+                                if (result.isConfirmed) {
+                                    fetch("eliminar_transaccion.php", {
+                                        method: "POST",
+                                        body: id_transaccion
+                                    }).then(response => response.text()).then(response => {
+                                        console.log(response)
+                                        if (response == "ok") {
+                                            console.log(response)
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Transaccion Eliminada Correctamente',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            })
+                                            posicionarMensaje();
+                                            cerrarOpcionesUltimasTransacciones();
+                                            setTimeout(() => {
+                                                window.location.reload();
+                                            }, 1500);
+                                        } 
+                                    })
+                                }
+                            })
                         }
 
 
@@ -1511,20 +1482,7 @@ function verificarAgregadoNuevoCliente() {
         }, 200);
     }
 
-    let urlActual = window.location.href;
-    let urlRecargaExitosa = 'https://localhost/CUENTAS%20APP%20WEB/#recargado';
-    if(urlRecargaExitosa == urlActual) {
-        Swal.fire({
-            icon: 'success',
-            title: 'Recarga Exitosa',
-            showConfirmButton: false,
-            timer: 3000
-        })
-        posicionarMensaje();
-        setTimeout(() => {
-            window.location.href = 'https://localhost/CUENTAS%20APP%20WEB/';
-        }, 2100);
-    }
+
 
     listarTransferenciasRecargadas();
 
@@ -1570,11 +1528,23 @@ function verificarAgregadoNuevoCliente() {
         }
 
 
-
-
-
-
-
+// Funcion para verificar si se realizo la recarga exitosamente
+function verificarRecargaExitosa() {
+    let urlActual = window.location.href;
+    let urlRecargaExitosa = 'https://localhost/CUENTAS%20APP%20WEB/#recargado';
+    if(urlRecargaExitosa == urlActual) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Recarga Exitosa',
+            showConfirmButton: false,
+            timer: 3000
+        })
+        posicionarMensaje();
+        setTimeout(() => {
+            window.location.href = 'https://localhost/CUENTAS%20APP%20WEB/';
+        }, 2100);
+    }
+}
 
 
 
