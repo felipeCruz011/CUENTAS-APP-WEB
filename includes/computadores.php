@@ -1,9 +1,8 @@
 <section class="pcs">
     <div class="pcs__container">
-        <div class="pcs__pc-container">
-            <span class="pcs__pc">PC</span>
+        <div class="pcs__numero-container">
+            <span class="pcs__numero">1</span>
         </div>
-        <span class="pcs__numero">1</span>
         <div class="pcs__img-container">
             <img src="./img/computador.png" alt="" class="pcs__img">
         </div>
@@ -26,7 +25,6 @@
             </div>
             <div class="pcs__btn-container">
                 <button class="pcs__btn btn-pagar">Pagar</button>
-                <button class="pcs__btn btn-transferencias-realizadas">Transferencias Realizadas</button>
             </div>
         </div>
     </div>

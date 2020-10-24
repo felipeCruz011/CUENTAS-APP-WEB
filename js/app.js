@@ -70,7 +70,9 @@ document.addEventListener('DOMContentLoaded', verificarAgregadoNuevoCliente);
 idBuscarLastTransaccion.addEventListener('keyup', verificarPalabraBusquedaLastTransaccion);
     // Listener para verificar si la pagina tiene foco
 window.addEventListener('focus', verificarRecargaExitosa);
-
+    // Listener para abrir las pestañas ultimas transferencias y pagos pendientes
+idTitulo1.addEventListener('click', abrirTabTitulo1);
+idTitulo2.addEventListener('click', abrirTabTitulo2);
 
 // Funciones
 
@@ -1482,10 +1484,8 @@ function verificarAgregadoNuevoCliente() {
         }, 200);
     }
 
-
-
     listarTransferenciasRecargadas();
-
+    listarPendientes();
 }
 
         function crearContenidoMensajeClienteNuevo() {
@@ -1527,6 +1527,23 @@ function verificarAgregadoNuevoCliente() {
             })
         }
 
+        function listarPendientes() {
+               // Fecha Actual
+               let currentDate = new Date();
+               let currentDay = currentDate.getDate();
+               let monthNumber = currentDate.getMonth();
+               let currentYear = currentDate.getFullYear();
+   
+               let fecha = `${currentYear}-${monthNumber + 1}-${currentDay}`;
+   
+               fetch("includes/listar_pendientes.php", {
+                   method: "POST",
+                   body: fecha
+               }).then(response => response.text()).then(response => {
+                   document.querySelector('.last-transactions__base-datos-items-pendientes-container').innerHTML = response;
+               })
+        }
+
 
 // Funcion para verificar si se realizo la recarga exitosamente
 function verificarRecargaExitosa() {
@@ -1545,6 +1562,47 @@ function verificarRecargaExitosa() {
         }, 2100);
     }
 }
+
+
+// Funcion para abrir los tabs de ultimas transacciones y pagos pendientes
+function abrirTabTitulo1() {
+    if(!this.classList.contains('h2-active')) {
+        this.classList.add('h2-active');
+        idTitulo2.classList.remove('h2-active');
+        setTimeout(() => {
+            aparecerTabTitulo(idTabsContainerTitulo1)
+        }, 500);
+        ocultarTabTitulo(idTabsContainerTitulo2);
+    }
+}
+
+
+// Funcion para abrir los tabs de ultimas transacciones y pagos pendientes
+function abrirTabTitulo2() {
+    if(!this.classList.contains('h2-active')) {
+        this.classList.add('h2-active');
+        idTitulo1.classList.remove('h2-active');
+        setTimeout(() => {
+            aparecerTabTitulo(idTabsContainerTitulo2);    
+        }, 500);
+        ocultarTabTitulo(idTabsContainerTitulo1);
+    }
+}
+
+        function aparecerTabTitulo(tab) {
+            tab.setAttribute('style', 'opacity: 0; display: initial; transition: all .5s ease');
+            setTimeout(() => {
+                tab.setAttribute('style', 'opacity: 1; display: initial; transition: all .5s ease');
+            }, 100);
+            tab.setAttribute('style', 'opacity: 1; display: initial; transform: translate(100px); transition: all .5s ease');
+        }
+
+        function ocultarTabTitulo(tab) {
+            tab.setAttribute('style', 'opacity: 0; display: initial; transform: translate(100px); transition: all .5s ease');
+            setTimeout(() => {
+                tab.setAttribute('style', 'opacity: 0; transform: translate(100px); display: none; transition: all .5s ease');
+            }, 500);
+        }
 
 
 

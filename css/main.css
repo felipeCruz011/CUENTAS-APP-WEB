@@ -500,9 +500,33 @@ body {
 
                 .last-transactions__h2 {
                     position: relative;
+                    width: 210px;
+                    background: #333642;
+                    display: block;
                     font-size: 25px;
                     text-align: center;
+                    cursor: pointer;
+                    user-select: none;
+                    transition: all .5s ease;
                 }
+
+                    .last-transactions__h2:hover {
+                        background: var(--azul);
+                    }
+
+                    .titulo1 {
+                        border-top-left-radius: 20px;
+                       
+                    }
+
+                    .titulo2 {
+                        border-top-right-radius: 20px;
+                        
+                    }
+
+                    .h2-active {
+                        background: var(--red);
+                    }
 
                 .last-transactions__buscar-container {
                     position: relative;
@@ -532,11 +556,11 @@ body {
                         }
 
                             .last-transactions__buscar:hover input {
-                                width: 300px;
+                                width: 270px;
                             }
 
                             .last-transactions__input-buscar:focus {
-                                width: 300px;
+                                width: 270px;
                             }
                                 
                         .last-transactions__btn-container {
@@ -586,6 +610,11 @@ body {
                 }
             
             .last-transactions__base-datos-items-container {
+                height: 180px;
+                overflow-y: auto;
+            }
+
+            .last-transactions__base-datos-items-pendientes-container {
                 height: 180px;
                 overflow-y: auto;
             }
@@ -835,6 +864,28 @@ body {
                             width: 150px;
                         }
 
+    .last-transactions__tabs-titulo2-container {
+        display: none;
+    }
+
+        .last-transactions__type_pendiente {
+            display: grid;
+            font-weight: 600;
+            place-items: center;
+            grid-template-rows: 40px;
+            grid-template-columns: 50px 30px minmax(185px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr)minmax(100px, 1fr);
+            justify-items: center;
+            background: #CC0000;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            border-bottom: 2px solid #fff;
+            user-select: none;
+        }
+
+            .last-transactions__header {
+                display: block;
+                color: #fff;
+            }
 
 /*-----------------------------------
     4 - Atajos
@@ -1681,6 +1732,7 @@ body {
 
                 .computadores__icon {
                     position: relative;
+                    cursor: pointer;
                     left: -25px;
                     font-size: 45px;
                     height: 45px;
@@ -1716,51 +1768,46 @@ body {
 
         .pcs__container {
             display: grid;
-            grid-template-rows: 70px 1fr;
-            grid-template-columns: 300px 350px;
+            grid-template-rows: 150px 1fr;
+            grid-template-columns: 227.5px 227.5px;
             place-items: center;
         }
 
-                .pcs__pc-container {
-                    display: flex;
-                    padding-top: 40px;
-                    justify-content: center;
-                    grid-row: 1 / span 1;
-                    grid-column: 1 / span 1;
-                    width: 250px;
-                    border-right: 2px solid #fff;
-                    position: relative;
-                    font-size: 70px;
-                }
-                
+            .pcs__numero-container {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                grid-row: 1 / span 1;
+                grid-column: 2 / span 1;
+            }
+
                 .pcs__numero {
-                    padding-top: 40px;
-                    grid-row: 1 / span 1;
-                    grid-column: 2 / span 1;
                     position: relative;
+                    align-self: center;
+                    justify-self: flex-start;
                     color: var(--red);
                     text-shadow: -1px -1px 1px #fff, 1px 1px 1px #fff, -1px 1px 1px #fff, 1px -1px 1px #fff;
-                    font-size: 70px;
+                    font-size: 160px;
                 }
 
             .pcs__img-container {
+                top: 20px;
                 position: relative;
-                top: 50px;
-                grid-row: 1 / span 2;
+                grid-row: 1 / span 1;
                 grid-column: 1 / span 1;
             }
 
                 .pcs__img {
-                    width: 250px;
-                    height: 250px;
-                    border-right: 2px solid #fff;
+                    width: 150px;
+                    height: 150px;
+                    object-fit: cover;
                 }
             
             .pcs__info {
-                justify-self: flex-start;
+                justify-self: center;
                 width: 350px;
                 grid-row: 2 / span 1;
-                grid-column: 2 / span 1;
+                grid-column: 1 / span 2;
                 opacity: 1;
             }
 
@@ -1805,11 +1852,11 @@ body {
             .pcs__btn-container {
                 display: grid;
                 place-items: center;
+                padding-top: 20px;
             }
 
                 .pcs__btn {
                     width: 240px;
-                    margin-bottom: 10px;
                     height: 35px;
                     border-radius: 20px;
                     border: 2px solid #fff;
