@@ -47,8 +47,7 @@ enlaceTransferencias.forEach((enlace) => {
 });
     // Listeners para aparecer y ocultar cada pc con sus respectivas transacciones al ponerse encima del icono y dejarlo
 computadores.forEach((pc) => {
-    pc.addEventListener('mouseover', mostrarPc);
-    pc.addEventListener('mouseout', ocultarPc);
+    pc.addEventListener('click', mostrarPc);
 });
 
 // EventListeners Individuales
@@ -283,15 +282,16 @@ function irListadoClientes() {
                             let filaLetra = document.querySelectorAll('.clientes__value');
                             let contenedorDatosClientes = document.querySelector('.clientes__herramientas');
                             let cliente = e.target;
-                            eliminarClaseFilaActiva(filaItem, filaLetra, contenedorDatosClientes);
+                            let filaActivaClass = 'fila-activa';
+                            eliminarClaseFilaActiva(filaItem, filaLetra, contenedorDatosClientes, filaActivaClass);
                             if (cliente.classList.contains('clientes__item')) {
                                 console.log('entro directo')
-                                seleccionarFila(cliente);
+                                seleccionarFila(cliente, filaActivaClass);
                                 abrirOpcionesClientes();
                             }
                             if (cliente.parentElement.classList.contains('clientes__item')) {
                                 console.log('entro hijo')
-                                seleccionarFila(cliente.parentElement);
+                                seleccionarFila(cliente.parentElement, filaActivaClass);
                                 abrirOpcionesClientes();
                             }
 
@@ -1016,9 +1016,10 @@ function desplegarHacerTransaccion(e) {
                             let filaLetra = document.querySelectorAll('.clientes__value');
                             let contenedorDatosClientes = contenedorClientesResultados;
                             let cliente = e.target;
-                            eliminarClaseFilaActiva(filaItem, filaLetra, contenedorDatosClientes);
+                            let filaActivaClass = 'fila-activa';
+                            eliminarClaseFilaActiva(filaItem, filaLetra, contenedorDatosClientes, filaActivaClass);
                             if (cliente.classList.contains('last-transactions__resultado-busqueda-clientes-item')) {
-                                seleccionarFila(cliente);
+                                seleccionarFila(cliente, filaActivaClass);
                                 cedulaRecarga = cliente.children[1].textContent;
                                 setTimeout(() => {
                                     copiarCedulaPortapapeles();
@@ -1033,7 +1034,7 @@ function desplegarHacerTransaccion(e) {
                                 }, 500);
                             }
                             if (cliente.parentElement.classList.contains('last-transactions__resultado-busqueda-clientes-item')) {
-                                seleccionarFila(cliente.parentElement);
+                                seleccionarFila(cliente.parentElement, filaActivaClass);
                                 cedulaRecarga = cliente.parentElement.children[1].textContent;
                                 setTimeout(() => {
                                     copiarCedulaPortapapeles();
@@ -1120,22 +1121,23 @@ function seleccionarFilaUltimasTransacciones(e) {
     let transationsItems = document.querySelectorAll('.last-transactions__item');
     let transationsValues = document.querySelectorAll('.last-transactions__value');
     let contenedorDatos = document.querySelector('.rehacer__container');
-    eliminarClaseFilaActiva(transationsItems, transationsValues, contenedorDatos);
+    let filaActivaClass = 'fila-activa';
+    eliminarClaseFilaActiva(transationsItems, transationsValues, contenedorDatos, filaActivaClass);
     let transaccion = e.target;
     if (transaccion.classList.contains('last-transactions__item')) {
-        seleccionarFila(transaccion);
+        seleccionarFila(transaccion, filaActivaClass);
         abrirUltimasTransacciones();
     }
     if (transaccion.parentElement.classList.contains('last-transactions__item')) {
-        seleccionarFila(transaccion.parentElement);
+        seleccionarFila(transaccion.parentElement, filaActivaClass);
         abrirUltimasTransacciones();
     }
 }
 
-        function eliminarClaseFilaActiva(items, values, contenedorDinamico) {
+        function eliminarClaseFilaActiva(items, values, contenedorDinamico, filaActivaClass) {
             if (contenedorDinamico == null) {
                 items.forEach((element) => {
-                    element.classList.remove('fila-activa');
+                    element.classList.remove(filaActivaClass);
                 });
                 values.forEach((value) => {
                     value.classList.remove('fila-activa-color');
@@ -1143,9 +1145,9 @@ function seleccionarFilaUltimasTransacciones(e) {
             }
         }
 
-        function seleccionarFila(fila) {
-            fila.classList.add('fila-activa');
-            document.querySelectorAll('.fila-activa span').forEach((item) => {
+        function seleccionarFila(fila, clase) {
+            fila.classList.add(clase);
+            document.querySelectorAll(`.${clase} span`).forEach((item) => {
                 item.classList.add('fila-activa-color');
             });
         }
@@ -1516,9 +1518,11 @@ function verificarAgregadoNuevoCliente() {
             let currentDay = currentDate.getDate();
             let monthNumber = currentDate.getMonth();
             let currentYear = currentDate.getFullYear();
-
+            if (currentDay == 1) {
+                currentDay = '01';
+            }
             let fecha = `${currentYear}-${monthNumber + 1}-${currentDay}`;
-
+            console.log(fecha)
             fetch("includes/listar_transacciones.php", {
                 method: "POST",
                 body: fecha
@@ -1569,6 +1573,8 @@ function abrirTabTitulo1() {
     if(!this.classList.contains('h2-active')) {
         this.classList.add('h2-active');
         idTitulo2.classList.remove('h2-active');
+        idTitulo2.style.opacity = '.6';
+        idTitulo1.removeAttribute('style');
         setTimeout(() => {
             aparecerTabTitulo(idTabsContainerTitulo1)
         }, 500);
@@ -1582,10 +1588,13 @@ function abrirTabTitulo2() {
     if(!this.classList.contains('h2-active')) {
         this.classList.add('h2-active');
         idTitulo1.classList.remove('h2-active');
+        idTitulo1.style.opacity = '.6';
+        idTitulo2.removeAttribute('style');
         setTimeout(() => {
             aparecerTabTitulo(idTabsContainerTitulo2);    
         }, 500);
         ocultarTabTitulo(idTabsContainerTitulo1);
+        document.querySelector('.last-transactions__base-datos-items-pendientes-container').addEventListener('click', seleccionarFilaPendientes);
     }
 }
 
@@ -1603,6 +1612,40 @@ function abrirTabTitulo2() {
                 tab.setAttribute('style', 'opacity: 0; transform: translate(100px); display: none; transition: all .5s ease');
             }, 500);
         }
+
+        function seleccionarFilaPendientes(e) {
+            document.querySelector('.last-transactions__item-pendientes').addEventListener('click', abrirPc);
+            let filaItem = document.querySelectorAll('.last-transactions__item-pendientes');
+            let filaLetra = document.querySelectorAll('.last-transactions__pendiente-value');
+            let contenedorPcs = document.querySelector('.pcs__container');
+            let transaccionPendiente = e.target;
+            let filaActivaClass = 'fila-activa-pendiente';
+            eliminarClaseFilaActivaPendientes(filaItem, filaLetra, filaActivaClass);
+            if (transaccionPendiente.classList.contains('last-transactions__item-pendientes')) {
+                console.log('entro directo')
+                seleccionarFila(transaccionPendiente, filaActivaClass);
+                abrirPc();
+            }
+            if (transaccionPendiente.parentElement.classList.contains('last-transactions__item-pendientes')) {
+                console.log('entro hijo')
+                seleccionarFila(transaccionPendiente.parentElement, filaActivaClass);
+                abrirPc();
+            }
+        }
+
+                function abrirPc() {
+                    mostrarPc();
+                }
+
+                function eliminarClaseFilaActivaPendientes(items, values, filaActivaClass) {
+                    console.log(items)
+                    items.forEach((element) => {
+                        element.classList.remove(`${filaActivaClass}`);
+                    });
+                    values.forEach((value) => {
+                        value.classList.remove('fila-activa-color');
+                    });
+                }
 
 
 

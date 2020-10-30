@@ -11,13 +11,13 @@ $resultado = $consulta_transferencias->fetchAll(PDO::FETCH_ASSOC);
 foreach ($resultado as $data) {
     echo 
     '   
-    <div class="last-transactions__item">
-        <span  class="last-transactions__value">'.$data['id'].'</span>
-        <span  class="last-transactions__value">'.$data['pc'].'</span>
-        <span  class="last-transactions__value">'.$data['fecha'].'</span>
-        <span  class="last-transactions__value">'.$data['cedula'].'</span>
-        <span  class="last-transactions__value">'.$data['nombres'].'</span>
-        <span  class="last-transactions__value valor-recarga">'.$data['recargado'].'</span>
+    <div class="last-transactions__item-pendientes">
+        <span  class="last-transactions__pendiente-value">'.$data['id'].'</span>
+        <span  class="last-transactions__pendiente-value">'.$data['pc'].'</span>
+        <span  class="last-transactions__pendiente-value">'.$data['fecha'].'</span>
+        <span  class="last-transactions__pendiente-value">'.$data['cedula'].'</span>
+        <span  class="last-transactions__pendiente-value">'.$data['nombres'].'</span>
+        <span  class="last-transactions__pendiente-value valor-recarga">'.$data['recargado'].'</span>
     </div>
     ';
 }

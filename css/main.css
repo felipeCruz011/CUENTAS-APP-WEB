@@ -882,6 +882,27 @@ body {
             user-select: none;
         }
 
+        .last-transactions__item-pendientes {
+            display: grid;
+            text-align: center;
+            grid-template-rows: 40px;
+            grid-template-columns: 50px 30px minmax(185px, 1fr) minmax(100px, 1fr) minmax(200px, 1fr)minmax(100px, 1fr);
+            place-items: center;
+            grid-column-gap: 5px;
+            grid-row: 3 / span 1;
+            border-bottom: 2px solid var(--azul);
+             cursor: pointer;
+            user-select: none;        
+        }
+
+            .fila-activa-pendiente {
+                background: #FF3548;
+            }
+
+            .last-transactions__pendiente-value {
+                color: #fff;
+            }
+
             .last-transactions__header {
                 display: block;
                 color: #fff;
