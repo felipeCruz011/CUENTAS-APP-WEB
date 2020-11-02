@@ -72,6 +72,11 @@ window.addEventListener('focus', verificarRecargaExitosa);
     // Listener para abrir las pestañas ultimas transferencias y pagos pendientes
 idTitulo1.addEventListener('click', abrirTabTitulo1);
 idTitulo2.addEventListener('click', abrirTabTitulo2);
+    // Listener para el body para cerrar la interfaz de los pcs
+document.body.addEventListener('click', cerrarPcs);
+    // Listener para evitar que se cierre la interfaz de pcs cuando se da click en ella
+pcs.addEventListener('click', evitarCerradoInterfazPcs);
+
 
 // Funciones
 
@@ -1023,6 +1028,7 @@ function desplegarHacerTransaccion(e) {
                                 cedulaRecarga = cliente.children[1].textContent;
                                 setTimeout(() => {
                                     copiarCedulaPortapapeles();
+                                    crearContenidoTipoRecarga();
                                     if (inputValorRecarga.value !== ''){
                                         abrirPaginaHacerRecarga();
                                         guardarTransaccionBaseDatos();
@@ -1059,6 +1065,16 @@ function desplegarHacerTransaccion(e) {
                                     document.execCommand("copy");
                                     document.body.removeChild(inputCopiar);
                                 }
+
+                                function crearContenidoTipoRecarga() {
+                                    crearContenidoHtmlTipoRecarga();
+                                }
+
+                                        function crearContenidoHtmlTipoRecarga() {
+                                            let contenedorTipoRecarga = document.createElement('div');
+                                            contenedorTipoRecarga.className = 'pendientes';
+                                            
+                                        }
 
                                 function guardarTransaccionBaseDatos() {
                                     let cedulaMysql = document.querySelector('.fila-activa').children[1].textContent;
@@ -1393,10 +1409,21 @@ function seleccionarFilaUltimasTransacciones(e) {
 // ************************************************** PCS **************************************************//
 
 function mostrarPc(e) {
-    // Aparecer la secccion de pc
-    pcs.style.left = '0';
-    // mostrar la informacion de ese pc
-    colocarDatosPc(e.target);
+    if (pcs.style.left == '') {
+        // Aparecer la secccion de pc
+        pcs.style.left = '0';
+        comprobarPcAbiertoVariable = true;
+        // mostrar la informacion de ese pc
+        colocarDatosPc(e.target);
+    }
+    ocultarPc();
+    setTimeout(() => {
+        // Aparecer la secccion de pc
+        pcs.style.left = '0';
+        comprobarPcAbiertoVariable = true;
+        // mostrar la informacion de ese pc
+        colocarDatosPc(e.target);
+    }, 500);
 }
 
 // Funcion Auxiliar de mostrarPC
@@ -1518,8 +1545,8 @@ function verificarAgregadoNuevoCliente() {
             let currentDay = currentDate.getDate();
             let monthNumber = currentDate.getMonth();
             let currentYear = currentDate.getFullYear();
-            if (currentDay == 1) {
-                currentDay = '01';
+            if (currentDay < 10) {
+                currentDay = `0${currentDay}`;
             }
             let fecha = `${currentYear}-${monthNumber + 1}-${currentDay}`;
             console.log(fecha)
@@ -1532,20 +1559,23 @@ function verificarAgregadoNuevoCliente() {
         }
 
         function listarPendientes() {
-               // Fecha Actual
-               let currentDate = new Date();
-               let currentDay = currentDate.getDate();
-               let monthNumber = currentDate.getMonth();
-               let currentYear = currentDate.getFullYear();
-   
-               let fecha = `${currentYear}-${monthNumber + 1}-${currentDay}`;
-   
-               fetch("includes/listar_pendientes.php", {
-                   method: "POST",
-                   body: fecha
-               }).then(response => response.text()).then(response => {
-                   document.querySelector('.last-transactions__base-datos-items-pendientes-container').innerHTML = response;
-               })
+            // Fecha Actual
+            let currentDate = new Date();
+            let currentDay = currentDate.getDate();
+            let monthNumber = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+            if (currentDay < 10) {
+            currentDay = `0${currentDay}`;
+            }
+
+            let fecha = `${currentYear}-${monthNumber + 1}-${currentDay}`;
+
+            fetch("includes/listar_pendientes.php", {
+                method: "POST",
+                body: fecha
+              }).then(response => response.text()).then(response => {
+                document.querySelector('.last-transactions__base-datos-items-pendientes-container').innerHTML = response;
+            })
         }
 
 
@@ -1634,8 +1664,28 @@ function abrirTabTitulo2() {
         }
 
                 function abrirPc() {
-                    mostrarPc();
+                    console.log('abre')
+                    mostrarPcDesdePendientes();
                 }
+
+                        function mostrarPcDesdePendientes() {
+                            target = document.querySelector('.fila-activa-pendiente').children[1].textContent;
+                            if (pcs.style.left == '') {
+                                // Aparecer la secccion de pc
+                                pcs.style.left = '0';
+                                comprobarPcAbiertoVariable = true;
+                                // mostrar la informacion de ese pc
+                                document.querySelector('.pcs__numero').textContent = target;
+                            }
+                            ocultarPc();
+                            setTimeout(() => {
+                                // Aparecer la secccion de pc
+                                pcs.style.left = '0';
+                                comprobarPcAbiertoVariable = true;
+                                // mostrar la informacion de ese pc
+                                document.querySelector('.pcs__numero').textContent = target;
+                            }, 500);
+                        }
 
                 function eliminarClaseFilaActivaPendientes(items, values, filaActivaClass) {
                     console.log(items)
@@ -1647,7 +1697,24 @@ function abrirTabTitulo2() {
                     });
                 }
 
+var comprobarPcAbiertoVariable = false;
+// Funcion para cerrar los pcs cuando se de click por fuera de la Interfaz
+function cerrarPcs(e) {
+    console.log(comprobarPcAbiertoVariable)
+    if (comprobarPcAbiertoVariable === true) {
+        ocultarPc();
+        comprobarPcAbiertoVariable = false
+    }   
+}
 
+// Funcion para evitar el cerrado de pcs cuando se da click en la interfaz PCS
+function evitarCerradoInterfazPcs() {
+    comprobarPcAbiertoVariable = false;
+    setTimeout(() => {
+        comprobarPcAbiertoVariable = true;
+    }, 100);
+
+}
 
 
 

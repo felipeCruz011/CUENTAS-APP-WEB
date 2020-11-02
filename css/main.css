@@ -24,6 +24,7 @@ body {
 1 - Menu
 2 - Seccion de Operaciones
 3 - Ultimas transacciones
+3.5 - Transacciones Pendientes
 4 - Atajos 
 5 - Ventana Dinamica
 6 - Modificar - Eliminar - Rehacer Transacciones
@@ -907,6 +908,16 @@ body {
                 display: block;
                 color: #fff;
             }
+
+/*-----------------------------------
+    3.5 - Transacciones Pendientes
+------------------------------------*/
+    
+    .pendientes {
+        
+    }
+
+
 
 /*-----------------------------------
     4 - Atajos
