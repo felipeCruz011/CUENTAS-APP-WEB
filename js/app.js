@@ -78,6 +78,7 @@ document.body.addEventListener('click', cerrarPcs);
 pcs.addEventListener('click', evitarCerradoInterfazPcs);
 
 
+
 // Funciones
 
 // ************************* Enlaces del Menu Movil y de Escritorio *************************// 
@@ -936,7 +937,7 @@ function desplegarHacerTransaccion(e) {
                             let containerBusquedaClientePrimerPaso = document.createElement('div');
                             containerBusquedaClientePrimerPaso.classList.add('last-transactions__primer-paso-container');
                             containerBusquedaClientePrimerPaso.innerHTML = `
-                                <div class="last-transactions__buscar-cliente">
+                                <div class="last-transactions__buscar-cliente" id="idBuscarClienteBloque">
                                     <div class="last-transactions__buscar-cliente-primer-paso">
                                         <form action="" method="post" class="last-transactions__form-valor-recarga">
                                             <input type="text" class="last-transactions__input-valor-recarga" name="valor_recarga" id="inputValorRecarga" placeholder="$ Valor de la Recarga">  
@@ -979,7 +980,10 @@ function desplegarHacerTransaccion(e) {
                         setTimeout(() => {
                             listarClientesRecargas();
                             buscarClienteRecargas.addEventListener('keyup', verificarPalabraBusquedaRecargas);
-                            buscarClienteRecargas.addEventListener('blur', borrarContenidoBusqueda);
+                            buscarClienteRecargas.addEventListener('dblclick', borrarContenidoBusqueda);
+                            inputValorRecarga.addEventListener('dblclick', borrarContenidoBusqueda);
+                            inputValorRecarga.addEventListener('click', tecladoNumerico);
+                            buscarClienteRecargas.addEventListener('click', cerrarTecladoNumerico);
                             recargasResultadoBusquedaClientes.addEventListener('click', seleccionarFilasClientesRecargas);
                         }, 1000);
                 }
@@ -1016,6 +1020,43 @@ function desplegarHacerTransaccion(e) {
                             this.value = '';
                         }
 
+                        function tecladoNumerico() {
+                            idPcsBloque.innerHTML = `
+                                <div class="tecnumerico" id="idTecNumericoBloque">
+                                    <h1>Teclado Numerico</h1>
+                                    <div class="tecnumerico__container"> 
+                                        <div class="tecnumerico__item"><span>9</span></div>
+                                        <div class="tecnumerico__item"><span>8</span></div>
+                                        <div class="tecnumerico__item"><span>7</span></div>
+                                        <div class="tecnumerico__item"><span>6</span></div>
+                                        <div class="tecnumerico__item"><span>5</span></div>
+                                        <div class="tecnumerico__item"><span>4</span></div>
+                                        <div class="tecnumerico__item"><span>3</span></div>
+                                        <div class="tecnumerico__item"><span>2</span></div>
+                                        <div class="tecnumerico__item"><span>1</span></div>
+                                        <div class="tecnumerico__item ocultar-numero">0</div>
+                                        <div class="tecnumerico__item"><span>0</span></div>
+                                    </div>
+                                </div>
+                            `;
+                            pcs.style.left = '0';
+                            setTimeout(() => {
+                                document.querySelectorAll('.tecnumerico__item').forEach((num) => {
+                                    num.addEventListener('click', asignarValorRecargaTecNumerico);
+                                });
+                            }, 100);
+                        }
+
+                                function asignarValorRecargaTecNumerico() {
+                                    inputValorRecarga.value = `${inputValorRecarga.value}${this.textContent}`;
+                                }
+
+                        function cerrarTecladoNumerico() {
+                            if (document.getElementById('idTecNumericoBloque') !== null) {
+                                pcs.removeAttribute('style');
+                            }
+                        }
+
                         function seleccionarFilasClientesRecargas(e) {
                             let filaItem = clientesItem;
                             let filaLetra = document.querySelectorAll('.clientes__value');
@@ -1029,14 +1070,6 @@ function desplegarHacerTransaccion(e) {
                                 setTimeout(() => {
                                     copiarCedulaPortapapeles();
                                     crearContenidoTipoRecarga();
-                                    if (inputValorRecarga.value !== ''){
-                                        abrirPaginaHacerRecarga();
-                                        guardarTransaccionBaseDatos();
-                                        setTimeout(() => {
-                                            regresarLastTransactions();
-                                        }, 500);
-                                    }
-                                    
                                 }, 500);
                             }
                             if (cliente.parentElement.classList.contains('last-transactions__resultado-busqueda-clientes-item')) {
@@ -1044,12 +1077,7 @@ function desplegarHacerTransaccion(e) {
                                 cedulaRecarga = cliente.parentElement.children[1].textContent;
                                 setTimeout(() => {
                                     copiarCedulaPortapapeles();
-                                    guardarTransaccionBaseDatos();
-                                    abrirPaginaHacerRecarga();
-                                    setTimeout(() => {
-                                        regresarLastTransactions();
-                                    }, 500);
-                                    
+                                    crearContenidoTipoRecarga();
                                 }, 500);
                             }
 
@@ -1068,41 +1096,132 @@ function desplegarHacerTransaccion(e) {
 
                                 function crearContenidoTipoRecarga() {
                                     crearContenidoHtmlTipoRecarga();
+                                    animarAperturaTipoRecarga();
                                 }
 
                                         function crearContenidoHtmlTipoRecarga() {
                                             let contenedorTipoRecarga = document.createElement('div');
                                             contenedorTipoRecarga.className = 'pendientes';
+                                            contenedorTipoRecarga.id = 'idPendientes';
+                                            contenedorTipoRecarga.innerHTML = `
+                                                <div class="pendientes__container" id="idPendientesContainer"> 
+                                                    <div class="pendientes__titulo">
+                                                        <h1 class="pendientes__titulo-h1" id="idTituloPendientesIcons">Tipo de Transaccion</h1>
+                                                    </div>
+                                                    <div class="pendientes__tipo-container">
+                                                        <i class="fas fa-hand-holding-usd pendientes__icon" id="idRealizarIcon"></i>
+                                                        <i class="fas fa-file-export pendientes__icon" id="idPendienteIcon"></i>
+                                                    </div>
+
+                                                </div>
+                                            `;
+                                            document.querySelector('.last-transactions__resultado-busqueda-clientes').appendChild(contenedorTipoRecarga);                
+                                        }
+
+                                        function animarAperturaTipoRecarga() {
+                                            setTimeout(() => {
+                                                document.querySelector('.pendientes').setAttribute('style', 'opacity: 0; transition: all .5s ease');
+                                                setTimeout(() => {
+                                                    document.querySelector('.pendientes').setAttribute('style', 'opacity: 1; transition: all .5s ease');
+                                                }, 60);
+                                            }, 50);
                                             
+                                            // Listener para cambiar el nombre del tipo de transaccion
+                                            idRealizarIcon.addEventListener('mouseover', cambiarNombreIconPendientes);
+                                            idRealizarIcon.addEventListener('mouseleave', regresarNombreIconPendientes);
+                                            idPendienteIcon.addEventListener('mouseover', cambiarNombreIconPendientes);
+                                            idPendienteIcon.addEventListener('mouseleave', regresarNombreIconPendientes);
+                                            // Listeners para Ejecutar el tipo de recargas
+                                            idRealizarIcon.addEventListener('click', hacerRecargaInmediata);
+                                            idPendienteIcon.addEventListener('click', hacerRecargaPendiente);
                                         }
 
-                                function guardarTransaccionBaseDatos() {
-                                    let cedulaMysql = document.querySelector('.fila-activa').children[1].textContent;
-                                    let nombresMysql = document.querySelector('.fila-activa').children[2].textContent;
-                                    let recargaMysql = inputValorRecarga.value;
-                                    let dataTransaccion = new FormData();
-                                    dataTransaccion.append('cedula', cedulaMysql);
-                                    dataTransaccion.append('nombres', nombresMysql);
-                                    dataTransaccion.append('recargado', recargaMysql);
-                                    
-                                    fetch('guadar_transacciones.php', {
-                                        method: "POST",
-                                        body: dataTransaccion
-                                    }).then(response => response.text()).then(response => {
-                                        if (response == "ok") {
-                                            console.log(response);
-                                            console.log('transaccion Agregada');
-                                        }
-                                    }) 
-                                }
+                                                // Funcion para cambiar el nombre de los iconos para hacer recargas pendientes
+                                                function cambiarNombreIconPendientes() {
+                                                    if (this.id == 'idRealizarIcon') {
+                                                        idTituloPendientesIcons.textContent = 'Recarga Inmediata';
+                                                    }
+                                                    if (this.id == 'idPendienteIcon') {
+                                                        idTituloPendientesIcons.textContent = 'Recarga Pendiente';
+                                                    }
+                                                }
 
-                                function abrirPaginaHacerRecarga() {
-                                    setTimeout(() => {
-                                        console.log(cedulaRecarga)
-                                        inputValorRecargaValue = inputValorRecarga.value;
-                                        window.location.href = `https://aliados.wplay.co/actions/deposits#${cedulaRecarga}#${inputValorRecargaValue}`;
-                                    }, 500);
-                                }
+                                                function regresarNombreIconPendientes() {
+                                                    idTituloPendientesIcons.textContent = 'Tipo de Transaccion';
+                                                }
+
+                                                function hacerRecargaInmediata() {
+                                                    if (inputValorRecarga.value !== ''){
+                                                        abrirPaginaHacerRecarga();
+                                                        guardarTransaccionBaseDatos();
+                                                        setTimeout(() => {
+                                                            regresarLastTransactions();
+                                                        }, 500);
+                                                    }
+                                                }
+
+                                                        function abrirPaginaHacerRecarga() {
+                                                            setTimeout(() => {
+                                                                console.log(cedulaRecarga)
+                                                                inputValorRecargaValue = inputValorRecarga.value;
+                                                                window.location.href = `https://aliados.wplay.co/actions/deposits#${cedulaRecarga}#${inputValorRecargaValue}`;
+                                                            }, 500);
+                                                        }
+
+                                                        function guardarTransaccionBaseDatos() {
+                                                            let cedulaMysql = document.querySelector('.fila-activa').children[1].textContent;
+                                                            let nombresMysql = document.querySelector('.fila-activa').children[2].textContent;
+                                                            let recargaMysql = inputValorRecarga.value;
+                                                            let dataTransaccion = new FormData();
+                                                            dataTransaccion.append('cedula', cedulaMysql);
+                                                            dataTransaccion.append('nombres', nombresMysql);
+                                                            dataTransaccion.append('recargado', recargaMysql);
+                                                            
+                                                            fetch('guadar_transacciones.php', {
+                                                                method: "POST",
+                                                                body: dataTransaccion
+                                                            }).then(response => response.text()).then(response => {
+                                                                if (response == "ok") {
+                                                                    console.log(response);
+                                                                    console.log('transaccion Agregada');
+                                                                }
+                                                            }) 
+                                                        }
+
+
+
+                                                function hacerRecargaPendiente() {
+                                                    animarSeleccionarOrigen(); 
+                                                    letreroAyudaPendiente();
+                                                }
+
+                                                        function animarSeleccionarOrigen() {
+                                                            idPcIconsContainer.setAttribute('style', 'transition: all 1s ease');
+                                                            setTimeout(() => {
+                                                                idPcIconsContainer.setAttribute('style', 'transition: all 1s ease; background: #000; border: 4px solid #fff');
+                                                            }, 20);
+                                                        }
+
+                                                        function letreroAyudaPendiente() {
+                                                            idPendientesContainer.setAttribute('style', 'transition: all .5s ease');
+                                                            setTimeout(() => {
+                                                                idPendientesContainer.setAttribute('style', 'transition: all .5s ease; opacity: 0');
+                                                            }, 20);
+                                                            setTimeout(() => {
+                                                                idPendientesContainer.setAttribute('style', 'transition: all .5s ease; opacity: 1');
+                                                                idPendientesContainer.innerHTML = `
+                                                                    <h1 class="pendientes__titulo-ayuda" id="idTituloAyudaVerificacionPendiente">
+                                                                        Seleccione el Origen de la Recarga
+                                                                    </h1>
+                                                                `;
+                                                            }, 500);
+                                                        }
+
+
+
+                                
+
+                                
 
 
                         
@@ -1411,26 +1530,82 @@ function seleccionarFilaUltimasTransacciones(e) {
 function mostrarPc(e) {
     if (pcs.style.left == '') {
         // Aparecer la secccion de pc
+        colocarDatosPc(e.target);
         pcs.style.left = '0';
         comprobarPcAbiertoVariable = true;
         // mostrar la informacion de ese pc
-        colocarDatosPc(e.target);
     }
     ocultarPc();
     setTimeout(() => {
         // Aparecer la secccion de pc
+        colocarDatosPc(e.target); 
         pcs.style.left = '0';
         comprobarPcAbiertoVariable = true;
         // mostrar la informacion de ese pc
-        colocarDatosPc(e.target);
     }, 500);
+    verificarRealizacionRecargaPendiente();
 }
+
+        function verificarRealizacionRecargaPendiente() {
+            if (document.getElementById('idTituloAyudaVerificacionPendiente') !== null) {
+                // Hora
+                let hoy = new Date();
+                let hora = `${hoy.getHours()}:${hoy.getMinutes()}:${hoy.getSeconds()}`;
+                idPcHora.value = hora;
+
+                // Cedula 
+                idPcCedula.value = document.querySelector('.fila-activa').children[1].textContent;
+                // Nombres 
+                idPcNombres.value = document.querySelector('.fila-activa').children[2].textContent;
+                // Recargado 
+                idPcRecargado.value = inputValorRecarga.value;
+                // Ocultar boton de pagar 
+                idPcPagar.setAttribute('style', 'opacity: 0');
+            }
+        }
 
 // Funcion Auxiliar de mostrarPC
 function colocarDatosPc(pc) {
+    // Remover pc activo
+    document.querySelectorAll('.computadores__icon').forEach((iconPc) => {
+        iconPc.classList.remove('computador__seleccionado');
+    });
+    // Agregar la Clase Activo 
+    setTimeout(() => {
+        if (pc.classList.contains('computadores__icon')) {
+            pc.classList.add('computador__seleccionado');
+        }
+        if (pc.classList.contains('computadores__icon-text')) {
+            pc.parentElement.classList.add('computador__seleccionado');
+        }
+    }, 5);
+
+
     let numeroPc;
-    numeroPc = pc.getAttribute('data-id');
-    document.querySelector('.pcs__numero').textContent = numeroPc;
+    if (pc.classList.contains('computadores__icon')) {
+        numeroPc = pc.getAttribute('data-id');
+       
+        if(numeroPc == 'Cajero') {
+            document.querySelector('.pcs__numero').style.fontSize = '60px';
+        } else {
+            document.querySelector('.pcs__numero').removeAttribute('style');
+        }
+       
+        document.querySelector('.pcs__numero').textContent = numeroPc;
+    }
+
+    if (pc.classList.contains('computadores__icon-text')) {
+        numeroPc = pc.parentElement.getAttribute('data-id');
+        
+        if(numeroPc == 'Cajero') {
+            document.querySelector('.pcs__numero').style.fontSize = '60px';
+        } else {
+            document.querySelector('.pcs__numero').removeAttribute('style');
+        }
+
+        document.querySelector('.pcs__numero').textContent = numeroPc;
+    }
+
 }
 
 function ocultarPc() {
@@ -1592,7 +1767,7 @@ function verificarRecargaExitosa() {
         })
         posicionarMensaje();
         setTimeout(() => {
-            window.location.href = 'https://localhost/CUENTAS%20APP%20WEB/';
+            window.history.go(-2)
         }, 2100);
     }
 }
@@ -1703,6 +1878,9 @@ function cerrarPcs(e) {
     console.log(comprobarPcAbiertoVariable)
     if (comprobarPcAbiertoVariable === true) {
         ocultarPc();
+        document.querySelectorAll('.computadores__icon').forEach((pc) => {
+            pc.classList.remove('computador__seleccionado');
+        });
         comprobarPcAbiertoVariable = false
     }   
 }
@@ -1715,11 +1893,6 @@ function evitarCerradoInterfazPcs() {
     }, 100);
 
 }
-
-
-
-
-
 
 
 

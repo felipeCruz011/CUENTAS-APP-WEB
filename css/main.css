@@ -35,6 +35,7 @@ body {
 11 - Chat
 12 - Listado de Clientes - Opciones 
 13 - Mensajes o Alertas en el guardado actualizacion o eliminacion de datos
+14 - Teclado Numerico valor de las recargas
 
 --------------------------------------------------------------------*/
 
@@ -813,6 +814,7 @@ body {
                                     }
 
             .last-transactions__resultado-busqueda-clientes {
+                position: relative;
                 width: 100%;
                 height: 60%;
                 padding: 20px;
@@ -914,8 +916,67 @@ body {
 ------------------------------------*/
     
     .pendientes {
-        
+        position: absolute;
+        display: flex;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        background: rgba(0, 0, 0, 0.8);
     }
+
+        .pendientes__container {
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+        }
+
+            .pendientes__titulo {
+                height: 60px;
+                font-size: 20px;
+                align-self: center;
+                color: #fff;
+                font-weight: bold;
+            }
+
+                .pendientes__titulo-ayuda {
+                    font-size: 40px;
+                    margin-top: 50px;
+                    color: #fff;
+                    font-weight: bold;
+                }
+
+                .pendientes__titulo-h1 {
+                    align-self: center;
+                    margin: 0;
+                }
+
+            .pendientes__tipo-container {
+                margin-top: 20px;
+                align-self: center;
+                width: 70%;
+                position: relative;
+                display: grid;
+                grid-template-rows: 1fr;
+                grid-auto-flow: column;
+            }
+
+                .pendientes__icon {
+                    font-size: 80px; 
+                    justify-self: center;
+                    cursor: pointer;
+                }
+
+                    .pendientes__icon:hover {
+                        color: var(--red);
+                    }
+
+                
+            
 
 
 
@@ -1756,6 +1817,8 @@ body {
         }
 
             .computadores__icon-container {
+                position: relative;
+                top: 12px;
                 display: flex;
                 justify-content: center;
                 width: 120px;
@@ -1776,6 +1839,19 @@ body {
                     .computadores__icon-container:hover > .computadores__icon {
                         color: #fff;
                         box-shadow: 5px 5px 0px 0px #289FED, 10px 10px 0px 0px #5FB8FF, 15px 15px 0px 0px #A1D8FF, 20px 20px 0px 0px #CAE6FF, 25px 25px 0px 0px var(--red), 5px 5px 15px 5px rgba(0,0,0,0);
+                    }
+
+                    .computador__seleccionado {
+                        color: #fff;
+                        box-shadow: 5px 5px 0px 0px #289FED, 10px 10px 0px 0px #5FB8FF, 15px 15px 0px 0px #A1D8FF, 20px 20px 0px 0px #CAE6FF, 25px 25px 0px 0px var(--red), 5px 5px 15px 5px rgba(0,0,0,0);
+                    }
+
+                    .computadores__icon-text {
+                        position: absolute;
+                        font-size: 25px;
+                        color: #fff;
+                        left: 20px;
+                        top: 5px;
                     }
 
     .pcs {
@@ -1799,6 +1875,7 @@ body {
         }
 
         .pcs__container {
+            position: relative;
             display: grid;
             grid-template-rows: 150px 1fr;
             grid-template-columns: 227.5px 227.5px;
@@ -1859,6 +1936,7 @@ body {
                 
                 .pcs__input {
                     outline: none;
+                    text-align: center;
                     padding: 5px;
                     border-radius: 10px;
                     border: 2px solid #fff;
@@ -2447,3 +2525,49 @@ body {
         color: #588C64;
         align-items: center;
     }
+
+
+/*-----------------------------------
+    14 - Teclado Numerico valor de las recargas
+------------------------------------*/
+
+.tecnumerico {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+    .tecnumerico__container {
+        justify-content: center;
+        position: relative;
+        width: 423px;
+        display: grid;
+        grid-gap: 10px;
+        grid-template-rows: repeat(4, 70px);
+        grid-template-columns: repeat(3, 70px);
+
+    }
+
+        .tecnumerico__item {
+            display: grid;
+            place-items: center;
+            border: 2px solid #fff;
+            font-size: 30px;
+            cursor: pointer;
+            border-radius: 20px;
+            background: #999;
+            padding: 30px;
+            user-select: none;
+        }
+
+            .tecnumerico__item:hover {
+                border: 2px solid var(--red);
+                color: var(--red);
+            }
+
+            .ocultar-numero {
+                opacity: 0;
+            }
+        
