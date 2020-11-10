@@ -15,7 +15,7 @@ const enlaces = document.querySelectorAll('.menu__enlaces'),
       transferenciasRecargado = document.querySelectorAll('.valor-recarga'),
       pcs = document.querySelector('.pcs'),
       computadores = document.querySelectorAll('.computadores__icon'),
-      eyeIcon = document.querySelector('.eye-icon'),
+      eyeIcon = document.querySelector('.eye-icon'),    
       divBackgroundOperations = document.querySelector('.operations__background'),
       logo = document.querySelector('.operations__img-logo'),
       imgBackground = document.querySelector('.operations__img-background');
@@ -1054,8 +1054,46 @@ function desplegarHacerTransaccion(e) {
                         function cerrarTecladoNumerico() {
                             if (document.getElementById('idTecNumericoBloque') !== null) {
                                 pcs.removeAttribute('style');
+                                colocarPcsHtml();
                             }
                         }
+
+                                function colocarPcsHtml() {
+                                    setTimeout(() => {
+                                        idPcsBloque.innerHTML = `                            
+                                            <div class="pcs__container" >
+                                                <div class="pcs__numero-container">
+                                                    <span class="pcs__numero">1</span>
+                                                </div>
+                                                <div class="pcs__img-container">
+                                                    <img src="./img/computador.png" alt="" class="pcs__img">
+                                                </div>
+                                                <div class="pcs__info">
+                                                    <div class="pcs__item">
+                                                        <span class="pcs__text">Hora:</span>
+                                                        <input type="text" class="pcs__input" id="idPcHora" value="8:00 am" readonly="readonly">
+                                                    </div>
+                                                    <div class="pcs__item">
+                                                        <span class="pcs__text">Cedula:</span>
+                                                        <input type="text" class="pcs__input" id="idPcCedula" value="1075275242" readonly="readonly">
+                                                    </div>
+                                                    <div class="pcs__item">
+                                                        <span class="pcs__text">Nombres:</span>
+                                                        <input type="text" class="pcs__input" id="idPcNombres" value="Felipe Cruz" readonly="readonly">
+                                                    </div>
+                                                    <div class="pcs__item">
+                                                        <span class="pcs__text">Recargado:</span>
+                                                        <input type="text" class="pcs__input" id="idPcRecargado" value="$10.000" readonly="readonly">
+                                                    </div>
+                                                    <div class="pcs__btn-container">
+                                                        <button class="pcs__btn btn-pagar" id="idPcPagar">Pagar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+
+                                    }, 300);
+                                }
 
                         function seleccionarFilasClientesRecargas(e) {
                             let filaItem = clientesItem;
@@ -1177,7 +1215,7 @@ function desplegarHacerTransaccion(e) {
                                                             dataTransaccion.append('nombres', nombresMysql);
                                                             dataTransaccion.append('recargado', recargaMysql);
                                                             
-                                                            fetch('guadar_transacciones.php', {
+                                                            fetch('guardar_transacciones.php', {
                                                                 method: "POST",
                                                                 body: dataTransaccion
                                                             }).then(response => response.text()).then(response => {
@@ -1561,8 +1599,79 @@ function mostrarPc(e) {
                 idPcRecargado.value = inputValorRecarga.value;
                 // Ocultar boton de pagar 
                 idPcPagar.setAttribute('style', 'opacity: 0');
+                // Cambiar el letrero para agregar un eventListener para confirmar la recarga pendiente
+                confirmarRecargaPendiente();
             }
         }
+
+                function confirmarRecargaPendiente() {
+                    idTituloAyudaVerificacionPendiente.setAttribute('style', 'opacity: 1; transition: all .5s ease');
+                    idTituloAyudaVerificacionPendiente.setAttribute('style', 'opacity: 0; transition: all .5s ease');
+                    setTimeout(() => {
+                        idTituloAyudaVerificacionPendiente.setAttribute('style', 'opacity: 1; transition: all .5s ease');
+                        idTituloAyudaVerificacionPendiente.innerHTML = `
+                            <div class="pendientes__titulo-confirmar-container">
+                                <i class="fas fa-check pendientes__h1-icono-confirmar" id="idIconoConfirmarPendiente"></i>
+                                <span class="pendientes__h1-icono-confirmar" id="idTextoTituloConfirmarPendiente">Confirmar Recarga Pendiente</span>
+                            </div>
+                        `
+                        hacerRecargaPendienteMysql();
+                    }, 500);
+                    idPendientesContainer.setAttribute('style', 'cursor: pointer');
+                    setTimeout(() => {
+                        idPendientesContainer.onmouseover = () => {
+                            idIconoConfirmarPendiente.setAttribute('style', 'color: #46A049');
+                            idTextoTituloConfirmarPendiente.setAttribute('style', 'color: #46A049');
+                            contenedorClientesResultados.setAttribute('style', 'opacity: 1; transition: all .5s ease; border: 3px solid #46A049');
+                        };
+                        idPendientesContainer.onmouseleave = () => {
+                            idIconoConfirmarPendiente.removeAttribute('style');
+                            idTextoTituloConfirmarPendiente.removeAttribute('style');
+                            contenedorClientesResultados.removeAttribute('style');
+                        }
+                    }, 500);
+                }
+
+                        function hacerRecargaPendienteMysql() {
+                            idPendientesContainer.onclick =  () => { 
+                                comprobarPcAbiertoVariable = false;
+                                transicionProcesandoPendiente();
+                                guardarBaseDatosRecargaPendiente();
+                            }
+                        }
+
+                                function transicionProcesandoPendiente() {
+                                    idTextoTituloConfirmarPendiente.setAttribute('style', 'opacity: 1; transition: all .5s ease');
+                                    idTextoTituloConfirmarPendiente.setAttribute('style', 'opacity: 0; transition: all .5s ease');
+                                    setTimeout(() => {
+                                        idTextoTituloConfirmarPendiente.textContent = 'Procesando...'
+                                        idTextoTituloConfirmarPendiente.setAttribute('style', 'opacity: 1; transition: all .5s ease');
+                                        setTimeout(() => {
+                                            abrirPaginaHacerRecarga();
+                                        }, 1500);
+                                    }, 500);
+                                }
+
+                                function guardarBaseDatosRecargaPendiente() {
+                                    let pcSeleccionado = document.querySelector('.computador__seleccionado').children[0].textContent;
+                                    let cedulaMysql = idPcCedula.value;
+                                    let nombresMysql = idPcNombres.value;
+                                    let recargaMysql = inputValorRecarga.value;
+                                    let dataTransaccion = new FormData();
+                                    dataTransaccion.append('cedula', cedulaMysql);
+                                    dataTransaccion.append('nombres', nombresMysql);
+                                    dataTransaccion.append('recargado', recargaMysql);
+                                    dataTransaccion.append('pc', pcSeleccionado);                    
+                                    fetch('guardar_pendientes.php', {
+                                        method: "POST",
+                                        body: dataTransaccion
+                                    }).then(response => response.text()).then(response => {
+                                        if (response == "ok") {
+                                            console.log(response);
+                                            console.log('transaccion Agregada');
+                                        }
+                                    }) 
+                                }
 
 // Funcion Auxiliar de mostrarPC
 function colocarDatosPc(pc) {
@@ -1844,7 +1953,20 @@ function abrirTabTitulo2() {
                 }
 
                         function mostrarPcDesdePendientes() {
+                            let targetPcCajero = false;
                             target = document.querySelector('.fila-activa-pendiente').children[1].textContent;
+                            if (target == 'C') {
+                                target = 'Cajero';
+                                targetPcCajero = true;
+                            }
+
+                            if (targetPcCajero == true) {
+                                document.querySelector('.pcs__numero').setAttribute('style', 'font-size: 60px');
+                                targetPcCajero = false;
+                            } else {
+                                document.querySelector('.pcs__numero').removeAttribute('style');
+                            }
+
                             if (pcs.style.left == '') {
                                 // Aparecer la secccion de pc
                                 pcs.style.left = '0';

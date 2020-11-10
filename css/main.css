@@ -616,11 +616,6 @@ body {
                 overflow-y: auto;
             }
 
-            .last-transactions__base-datos-items-pendientes-container {
-                height: 180px;
-                overflow-y: auto;
-            }
-
                 .last-transactions__base-datos-items-container::-webkit-scrollbar {
                     background: var(--azul);
                     height: 10px;
@@ -637,6 +632,30 @@ body {
                     }
 
                         .last-transactions__base-datos-items-container::-webkit-scrollbar-thumb:hover {
+                            background: rgb(245, 6, 245);
+                        }
+
+         .last-transactions__base-datos-items-pendientes-container {
+                height: 180px;
+                overflow-y: auto;
+            }
+
+                .last-transactions__base-datos-items-pendientes-container::-webkit-scrollbar {
+                    background: var(--azul);
+                    height: 10px;
+                    border-radius: 20px;
+                }
+
+                    .last-transactions__base-datos-items-pendientes-container::-webkit-scrollbar:vertical {
+                        width: 15px;
+                    }
+
+                    .last-transactions__base-datos-items-pendientes-container::-webkit-scrollbar-thumb {
+                        background: var(--red);
+                        border-radius: 20px;
+                    }
+
+                        .last-transactions__base-datos-items-pendientes-container::-webkit-scrollbar-thumb:hover {
                             background: rgb(245, 6, 245);
                         }
 
@@ -955,6 +974,8 @@ body {
                     margin: 0;
                 }
 
+                
+
             .pendientes__tipo-container {
                 margin-top: 20px;
                 align-self: center;
@@ -976,7 +997,9 @@ body {
                     }
 
                 
-            
+            .pendientes__h1-icono-confirmar {
+                user-select: none;
+            }
 
 
 
