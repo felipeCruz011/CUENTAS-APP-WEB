@@ -1828,12 +1828,16 @@ function verificarAgregadoNuevoCliente() {
             let currentDate = new Date();
             let currentDay = currentDate.getDate();
             let monthNumber = currentDate.getMonth();
+            monthNumber = monthNumber + 1;
             let currentYear = currentDate.getFullYear();
             if (currentDay < 10) {
                 currentDay = `0${currentDay}`;
             }
-            let fecha = `${currentYear}-${monthNumber + 1}-${currentDay}`;
-            console.log(fecha)
+            if (monthNumber < 10) {
+                monthNumber = `0${monthNumber}`;
+            }
+            let fecha = `${currentYear}-${monthNumber}-${currentDay}`;
+            console.log(fecha);
             fetch("includes/listar_transacciones.php", {
                 method: "POST",
                 body: fecha
@@ -1847,12 +1851,16 @@ function verificarAgregadoNuevoCliente() {
             let currentDate = new Date();
             let currentDay = currentDate.getDate();
             let monthNumber = currentDate.getMonth();
+            monthNumber = monthNumber + 1;
             let currentYear = currentDate.getFullYear();
-            if (currentDay < 10) {
-            currentDay = `0${currentDay}`;
+            if (monthNumber < 10) {
+                monthNumber = `0${monthNumber}`;
             }
-
-            let fecha = `${currentYear}-${monthNumber + 1}-${currentDay}`;
+            if (currentDay < 10) {
+                currentDay = `0${currentDay}`;
+            }
+            console.log(monthNumber);
+            let fecha = `${currentYear}-${monthNumber}-${currentDay}`;
 
             fetch("includes/listar_pendientes.php", {
                 method: "POST",
@@ -1931,7 +1939,6 @@ function abrirTabTitulo2() {
             document.querySelector('.last-transactions__item-pendientes').addEventListener('click', abrirPc);
             let filaItem = document.querySelectorAll('.last-transactions__item-pendientes');
             let filaLetra = document.querySelectorAll('.last-transactions__pendiente-value');
-            let contenedorPcs = document.querySelector('.pcs__container');
             let transaccionPendiente = e.target;
             let filaActivaClass = 'fila-activa-pendiente';
             eliminarClaseFilaActivaPendientes(filaItem, filaLetra, filaActivaClass);
@@ -1982,7 +1989,23 @@ function abrirTabTitulo2() {
                                 // mostrar la informacion de ese pc
                                 document.querySelector('.pcs__numero').textContent = target;
                             }, 500);
+                            cargarDatosTransaccionPendientePc();
                         }
+
+                                function cargarDatosTransaccionPendientePc() {
+                                    let datosTrasaccionPendiente = document.querySelector('.fila-activa-pendiente');
+                                    idPcHora.value = datosTrasaccionPendiente.children[2].textContent;
+                                    idPcCedula.value = datosTrasaccionPendiente.children[3].textContent;
+                                    idPcNombres.value = datosTrasaccionPendiente.children[4].textContent;
+                                    let sumaRecargasPendientes = 0;
+                                    // Hallar el valor del total recargado por el usuario
+                                    document.querySelectorAll('.last-transactions__item-pendientes').forEach((transaccionPendiente) => {
+                                        sumaRecargasPendientes = sumaRecargasPendientes + Number(transaccionPendiente.children[5].textContent); 
+                                    });
+                                    
+                                    idPcRecargado.value = sumaRecargasPendientes;
+                                  
+                                }
 
                 function eliminarClaseFilaActivaPendientes(items, values, filaActivaClass) {
                     console.log(items)
@@ -2027,12 +2050,7 @@ function evitarCerradoInterfazPcs() {
 
 
 
-
-
-
-
-
-
+	
 
 
 

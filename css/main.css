@@ -1030,6 +1030,7 @@ body {
                 align-self: center;
                 width: 200px;
                 height: 60px;
+                cursor: pointer;
             }
 
                 .atajos__icons:hover {
